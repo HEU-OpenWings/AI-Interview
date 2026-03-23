@@ -22,8 +22,6 @@ RUN set -ex \
     # (A) 设置时区
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     # (B) 替换清华源 (针对 Debian Bookworm 的新版格式)
-    && sed -i 's|deb.debian.org|mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list.d/debian.sources \
-    && sed -i 's|security.debian.org/debian-security|mirrors.tuna.tsinghua.edu.cn/debian-security|g' /etc/apt/sources.list.d/debian.sources \
     # (C) 安装必要的系统库
     && apt-get update \
     && apt-get install -y --no-install-recommends --fix-missing \
@@ -41,11 +39,10 @@ RUN set -ex \
 # 复制项目配置文件
 COPY ../pyproject.toml /app/pyproject.toml
 COPY ../.python-version /app/.python-version
-COPY ../uv.lock /app/uv.lock
 
 # 如果网络还是不好，可以在后面添加 --index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --no-dev --frozen
+    uv sync --no-dev --no-install-project
 
 # 激活虚拟环境并添加到PATH
 ENV PATH="/app/.venv/bin:$PATH"
