@@ -139,6 +139,30 @@
                 </div>
                 <a-empty v-else description="未提取到项目经历" />
               </div>
+
+              <div class="section-block">
+                <div class="section-title">校园经历</div>
+                <div v-if="normalized.campus_experience.length" class="timeline-list">
+                  <article
+                    v-for="(item, index) in normalized.campus_experience"
+                    :key="`campus-${index}`"
+                    class="timeline-item"
+                  >
+                    <div class="timeline-head">
+                      <div class="timeline-main">{{ item.company || '未填写组织/活动' }}</div>
+                      <div v-if="formatPeriod(item.start_time, item.end_time)" class="timeline-date">
+                        <CalendarDays :size="14" />
+                        <span>{{ formatPeriod(item.start_time, item.end_time) }}</span>
+                      </div>
+                    </div>
+                    <div v-if="item.role" class="timeline-sub">{{ item.role }}</div>
+                    <ul v-if="item.description?.length" class="desc-list">
+                      <li v-for="(desc, dIndex) in item.description" :key="`campus-desc-${index}-${dIndex}`">{{ desc }}</li>
+                    </ul>
+                  </article>
+                </div>
+                <a-empty v-else description="未提取到校园经历" />
+              </div>
             </div>
 
             <aside class="right-column">
@@ -469,6 +493,36 @@ const normalized = computed(() => {
     })
     .filter((item) => item.title || item.role || item.start_time || item.end_time || item.description.length)
 
+  const campusSource = Array.isArray(data.campus_experience)
+    ? data.campus_experience
+    : Array.isArray(data.campusExperience)
+      ? data.campusExperience
+      : Array.isArray(data.campus)
+        ? data.campus
+        : []
+  const campus_experience = campusSource
+    .map((item) => {
+      if (Object.prototype.hasOwnProperty.call(item, 'company')) {
+        return {
+          company: item.company || null,
+          role: item.role || null,
+          start_time: normalizeMonth(item.start_time),
+          end_time: normalizeMonth(item.end_time),
+          description: toShortSentences(Array.isArray(item.description) ? item.description : [])
+        }
+      }
+
+      const range = normalizeRange(item.date)
+      return {
+        company: item.title || null,
+        role: item.subtitle || null,
+        start_time: range.start,
+        end_time: range.end,
+        description: toShortSentences(Array.isArray(item.details) ? item.details : [])
+      }
+    })
+    .filter((item) => item.company || item.role || item.start_time || item.end_time || item.description.length)
+
   const skills = cleanSkills(Array.isArray(data.skills) ? data.skills : [])
 
   const awardsSource = Array.isArray(data.awards) ? data.awards : []
@@ -485,7 +539,7 @@ const normalized = computed(() => {
     })
     .filter((item) => item && (item.title || item.description || item.time))
 
-  return { basic_info, education, experience, projects, skills, awards }
+  return { basic_info, education, experience, projects, campus_experience, skills, awards }
 })
 
 const loadResumeDetail = async () => {
