@@ -1,5 +1,6 @@
 """PostgreSQL 业务数据模型 - 用户、部门、对话等相关表"""
 
+from datetime import timedelta
 from typing import Any
 
 from sqlalchemy import (
@@ -109,6 +110,14 @@ class User(Base):
             return 0
         remaining = int((self.login_locked_until - utc_now_naive()).total_seconds())
         return max(0, remaining)
+
+    def increment_failed_login(self, lock_threshold: int = 5, lock_seconds: int = 300):
+        """增加登录失败计数并在达到阈值后锁定账户"""
+        now = utc_now_naive()
+        self.login_failed_count = (self.login_failed_count or 0) + 1
+        self.last_failed_login = now
+        if self.login_failed_count >= lock_threshold:
+            self.login_locked_until = now + timedelta(seconds=lock_seconds)
 
     def reset_failed_login(self):
         """重置登录失败相关字段"""

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="resume-detail-page">
     <HeaderComponent
       :title="resume?.filename || '简历详情'"
@@ -46,7 +46,7 @@
         <div v-if="viewMode === 'preview'" class="preview-shell">
           <section class="preview-hero">
             <div class="hero-info">
-              <h1 class="hero-name">{{ normalized.basic_info.name || fallbackName }}</h1>
+              <h1 class="hero-name">{{ displayName || fallbackName }}</h1>
               <div class="hero-contact">
                 <span v-if="normalized.basic_info.phone" class="contact-item">
                   <Phone :size="14" />
@@ -59,6 +59,14 @@
                 <span v-if="normalized.basic_info.github" class="contact-item">
                   <Github :size="14" />
                   {{ normalized.basic_info.github }}
+                </span>
+                <span v-if="normalized.basic_info.wechat" class="contact-item">
+                  <span>微信</span>
+                  {{ normalized.basic_info.wechat }}
+                </span>
+                <span v-if="normalized.basic_info.intention" class="contact-item">
+                  <span>求职意向</span>
+                  {{ normalized.basic_info.intention }}
                 </span>
               </div>
             </div>
@@ -85,7 +93,7 @@
                       </div>
                     </div>
                     <div class="timeline-sub">
-                      {{ [item.major, item.degree].filter(Boolean).join(' · ') || '未填写专业/学历' }}
+                      {{ [item.major, item.degree].filter(Boolean).join(' / ') || '未填写专业/学历' }}
                     </div>
                   </article>
                 </div>
@@ -94,9 +102,9 @@
 
               <div class="section-block">
                 <div class="section-title">工作经历</div>
-                <div v-if="normalized.experience.length" class="timeline-list">
+                <div v-if="normalized.workExperience.length" class="timeline-list">
                   <article
-                    v-for="(item, index) in normalized.experience"
+                    v-for="(item, index) in normalized.workExperience"
                     :key="`exp-${index}`"
                     class="timeline-item"
                   >
@@ -138,6 +146,32 @@
                   </article>
                 </div>
                 <a-empty v-else description="未提取到项目经历" />
+              </div>
+
+
+
+              <div class="section-block">
+                <div class="section-title">校园经历</div>
+                <div v-if="normalized.campusExperience.length" class="timeline-list">
+                  <article
+                    v-for="(item, index) in normalized.campusExperience"
+                    :key="`campus-${index}`"
+                    class="timeline-item"
+                  >
+                    <div class="timeline-head">
+                      <div class="timeline-main">{{ item.company || '未填写校园组织/项目' }}</div>
+                      <div v-if="formatPeriod(item.start_time, item.end_time)" class="timeline-date">
+                        <CalendarDays :size="14" />
+                        <span>{{ formatPeriod(item.start_time, item.end_time) }}</span>
+                      </div>
+                    </div>
+                    <div v-if="item.role" class="timeline-sub">{{ item.role }}</div>
+                    <ul v-if="item.description?.length" class="desc-list">
+                      <li v-for="(desc, dIndex) in item.description" :key="`campus-desc-${index}-${dIndex}`">{{ desc }}</li>
+                    </ul>
+                  </article>
+                </div>
+                <a-empty v-else description="未提取到校园经历" />
               </div>
             </div>
 
@@ -232,6 +266,31 @@ const standardizedMarkdownContent = computed(() => {
     return ''
   }
 
+  const inferResumeName = () => {
+    const fromStructured = String(
+      resume.value?.structured_resume?.basic_info?.name || resume.value?.structured_resume?.name || ''
+    ).trim()
+    const fromFilename = String(resume.value?.filename || '').replace(/\.pdf$/i, '').trim()
+    const candidate = fromStructured || fromFilename
+    if (!candidate) return ''
+    const cleaned = candidate.replace(/^(?:姓名|name)\s*[:：]\s*/i, '').replace(/(?:个人简历|简历|resume|cv)/gi, ' ')
+    const chinese = cleaned.match(/[\u4e00-\u9fff]{2,4}/)
+    if (chinese?.[0]) return chinese[0]
+    const english = cleaned.match(/[A-Za-z][A-Za-z .'-]{1,39}/)
+    return english?.[0]?.trim() || ''
+  }
+
+  const escapeRegex = (value) => String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const sectionLeadPattern =
+    '(?:教育经历|教育背景|实习经历|工作经历|项目经历|项目经验|在校经历|校园经历|相关技能|技能|获奖情况|获奖经历|自我评价|个人评价)'
+  const removeHeadingNoise = (text = '') =>
+    String(text || '')
+      .replace(/^\s*(?:\\?diamondsuit|textcircled\d+)\s*/i, '')
+      .replace(/^\s*[■□▪●◆◇◼◾◽⬛⬜•·※★☆]+\s*/, '')
+      .replace(new RegExp(`^\\s*[A-Za-z]\\s*(?=${sectionLeadPattern})`, 'i'), '')
+      .replace(new RegExp(`^\\s*0+\\s*(?=${sectionLeadPattern})`, 'i'), '')
+      .trim()
+
   let content = raw.replace(/\r\n?/g, '\n')
 
   content = content.replace(/<style[\s\S]*?<\/style>/gi, '')
@@ -245,11 +304,330 @@ const standardizedMarkdownContent = computed(() => {
   content = content.replace(/<img([^>]*?)\swidth=["'][^"']*["']([^>]*)>/gi, '<img$1$2>')
   content = content.replace(/<img([^>]*?)\sheight=["'][^"']*["']([^>]*)>/gi, '<img$1$2>')
   content = content.replace(/<br\s*\/?>[ \t]*(<br\s*\/?>)+/gi, '<br />')
+  content = content.replace(/\b1orompt\b/gi, 'prompt')
+  content = content.replace(/\borompt\b/gi, 'prompt')
+  content = content.replace(/\b1rompt\b/gi, 'prompt')
+  content = content.replace(/结构1\s*\n+\s*prompt/gi, '结构化prompt')
+  content = content.replace(/结构1(?=\s*prompt)/gi, '结构化')
+  content = content.replace(/^\s*电话\s*[:：]\s*([0-9+\-\s]{7,})\s*回(?=\s*(?:微信|wechat))/gim, '电话：$1 ')
+  content = content.replace(/(^|\n)(#+\s*)0+\s*(?=(?:教育|工作|项目|校园|在校|自我|个人))/g, '$1$2')
 
+  const isProtocolNoiseLine = (line) => /(?:协议[：:；;]|鍗忚[锛?锛?]).*(?:post|get|header|delete|json|xml|xpath)/i.test(line)
+  const cleanedLines = content
+    .split('\n')
+    .map((line) => {
+      const heading = line.match(/^(\s*#{1,6}\s*)(.+)$/)
+      if (heading) {
+        const body = removeHeadingNoise(heading[2])
+        return body ? `${heading[1]}${body}` : ''
+      }
+      return removeHeadingNoise(line)
+    })
+    .filter((line) => !isProtocolNoiseLine(line))
+
+  const inferredName = inferResumeName()
+  const topText = cleanedLines.slice(0, 14).join('\n')
+  if (inferredName && !new RegExp(escapeRegex(inferredName), 'i').test(topText)) {
+    cleanedLines.unshift('', `# ${inferredName}`)
+  }
+
+  content = cleanedLines.join('\n')
   content = content.replace(/\n{3,}/g, '\n\n').trim()
 
   return content
 })
+const sanitizeDisplayText = (value) => {
+  const text = String(value || '')
+    .replace(/\$/g, '')
+    .replace(/[{}#*]+/g, '')
+    .replace(/\uFFFD/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+  return text
+}
+
+const stripLeadingMarker = (value) => {
+  let text = sanitizeDisplayText(value || '')
+  text = text.replace(/^\s*[#*•·+-]+\s*/, '')
+  text = text.replace(/^\s*(?:\d+|[一二三四五六七八九十]+)\s*[.)、:：]?\s*/, '')
+  return text.trim()
+}
+
+const cleanDisplayName = (value) => {
+  let text = stripLeadingMarker(value || '')
+  if (!text) return ''
+  text = text.replace(/^(?:姓名|name)\s*[:：]\s*/i, '').trim()
+  text = text
+    .split(/(?:求职意向|意向岗位|工作年限|联系电话|电话|手机|邮箱|微信|github|性别|年龄|学校|出生年月|现居)/i)[0]
+    .trim()
+  text = text.replace(/^[#/*|·•\-\s]+/, '').trim()
+  if (!text || /(简历|测试|工作经历|项目经历|教育背景|自我评价)/.test(text)) return ''
+  const chinese = text.match(/[\u4e00-\u9fff]{2,4}/)
+  if (chinese?.[0]) return chinese[0]
+  const english = text.match(/[A-Za-z][A-Za-z .'-]{1,39}/)
+  if (english?.[0]) return english[0].trim()
+  return text
+}
+
+const isProtocolNoiseLine = (value) => /鍗忚[锛?锛?].*(?:post|get|header|delete|json|xml|xpath)/i.test(String(value || ''))
+
+const isNoiseTitle = (value) => {
+  const text = stripLeadingMarker(value || '')
+  if (!text) return true
+  if (isProtocolNoiseLine(text)) return true
+  return /^(?:鑷垜璇勪环|涓汉璇勪环|涓汉鎶€鑳絴椤圭洰缁忛獙|宸ヤ綔缁忓巻|鏁欒偛鑳屾櫙|鏁欒偛缁忓巻)$/i.test(text)
+}
+
+const isSchoolLike = (value) => /(大学|学院|学校|中学|University|College|Institute)/i.test(String(value || ''))
+const isMajorLike = (value) =>
+  /(专业|工程|科学|管理|法学|文学|数学|统计|金融|会计|计算机|软件|人工智能)/i.test(String(value || ''))
+
+const extractSchoolToken = (value) => {
+  const text = stripLeadingMarker(value || '')
+  if (!text) return ''
+  const match = text.match(/([\u4e00-\u9fffA-Za-z·]{2,40}(?:大学|学院|学校|中学))/)
+  return match?.[1] ? sanitizeDisplayText(match[1]) : ''
+}
+
+const extractMajorToken = (value) => {
+  const text = stripLeadingMarker(value || '')
+  if (!text) return ''
+  const labeled = text.match(/(?:专业|主修)\s*[:：]\s*([^，,。；;\s]{2,30})/)
+  if (labeled?.[1]) return sanitizeDisplayText(labeled[1])
+  const match = text.match(/([\u4e00-\u9fffA-Za-z]{2,30}(?:专业|工程|科学|管理|法学|文学|数学|统计|金融|会计))/)
+  return match?.[1] ? sanitizeDisplayText(match[1]) : ''
+}
+
+const extractNameFromMarkdown = (markdown) => {
+  const lines = String(markdown || '')
+    .split('\n')
+    .map((line) => sanitizeDisplayText(line.replace(/^#{1,6}\s*/, '')))
+    .filter(Boolean)
+  for (const line of lines.slice(0, 12)) {
+    if (/@/.test(line) || /\d{6,}/.test(line)) continue
+    if (/(求职意向|工作经历|项目经历|教育背景|个人评价|个人技能)/.test(line)) continue
+    const maybe = cleanDisplayName(line)
+    if (maybe) return maybe
+  }
+  return ''
+}
+
+const extractSchoolFromMarkdown = (markdown) => {
+  const lines = String(markdown || '')
+    .split('\n')
+    .map((line) => stripLeadingMarker(line.replace(/^#{1,6}\s*/, '')))
+    .filter(Boolean)
+  for (const line of lines) {
+    const school = extractSchoolToken(line)
+    if (school) return school
+  }
+  return ''
+}
+
+const extractNameFromFilename = (filename) => {
+  const base = String(filename || '').replace(/\.pdf$/i, '').trim()
+  if (!base) return ''
+  const candidates = base.split(/[_\-\s]+/).concat([base])
+  for (const candidate of candidates) {
+    const m = candidate.match(/[\u4e00-\u9fff]{2,4}/)
+    if (m?.[0] && !/(绠€鍘唡涓汉|浜у搧|鏍″洯|娴嬭瘯|搴旇仒|姹傝亴)/.test(m[0])) {
+      return m[0]
+    }
+  }
+  return ''
+}
+
+const isRoleLikeTitle = (value) => {
+  const text = stripLeadingMarker(value || '')
+  if (!text) return false
+  if (/(公司|集团|科技|有限|大学|学院|学校)/.test(text)) return false
+  return /(岗位|职位|实习生|工程师|经理|主管|测试|开发)/.test(text)
+}
+
+const dedupeByKey = (items = [], keyFn) => {
+  const best = new Map()
+  items.forEach((item) => {
+    const key = keyFn(item)
+    if (!key) return
+    const old = best.get(key)
+    const score = (item.description?.length || 0) * 10 + (item.role ? 3 : 0) + (item.start_time || item.end_time ? 2 : 0)
+    const oldScore = old ? (old.description?.length || 0) * 10 + (old.role ? 3 : 0) + (old.start_time || old.end_time ? 2 : 0) : -1
+    if (!old || score >= oldScore) {
+      best.set(key, item)
+    }
+  })
+  return [...best.values()]
+}
+
+const dedupeEducation = (items = []) => {
+  const map = new Map()
+  items.forEach((item) => {
+    const school = stripLeadingMarker(item.school || '')
+    const key = school || `${item.major || ''}|${item.start_time || ''}|${item.end_time || ''}`
+    if (!key) return
+    const existed = map.get(key)
+    if (!existed) {
+      map.set(key, { ...item, school })
+      return
+    }
+    if (!existed.start_time && item.start_time) existed.start_time = item.start_time
+    if (!existed.end_time && item.end_time) existed.end_time = item.end_time
+    if (!existed.major && item.major) existed.major = item.major
+    if (!existed.degree && item.degree) existed.degree = item.degree
+  })
+  return [...map.values()]
+}
+
+const mergeExperienceItems = (items = []) => {
+  const merged = []
+  items.forEach((item) => {
+    if (isRoleLikeTitle(item.company) && item.description?.length) {
+      const target = merged.find((it) => !isRoleLikeTitle(it.company))
+      if (target) {
+        if (!target.role) {
+          target.role = item.company.replace(/^岗位\s*[:：]?\s*/, '')
+        }
+        target.description = [...new Set([...(target.description || []), ...(item.description || [])])]
+        return
+      }
+    }
+    merged.push({
+      ...item,
+      company: stripLeadingMarker(item.company || ''),
+      role: stripLeadingMarker(item.role || '')
+    })
+  })
+  return dedupeByKey(merged, (item) => `${item.company}|${item.role}|${item.start_time || ''}|${item.end_time || ''}`)
+}
+
+const normalizeProjectTitle = (value) => {
+  let text = stripLeadingMarker(value || '')
+  text = text.replace(/^(?:项目描述|项目简介|项目职责)\s*[:：]\s*/i, '').trim()
+  if (!text) return ''
+  if (isProtocolNoiseLine(text)) return ''
+  if (/^(?:掌握|熟悉|了解|能够|擅长|参与)/.test(text)) return ''
+  if (isNoiseTitle(text)) return ''
+  return text
+}
+
+const parseProjectsFromMarkdown = (markdown) => {
+  const lines = String(markdown || '')
+    .split('\n')
+    .map((line) => stripLeadingMarker(line.replace(/^#{1,6}\s*/, '')))
+    .filter(Boolean)
+
+  let inProject = false
+  let current = null
+  const projects = []
+
+  for (const line of lines) {
+    if (/(项目经历|项目经验)/.test(line)) {
+      inProject = true
+      continue
+    }
+    if (inProject && /(自我评价|个人评价|工作经历|教育背景|技能|获奖|校园经历)/.test(line)) {
+      break
+    }
+    if (!inProject) continue
+    if (isProtocolNoiseLine(line)) continue
+
+    const range = normalizeRange(line)
+    const hasDate = range.start || range.end
+    if (hasDate) {
+      const title = normalizeProjectTitle(
+        line.replace(/((?:19|20)\d{2}|(?:19|20)[xX]{2}).*?(?:(?:19|20)\d{2}|(?:19|20)[xX]{2}|至今|现在)/, '').trim()
+      )
+      current = {
+        title: title || '项目实践',
+        role: null,
+        start_time: range.start,
+        end_time: range.end,
+        description: []
+      }
+      projects.push(current)
+      continue
+    }
+
+    if (current && line.length > 4 && !isNoiseTitle(line)) {
+      current.description.push(line)
+    }
+  }
+
+  return dedupeByKey(projects, (item) => `${item.title}|${item.start_time || ''}|${item.end_time || ''}`)
+}
+
+const extractIntentionFromText = (value) => {
+  const text = sanitizeDisplayText(value || '')
+  if (!text) return ''
+  const match = text.match(/(?:求职意向|意向岗位)\s*[:：]?\s*([^|,，。]+)/i)
+  return match?.[1] ? sanitizeDisplayText(match[1]) : ''
+}
+
+const sanitizePhoneValue = (value) => {
+  const text = sanitizeDisplayText(value || '')
+  if (!text) return ''
+  const match = text.match(/(?:\+?86[-\s]?)?(?:1[3-9]\d{9}|\d{3,4}[-\s]?\d{7,8})/)
+  const phone = match ? match[0].replace(/\s+/g, '') : text
+  return phone.replace(/[鍥炲姞鑱旂郴]+$/g, '')
+}
+
+const sanitizeEmailValue = (value) => {
+  const text = sanitizeDisplayText(value || '')
+  if (!text) return ''
+  const match = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,10}/i)
+  return match ? match[0] : text
+}
+
+const sanitizeWechatValue = (value) => {
+  let text = sanitizeDisplayText(value || '')
+  if (!text) return ''
+  text = text.replace(/^(?:回|加|联系)?\s*(?:微信|vx|wx|v信)?\s*[:：]?\s*/i, '').trim()
+  text = text.replace(/^[_-]+|[_-]+$/g, '')
+  text = text.replace(/[回加联系]+$/g, '')
+  if (/^(?:weixin|wechat|wx|vx)$/i.test(text)) return ''
+  return text
+}
+
+const sanitizeGithubValue = (value) => {
+  let text = sanitizeDisplayText(value || '')
+  if (!text) return ''
+  text = text.replace(/^(?:github|git)\s*[:：]?\s*/i, '').trim()
+  text = text.replace(/^https?:\/\/github\.com\//i, '')
+  text = text.replace(/[回加联系]+$/g, '')
+  return text
+}
+
+const isAwardLikeText = (value) => {
+  const text = sanitizeDisplayText(value || '')
+  if (!text) return false
+  return /(?:鑾峰|鑽ｈ獕|绉板彿|涓€绛夊|浜岀瓑濂東涓夌瓑濂東閲戝|閾跺|閾滃|濂栧閲憒绔炶禌|澶ц禌|璇佷功|浼樼)/i.test(text)
+}
+
+const parseDateScore = (start, end) => {
+  const parseOne = (value) => {
+    if (!value) return 0
+    const text = String(value)
+    const match = text.match(/((?:19|20)\d{2}|(?:19|20)[xX]{2})[.-]?(\d{1,2}|[xX]{1,2})?/)
+    if (!match) return 0
+    const y = Number(String(match[1]).replace(/[^\d]/g, '')) || 0
+    const m = Number(String(match[2] || '').replace(/[^\d]/g, '')) || 0
+    return y * 100 + m
+  }
+  return Math.max(parseOne(end), parseOne(start))
+}
+
+const sortByRecent = (items = []) => {
+  return [...items].sort((a, b) => parseDateScore(b.start_time, b.end_time) - parseDateScore(a.start_time, a.end_time))
+}
+
+const isCampusExperience = (item) => {
+  const full = `${item?.company || ''} ${item?.role || ''} ${(item?.description || []).join(' ')}`.toLowerCase()
+  const campusKeywords = ['校园', '学校', '社团', '学生会', '协会', '俱乐部', '团委', '班级', '学院', '志愿', '宣传部']
+  const workKeywords = ['公司', '集团', '科技', '有限', '实习', '全职', '兼职', '研发部', '产品部']
+  const hasCampus = campusKeywords.some((k) => full.includes(k))
+  const hasWork = workKeywords.some((k) => full.includes(k))
+  return hasCampus && !hasWork
+}
 
 const normalizeMonth = (value) => {
   if (!value) {
@@ -264,16 +642,20 @@ const normalizeMonth = (value) => {
     return null
   }
 
-  const monthMatch = text.match(/((?:19|20)\d{2})\s*(?:[./-]|年)\s*(\d{1,2})/)
+  const monthMatch = text.match(/((?:19|20)\d{2}|(?:19|20)[xX]{2})\s*(?:[./-]|年)\s*(\d{1,2}|[xX]{1,2})/)
   if (monthMatch) {
-    const year = Number(monthMatch[1])
-    const month = Math.min(12, Math.max(1, Number(monthMatch[2])))
-    return `${year.toString().padStart(4, '0')}.${month.toString().padStart(2, '0')}`
+    const year = String(monthMatch[1]).toLowerCase()
+    const monthText = String(monthMatch[2]).toLowerCase()
+    if (/x/.test(monthText)) {
+      return `${year}.xx`
+    }
+    const month = Math.min(12, Math.max(1, Number(monthText)))
+    return `${year}.${month.toString().padStart(2, '0')}`
   }
 
-  const yearMatch = text.match(/((?:19|20)\d{2})/)
+  const yearMatch = text.match(/((?:19|20)\d{2}|(?:19|20)[xX]{2})/)
   if (yearMatch) {
-    return `${yearMatch[1]}.01`
+    return `${String(yearMatch[1]).toLowerCase()}.01`
   }
 
   return null
@@ -285,7 +667,7 @@ const normalizeRange = (raw) => {
   }
 
   const text = String(raw)
-  const monthMatches = [...text.matchAll(/((?:19|20)\d{2})\s*(?:[./-]|年)\s*(\d{1,2})/g)]
+  const monthMatches = [...text.matchAll(/((?:19|20)\d{2}|(?:19|20)[xX]{2})\s*(?:[./-]|年)\s*(\d{1,2}|[xX]{1,2})/g)]
   if (monthMatches.length >= 2) {
     return {
       start: normalizeMonth(monthMatches[0][0]),
@@ -299,7 +681,7 @@ const normalizeRange = (raw) => {
     return { start, end }
   }
 
-  const years = [...text.matchAll(/((?:19|20)\d{2})/g)].map((m) => m[1])
+  const years = [...text.matchAll(/((?:19|20)\d{2}|(?:19|20)[xX]{2})/g)].map((m) => String(m[1]).toLowerCase())
   if (years.length >= 2) {
     return { start: `${years[0]}.01`, end: `${years[1]}.01` }
   }
@@ -317,14 +699,17 @@ const toShortSentences = (items = []) => {
   const seen = new Set()
 
   items.forEach((item) => {
-    const text = String(item || '').replace(/^[-*•·\d.)\s]+/, '').trim()
+    const text = stripLeadingMarker(String(item || '').replace(/^[-*•·\d.)\s]+/, '').trim())
     if (!text) {
       return
     }
+    if (isProtocolNoiseLine(text)) {
+      return
+    }
 
-    const chunks = text.split(/[。；;]/).map((part) => part.trim()).filter(Boolean)
+    const chunks = text.split(/[銆傦紱;]/).map((part) => part.trim()).filter(Boolean)
     ;(chunks.length ? chunks : [text]).forEach((chunk) => {
-      const clean = chunk.replace(/\s+/g, ' ').replace(/^[，,\s]+|[，,。;；\s]+$/g, '')
+      const clean = stripLeadingMarker(chunk.replace(/\s+/g, ' ').replace(/^[锛?\s]+|[锛?銆?锛沑s]+$/g, ''))
       if (!clean || clean.length < 4 || seen.has(clean)) {
         return
       }
@@ -342,12 +727,15 @@ const cleanSkills = (skills = []) => {
 
   skills.forEach((skill) => {
     String(skill || '')
-      .split(/[、，,;；/|]/)
+      .split(/[銆侊紝,;锛?|]/)
       .map((token) => token.trim())
-      .map((token) => token.replace(/^(熟悉|掌握|了解|精通|擅长|具备|能够|使用|负责|参与|从事)\s*/, ''))
-      .map((token) => token.replace(/[：:。.;；\s]+$/g, ''))
+      .map((token) => token.replace(/^(鐔熸倝|鎺屾彙|浜嗚В|绮鹃€殀鎿呴暱|鍏峰|鑳藉|浣跨敤|璐熻矗|鍙備笌|浠庝簨)\s*/, ''))
+      .map((token) => token.replace(/[锛?銆?;锛沑s]+$/g, ''))
       .forEach((token) => {
         if (!token || token.length > 30) {
+          return
+        }
+        if (/^[\W_]+$/.test(token)) {
           return
         }
         const key = token.toLowerCase()
@@ -362,6 +750,27 @@ const cleanSkills = (skills = []) => {
   return result
 }
 
+const dedupeAwards = (awards = []) => {
+  const seen = new Set()
+  const result = []
+  awards.forEach((award) => {
+    if (!award) return
+    const title = sanitizeDisplayText(award.title || '')
+    const description = sanitizeDisplayText(award.description || '')
+    const time = sanitizeDisplayText(award.time || '')
+    if (!title && !description && !time) return
+    const key = `${title.replace(/\s+/g, '').toLowerCase()}|${time}`
+    if (seen.has(key)) return
+    seen.add(key)
+    result.push({
+      title: title || null,
+      description: description || null,
+      time: time || null
+    })
+  })
+  return result
+}
+
 const parseAwardLine = (line) => {
   const raw = String(line || '').replace(/\s+/g, ' ').trim()
   if (!raw) {
@@ -370,17 +779,19 @@ const parseAwardLine = (line) => {
 
   const range = normalizeRange(raw)
   let text = raw
-  const dateMatch = raw.match(/(?:19|20)\d{2}(?:\s*(?:[./-]|年)\s*\d{1,2})?(?:\s*月)?/)
+  const dateMatch = raw.match(/(?:19|20)\d{2}(?:\s*(?:[./-]|年)\s*\d{1,2})?(?:\s*月)?/i)
   if (dateMatch) {
-    text = raw.replace(dateMatch[0], '').replace(/^[\s\-–—~到至]+/, '').trim()
+    text = raw.replace(dateMatch[0], '').replace(/^[\s\-—–到至]+/, '').trim()
   }
 
   let title = text
   let description = null
-  if (text.includes('：')) {
-    ;[title, description] = text.split('：', 2)
+  if (text.includes('（')) {
+    ;[title, description] = text.split('（', 2)
   } else if (text.includes(':')) {
     ;[title, description] = text.split(':', 2)
+  } else if (text.includes('：')) {
+    ;[title, description] = text.split('：', 2)
   } else if (text.includes(' - ')) {
     ;[title, description] = text.split(' - ', 2)
   }
@@ -394,50 +805,80 @@ const parseAwardLine = (line) => {
 
 const normalized = computed(() => {
   const data = resume.value?.structured_resume || {}
+  const markdown = String(resume.value?.markdown_content || '')
+  const markdownSchoolFallback = extractSchoolFromMarkdown(markdown)
+  const markdownNameFallback = extractNameFromMarkdown(markdown)
 
   const basicFromSchema = data.basic_info && !Array.isArray(data.basic_info) ? data.basic_info : {}
-  const basicFromLegacy = data.basic_info && !Array.isArray(data.basic_info) ? data.basic_info : {}
+  const rawNameText = basicFromSchema.name || data.name || fallbackName.value
+  const inferredIntention = extractIntentionFromText(rawNameText)
 
   const basic_info = {
-    name: basicFromSchema.name || data.name || fallbackName.value,
-    phone: basicFromSchema.phone || data.phone || null,
-    email: basicFromSchema.email || data.email || null,
-    github: basicFromSchema.github || basicFromLegacy.github || null
+    name: cleanDisplayName(rawNameText) || cleanDisplayName(markdownNameFallback),
+    phone: sanitizePhoneValue(basicFromSchema.phone || data.phone || null),
+    email: sanitizeEmailValue(basicFromSchema.email || data.email || null),
+    github: sanitizeGithubValue(basicFromSchema.github || data.github || null),
+    wechat: sanitizeWechatValue(basicFromSchema.wechat || data.wechat || null),
+    intention: sanitizeDisplayText(basicFromSchema.intention || data.intention || inferredIntention || null)
+  }
+  if (basic_info.wechat && basic_info.wechat === basic_info.phone) {
+    basic_info.wechat = null
   }
 
   const educationSource = Array.isArray(data.education) ? data.education : []
-  const education = educationSource
+  const education = sortByRecent(dedupeEducation(educationSource
     .map((item) => {
       if (Object.prototype.hasOwnProperty.call(item, 'school')) {
+        const school = stripLeadingMarker(item.school || '')
+        const major = stripLeadingMarker(item.major || '')
         return {
-          school: item.school || null,
-          major: item.major || null,
-          degree: item.degree || null,
+          school: sanitizeDisplayText(school || markdownSchoolFallback || null),
+          major: sanitizeDisplayText(major || null),
+          degree: sanitizeDisplayText(item.degree || null),
           start_time: normalizeMonth(item.start_time),
           end_time: normalizeMonth(item.end_time)
         }
       }
 
       const range = normalizeRange(item.date)
+      const title = stripLeadingMarker(item.title || '')
+      const subtitle = stripLeadingMarker(item.subtitle || '')
+      const details = Array.isArray(item.details) ? item.details.map((line) => stripLeadingMarker(line)) : []
+      const school = (
+        extractSchoolToken(title) ||
+        extractSchoolToken(subtitle) ||
+        extractSchoolToken(item.date) ||
+        details.map((line) => extractSchoolToken(line)).find(Boolean) ||
+        (isSchoolLike(title) ? title : '') ||
+        markdownSchoolFallback
+      )
+      const major = (
+        extractMajorToken(subtitle) ||
+        extractMajorToken(title) ||
+        extractMajorToken(item.date) ||
+        details.map((line) => extractMajorToken(line)).find(Boolean) ||
+        (isMajorLike(subtitle) ? subtitle : '') ||
+        (isMajorLike(title) && title !== school ? title : '')
+      )
       return {
-        school: item.title || null,
-        major: item.subtitle || null,
+        school: sanitizeDisplayText(school || null),
+        major: sanitizeDisplayText(major || null),
         degree: null,
         start_time: range.start,
         end_time: range.end
       }
     })
-    .filter((item) => item.school || item.major || item.degree || item.start_time || item.end_time)
+    .filter((item) => item.school || item.major || item.degree || item.start_time || item.end_time)))
 
   const legacyExperience = Array.isArray(data.work) ? data.work : []
   const schemaExperience = Array.isArray(data.experience) ? data.experience : []
   const experienceSource = schemaExperience.length ? schemaExperience : legacyExperience
-  const experience = experienceSource
+  const rawWorkExperience = experienceSource
     .map((item) => {
       if (Object.prototype.hasOwnProperty.call(item, 'company')) {
         return {
-          company: item.company || null,
-          role: item.role || null,
+          company: stripLeadingMarker(item.company || null),
+          role: stripLeadingMarker(item.role || null),
           start_time: normalizeMonth(item.start_time),
           end_time: normalizeMonth(item.end_time),
           description: toShortSentences(Array.isArray(item.description) ? item.description : [])
@@ -446,46 +887,123 @@ const normalized = computed(() => {
 
       const range = normalizeRange(item.date)
       return {
-        company: item.title || null,
-        role: item.subtitle || null,
+        company: stripLeadingMarker(item.title || null),
+        role: stripLeadingMarker(item.subtitle || null),
         start_time: range.start,
         end_time: range.end,
         description: toShortSentences(Array.isArray(item.details) ? item.details : [])
       }
     })
+    .filter((item) => !isNoiseTitle(item.company))
     .filter((item) => item.company || item.role || item.start_time || item.end_time || item.description.length)
 
-  const projectSource = Array.isArray(data.projects) ? data.projects : []
-  const projects = projectSource
+  const campusSource = Array.isArray(data.campus_experience) ? data.campus_experience : []
+  const rawCampusExperience = campusSource
     .map((item) => {
+      if (Object.prototype.hasOwnProperty.call(item, 'company')) {
+        return {
+          company: stripLeadingMarker(item.company || null),
+          role: stripLeadingMarker(item.role || null),
+          start_time: normalizeMonth(item.start_time),
+          end_time: normalizeMonth(item.end_time),
+          description: toShortSentences(Array.isArray(item.description) ? item.description : [])
+        }
+      }
+
       const range = normalizeRange(item.date)
       return {
-        title: item.title || null,
-        role: item.subtitle || null,
+        company: stripLeadingMarker(item.title || null),
+        role: stripLeadingMarker(item.subtitle || null),
         start_time: range.start,
         end_time: range.end,
         description: toShortSentences(Array.isArray(item.details) ? item.details : [])
       }
     })
-    .filter((item) => item.title || item.role || item.start_time || item.end_time || item.description.length)
+    .filter((item) => !isNoiseTitle(item.company))
+    .filter((item) => item.company || item.role || item.start_time || item.end_time || item.description.length)
 
-  const skills = cleanSkills(Array.isArray(data.skills) ? data.skills : [])
+  let workExperience = rawWorkExperience
+  let campusExperience = rawCampusExperience
+  if (!campusExperience.length) {
+    campusExperience = rawWorkExperience.filter((item) => isCampusExperience(item))
+    workExperience = rawWorkExperience.filter((item) => !isCampusExperience(item))
+  }
+  workExperience = sortByRecent(mergeExperienceItems(workExperience))
+  campusExperience = sortByRecent(mergeExperienceItems(campusExperience))
+
+  const projectSource = Array.isArray(data.projects) ? data.projects : []
+  const projects = sortByRecent(projectSource
+    .map((item) => {
+      if (Object.prototype.hasOwnProperty.call(item, 'name') || Object.prototype.hasOwnProperty.call(item, 'start_time')) {
+        return {
+          title: normalizeProjectTitle(item.name || item.title || null),
+          role: stripLeadingMarker(item.role || item.subtitle || null),
+          start_time: normalizeMonth(item.start_time),
+          end_time: normalizeMonth(item.end_time),
+          description: toShortSentences(Array.isArray(item.description) ? item.description : [])
+        }
+      }
+      const range = normalizeRange(item.date)
+      return {
+        title: normalizeProjectTitle(item.title || null),
+        role: stripLeadingMarker(item.subtitle || null),
+        start_time: range.start,
+        end_time: range.end,
+        description: toShortSentences(Array.isArray(item.details) ? item.details : [])
+      }
+    })
+    .filter((item) => !isNoiseTitle(item.title))
+    .filter((item) => item.title || item.role || item.start_time || item.end_time || item.description.length))
+  const projectFallback = projects.length ? projects : parseProjectsFromMarkdown(markdown)
+
+  const skillCandidates = cleanSkills(Array.isArray(data.skills) ? data.skills : [])
+  const skillAsAwards = []
+  const skills = skillCandidates.filter((token) => {
+    if (!isAwardLikeText(token)) return true
+    const parsed = parseAwardLine(token)
+    if (parsed) {
+      skillAsAwards.push(parsed)
+    } else {
+      skillAsAwards.push({ title: sanitizeDisplayText(token), description: null, time: null })
+    }
+    return false
+  })
 
   const awardsSource = Array.isArray(data.awards) ? data.awards : []
-  const awards = awardsSource
+  const awards = dedupeAwards([...awardsSource, ...skillAsAwards]
     .map((item) => {
       if (item && typeof item === 'object' && !Array.isArray(item)) {
         return {
-          title: item.title || null,
-          description: item.description || null,
+          title: sanitizeDisplayText(item.title || null),
+          description: sanitizeDisplayText(item.description || null),
           time: normalizeMonth(item.time)
         }
       }
       return parseAwardLine(item)
     })
-    .filter((item) => item && (item.title || item.description || item.time))
+    .filter((item) => item && (item.title || item.description || item.time)))
 
-  return { basic_info, education, experience, projects, skills, awards }
+  return { basic_info, education, workExperience, campusExperience, projects: projectFallback, skills, awards }
+})
+
+const displayName = computed(() => {
+  const direct = cleanDisplayName(normalized.value.basic_info.name || '')
+  if (direct) {
+    return direct
+  }
+  const fromStructured = cleanDisplayName(resume.value?.structured_resume?.name || '')
+  if (fromStructured) {
+    return fromStructured
+  }
+  const fromMarkdown = cleanDisplayName(extractNameFromMarkdown(resume.value?.markdown_content || ''))
+  if (fromMarkdown) {
+    return fromMarkdown
+  }
+  const fromFilename = cleanDisplayName(extractNameFromFilename(resume.value?.filename || fallbackName.value))
+  if (fromFilename) {
+    return fromFilename
+  }
+  return cleanDisplayName(fallbackName.value) || fallbackName.value.replace(/(?:简历测试|测试简历)\d*/gi, '').trim()
 })
 
 const loadResumeDetail = async () => {
@@ -494,7 +1012,7 @@ const loadResumeDetail = async () => {
     const data = await resumeApi.getResumeDetail(route.params.resume_id)
     resume.value = data?.resume || null
   } catch (error) {
-    console.error('加载简历详情失败:', error)
+    console.error('加载简历详情失败', error)
     message.error(error.message || '加载简历详情失败')
     resume.value = null
   } finally {
@@ -517,7 +1035,7 @@ const handleDelete = async () => {
     message.success('简历已删除')
     router.push('/resume')
   } catch (error) {
-    console.error('删除简历失败:', error)
+    console.error('删除简历失败', error)
     message.error(error.message || '删除简历失败')
   } finally {
     deleting.value = false
@@ -708,6 +1226,10 @@ onMounted(() => {
   color: var(--main-color);
   border-color: rgba(47, 94, 234, 0.28);
   background: rgba(47, 94, 234, 0.03);
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .awards-wrap {
@@ -920,3 +1442,5 @@ onMounted(() => {
   }
 }
 </style>
+
+

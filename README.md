@@ -95,3 +95,29 @@ make format
 ## 📝 证书说明
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解更多详情。
+
+## Resume Parsing (PDF only)
+
+- Resume upload in `�ҵļ���` keeps **PDF-only** by design.
+- The backend uses a **hybrid extraction pipeline**:
+  1. Native PDF text extraction (`enable_ocr=disable`)
+  2. MinerU official OCR/layout extraction (`enable_ocr=mineru_official`)
+  3. Auto quality scoring to select the better text for downstream structured extraction.
+
+### MinerU config
+
+- `MINERU_API_KEY`:
+  - Required for `mineru_official` parsing channel.
+  - If missing, only native PDF text channel can be used (accuracy may drop for scanned/layout-heavy PDFs).
+- `MINERU_API_URI` / `MINERU_VL_SERVER` / `MINERU_TIMEOUT`:
+  - Used by local MinerU deployment (`mineru_ocr` pipeline).
+  - Defaults are already wired in `docker-compose.yml`.
+
+Example `.env`:
+
+```bash
+MINERU_API_KEY=your_mineru_api_key
+MINERU_API_URI=http://mineru-api:30001
+MINERU_VL_SERVER=http://mineru-vllm-server:30000
+MINERU_TIMEOUT=1800
+```
