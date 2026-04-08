@@ -1,7 +1,7 @@
 <template>
-  <div class="agent-panel" :class="{ resizing: isResizing }">
+  <div class="agent-panel" :class="{ resizing: isResizing, embedded: isEmbedded }">
     <!-- 拖拽手柄 -->
-    <div class="resize-handle" @mousedown="startResize"></div>
+    <div v-if="!isEmbedded" class="resize-handle" @mousedown="startResize"></div>
     <div class="panel-header">
       <div class="panel-title">
         <FolderCode :size="18" class="header-icon" />
@@ -12,13 +12,81 @@
           <!-- <template #icon><RefreshCw :size="14" /></template> -->
           刷新
         </a-button>
-        <button class="close-btn" @click="$emit('close')">
+        <button v-if="!isEmbedded" class="close-btn" @click="$emit('close')">
           <X :size="18" />
         </button>
       </div>
     </div>
 
-    <div class="tabs">
+    <template v-if="isEmbedded">
+      <div class="embedded-board">
+        <section class="embedded-section">
+          <div class="embedded-section-header">
+            <div class="embedded-section-title">任务</div>
+            <div class="embedded-section-meta">{{ completedCount }}/{{ todos.length }}</div>
+          </div>
+          <div class="embedded-section-body">
+            <div v-if="!todos.length" class="empty embedded-empty">暂无任务</div>
+            <div v-else class="todo-list" ref="todoListRef">
+              <div v-for="(todo, index) in todos" :key="index" class="todo-item">
+                <div class="todo-status">
+                  <CheckCircleOutlined v-if="todo.status === 'completed'" class="icon completed" />
+                  <SyncOutlined
+                    v-else-if="todo.status === 'in_progress'"
+                    class="icon in-progress"
+                    spin
+                  />
+                  <ClockCircleOutlined v-else-if="todo.status === 'pending'" class="icon pending" />
+                  <CloseCircleOutlined v-else-if="todo.status === 'cancelled'" class="icon cancelled" />
+                  <QuestionCircleOutlined v-else class="icon unknown" />
+                </div>
+                <a-tooltip v-if="overflowedIds.has(index)" placement="topLeft" :title="todo.content">
+                  <span class="todo-text">{{ todo.content }}</span>
+                </a-tooltip>
+                <span v-else class="todo-text">{{ todo.content }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="embedded-section">
+          <div class="embedded-section-header">
+            <div class="embedded-section-title">文件</div>
+            <div class="embedded-section-meta">{{ fileCount }}</div>
+          </div>
+          <div class="embedded-section-body">
+            <div v-if="!fileCount" class="empty embedded-empty">暂无文件</div>
+            <div v-else class="file-tree-container">
+              <FileTreeComponent
+                v-model:expandedKeys="expandedKeys"
+                :tree-data="fileTreeData"
+                @select="onFileSelect"
+              >
+                <template #title="{ node }">
+                  <div class="tree-node-name" :title="node.title">
+                    <span class="name-start">{{ node.nameStart || node.title }}</span>
+                    <span class="name-end" v-if="node.nameEnd">{{ node.nameEnd }}</span>
+                  </div>
+                </template>
+                <template #actions="{ node }">
+                  <div v-if="node.isLeaf" class="node-actions-container">
+                    <button
+                      class="tree-action-btn tree-download-btn"
+                      @click.stop="downloadFile(node.fileData)"
+                      title="下载文件"
+                    >
+                      <Download :size="14" />
+                    </button>
+                  </div>
+                </template>
+              </FileTreeComponent>
+            </div>
+          </div>
+        </section>
+      </div>
+    </template>
+    <template v-else>
+      <div class="tabs">
       <button class="tab" :class="{ active: activeTab === 'files' }" @click="activeTab = 'files'">
         文件 ({{ fileCount }})
       </button>
@@ -80,7 +148,8 @@
           </FileTreeComponent>
         </div>
       </div>
-    </div>
+      </div>
+    </template>
 
     <!-- 文件内容 Modal -->
     <a-modal
@@ -138,7 +207,7 @@
 
 <script setup>
 import { computed, ref, onMounted, onUpdated, nextTick, watch } from 'vue'
-import { Download, X, FolderCode, RefreshCw, Folder, FolderOpen } from 'lucide-vue-next'
+import { Download, X, FolderCode } from 'lucide-vue-next'
 import {
   CheckCircleOutlined,
   SyncOutlined,
@@ -149,7 +218,7 @@ import {
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 import { useThemeStore } from '@/stores/theme'
-import { getFileIcon, getFileIconColor, formatFileSize } from '@/utils/file_utils'
+import { getFileIcon, getFileIconColor } from '@/utils/file_utils'
 import FileTreeComponent from '@/components/FileTreeComponent.vue'
 
 const props = defineProps({
@@ -164,6 +233,10 @@ const props = defineProps({
   panelRatio: {
     type: Number,
     default: 0.35
+  },
+  embedded: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -176,6 +249,7 @@ const currentFilePath = ref('')
 
 const themeStore = useThemeStore()
 const theme = computed(() => (themeStore.isDark ? 'dark' : 'light'))
+const isEmbedded = computed(() => props.embedded)
 
 const isMarkdown = computed(() => {
   return currentFilePath.value?.toLowerCase().endsWith('.md')
@@ -319,7 +393,7 @@ const buildTreeData = (filesList) => {
 
         if (nameParts.length > 1) {
           // If extension exists
-          const ext = nameParts.pop()
+          nameParts.pop()
           // Keep last 5 chars if possible, or just the extension
           // User asked for "last 5 chars".
           // If we treat the whole thing as a string:
@@ -369,24 +443,6 @@ const buildTreeData = (filesList) => {
   return root
 }
 
-// Helper to truncate filename with tail preservation
-const truncateFilename = (name) => {
-  if (!name) return ''
-  // This is a visual truncation helper; for true dynamic CSS truncation,
-  // we'd need a more complex setup. Here we rely on CSS text-overflow
-  // but if we want specifically "last 5 chars" visible, we might need
-  // to split the string if we were using a JS-only approach.
-  // However, the user asked for "show ellipsis, and last 5 chars".
-  // CSS `text-overflow: ellipsis` puts it at the end.
-  // To do middle truncation via CSS is hard.
-  // Let's try to do it via JS for the title attribute, but for visual
-  // we might use a CSS trick or just standard ellipsis if the JS one is too static.
-  // Let's stick to standard ellipsis for now but maybe try to implement the requested logic if possible.
-  // Actually, pure CSS start/end truncation is tricky.
-  // Let's provide a computed display name logic in the template or a method.
-  return name
-}
-
 const fileTreeData = computed(() => buildTreeData(normalizedFiles.value))
 
 const onFileSelect = (selectedKeys, { node }) => {
@@ -407,22 +463,6 @@ const getFileName = (fileItem) => {
     return fileItem.path.split('/').pop() || fileItem.path
   }
   return '未知文件'
-}
-
-const formatDate = (dateString) => {
-  if (!dateString) return ''
-  try {
-    const date = new Date(dateString)
-    return date.toLocaleString('zh-CN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  } catch (error) {
-    return dateString
-  }
 }
 
 const formatContent = (contentArray) => {
@@ -496,6 +536,7 @@ const isResizing = ref(false)
 const startX = ref(0)
 
 const startResize = (e) => {
+  if (isEmbedded.value) return
   isResizing.value = true
   emit('resizing', true)
   startX.value = e.clientX
@@ -555,6 +596,13 @@ const stopResize = () => {
   }
 }
 
+.agent-panel.embedded {
+  gap: 16px;
+  background: transparent;
+  border-top: 1px solid var(--gray-100);
+  padding-top: 20px;
+}
+
 .panel-header {
   display: flex;
   align-items: center;
@@ -563,6 +611,12 @@ const stopResize = () => {
   height: 48px;
   background: var(--gray-25);
   flex-shrink: 0;
+}
+
+.agent-panel.embedded .panel-header {
+  height: auto;
+  padding: 0;
+  background: transparent;
 }
 
 .panel-title {
@@ -578,10 +632,18 @@ const stopResize = () => {
   }
 }
 
+.agent-panel.embedded .panel-title {
+  font-size: 18px;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.agent-panel.embedded .header-actions {
+  margin-left: auto;
 }
 
 .refresh-btn {
@@ -592,6 +654,90 @@ const stopResize = () => {
   align-items: center;
   gap: 4px;
   padding: 4px 8px;
+}
+
+.agent-panel.embedded .refresh-btn {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--gray-100);
+  border-radius: 999px;
+  background: var(--gray-0);
+}
+
+.embedded-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-height: 280px;
+}
+
+.embedded-section {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-100);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  overflow: hidden;
+}
+
+.embedded-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  background: var(--main-5);
+}
+
+.embedded-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.embedded-section-meta {
+  min-width: 30px;
+  height: 24px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--gray-0);
+  border: 1px solid var(--gray-100);
+  font-size: 12px;
+  color: var(--gray-600);
+}
+
+.embedded-section-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+}
+
+.embedded-section-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.embedded-section-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.embedded-section-body::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 999px;
+}
+
+.embedded-section-body .file-tree-container {
+  margin: 0;
+  padding: 0;
+}
+
+.embedded-empty {
+  padding: 48px 0;
 }
 
 .close-btn {
@@ -989,6 +1135,12 @@ const stopResize = () => {
   &.ant-tree-node-selected {
     background-color: var(--gray-100);
     border-color: var(--main-300);
+  }
+}
+
+@media (max-width: 1200px) {
+  .embedded-board {
+    grid-template-columns: 1fr;
   }
 }
 </style>
