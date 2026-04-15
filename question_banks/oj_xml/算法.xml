@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[算法] 什么是时间复杂度和空间复杂度</title><description>## 题目
+什么是时间复杂度和空间复杂度
+
+## 参考答案
+时间复杂度：算法执行时间随输入规模增长的增长率，大O表示O(f(n))。常见：O(1)常数 &lt; O(logn)对数 &lt; O(n)线性 &lt; O(nlogn) &lt; O(n²)平方 &lt; O(2ⁿ)指数。分析最坏情况，忽略常数和低阶项。空间复杂度：算法占用内存空间增长趋势，关注额外空间需求。递归调用有额外空间开销。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 冒泡排序的基本原理是什么</title><description>## 题目
+冒泡排序的基本原理是什么
+
+## 参考答案
+冒泡排序：相邻元素比较交换，每趟将最大（或最小）元素冒泡到最后。优化：设置标志位判断是否已有序。主要代码：for i in range(n): for j in range(n-i-1): if arr[j]&gt;arr[j+1]: swap。时间复杂度：最好O(n)（已排序），平均/最坏O(n²)。空间：O(1)。稳定排序。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 什么是归并排序的合并过程</title><description>## 题目
+什么是归并排序的合并过程
+
+## 参考答案
+归并排序合并：两个有序数组合并为一个有序数组。双指针：i指向A数组头，j指向B数组头，比较大小放入结果数组。相等时可选放左或放右。时间复杂度O(n)，空间O(n)（需额外数组）。代码：while i&lt;m &amp;&amp; j&lt;n: if A[i]&lt;=A[j]: result.append(A[i++]) else: result.append(A[j++])。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 如何判断素数</title><description>## 题目
+如何判断素数
+
+## 参考答案
+判断素数：1.朴素：遍历2到sqrt(n)。2.优化：跳过偶数（除2外）。3.埃拉托斯特尼筛法：O(nloglogn)求1到n所有素数。isPrime: for i=2..sqrt(n): if n%i==0 return false。筛法：创建isPrime数组，标记合数。LeetCode 204用筛法。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 如何求斐波那契数列第N项</title><description>## 题目
+如何求斐波那契数列第N项
+
+## 参考答案
+斐波那契第N项解法：1.暴力递归：f(n)=f(n-1)+f(n-2)，O(2^n)。2.记忆化递归：O(n)时间O(n)空间。3.迭代：O(n)时间O(1)空间。4.矩阵快速幂：[[1,1],[1,0]]^n的矩阵，快速幂O(logn)。公式：f(n) = (phi^n - (-phi)^n)/sqrt(5)。Java大数注意溢出。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 如何用归并排序求逆序对</title><description>## 题目
+如何用归并排序求逆序对
+
+## 参考答案
+归并排序求逆序对：合并时统计。在合并左右两部分时，若左半部分元素&gt;右半部分，则左半部分剩余元素都与该右元素构成逆序对。count += mid - i + 1。注意使用long存储结果防溢出。典型题目：数组中的逆序对。分治+归并排序，时间O(nlogn)，空间O(n)。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 如何用递归求二叉树深度</title><description>## 题目
+如何用递归求二叉树深度
+
+## 参考答案
+递归求二叉树深度：if(root==null) return 0; return Math.max(dfs(root.left), dfs(root.right)) + 1。时间O(n)，空间O(h)递归栈。层序遍历求深度：while(!queue.isEmpty()){size=queue.size();level++;}。迭代不用递归栈。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 如何判断回文数</title><description>## 题目
+如何判断回文数
+
+## 参考答案
+判断回文数：1.字符串：s==s.reverse()。2.数字反转：x==reverse(x)。注意溢出用long。3.反转一半：只需反转后半部分。优化：负数不是回文，末尾0（除0外）不是回文。时间O(log10 n)。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：简单 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>easy</difficulty></item><item><title>[算法] 快速排序的基本原理是什么</title><description>## 题目
+快速排序的基本原理是什么
+
+## 参考答案
+快速排序：选择基准元素，将数组分为两部分（左边&lt;基准，右边&gt;基准），递归处理子数组。分区方法：双指针从两端向中间移动，或单指针+交换。优化：随机选择基准、三数取中、尾递归优化。时间复杂度：平均O(nlogn)，最坏O(n²)（有序时）。空间：递归栈O(logn)。不稳定排序。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是归并排序</title><description>## 题目
+什么是归并排序
+
+## 参考答案
+归并排序：分治策略。将数组递归分成两半，分别排序后合并。时间复杂度：无论最好最坏都是O(nlogn)。空间复杂度：O(n)（合并需额外空间）。稳定性：稳定排序（合并时相等元素保持顺序）。适用于链表（O(1)空间）和外部排序。改进：自然归并排序、自底向上非递归版本。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是动态规划，它的核心思想是什么</title><description>## 题目
+什么是动态规划，它的核心思想是什么
+
+## 参考答案
+动态规划（DP）：通过保存子问题解避免重复计算。核心思想：最优子结构（问题最优解由子问题最优解构成）+无后效性（状态一旦确定不受后续影响）+重叠子问题（子问题被重复求解）。步骤：1.定义状态。2.确定状态转移方程。3.确定边界。4.计算顺序（自底向上或自顶向下+记忆化）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是基数排序</title><description>## 题目
+什么是基数排序
+
+## 参考答案
+基数排序：按位数逐个排序的分布式排序算法。从低位到高位，每位用计数排序（稳定）排序。时间复杂度O(d*(n+k))，d是位数，k是基数（10）。空间O(n+k)。适用于整数或字符串排序。特点：稳定排序、不需要比较操作。缺点：需要额外空间、不适合浮点数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是KMP算法</title><description>## 题目
+什么是KMP算法
+
+## 参考答案
+KMP是字符串匹配算法，避免重复匹配。核心：next数组（部分匹配表），记录前缀和后缀最大相等长度。匹配时利用已匹配信息跳过已确定部分。预处理O(m)，匹配O(n)。相比BF的O(mn)大幅提升。KMP避免回溯的思想可用于其他问题。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是位运算技巧</title><description>## 题目
+什么是位运算技巧
+
+## 参考答案
+常用位运算：1.乘除2：x&lt;&lt;1, x&gt;&gt;1。2.交换：a^=b; b^=a; a^=b（不用临时变量）。3.获取某位：x&gt;&gt;n&amp;1。4.设置某位：x|(1&lt;&lt;n)。5.清除某位：x&amp;~(1&lt;&lt;n)。6.取反：~x。7.取绝对值：(x ^ x&gt;&gt;31) - x&gt;&gt;31。8.lowbit：x&amp;-x（最低位1）。9.统计1的个数：Brian Kernighan算法。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是位运算求和应用</title><description>## 题目
+什么是位运算求和应用
+
+## 参考答案
+位运算求和应用：两数相加不考虑进位用xor，进位用&amp;&lt;&lt;1，循环直到进位为0。公式：a+b = (a xor b) + (carry)。例如：101+011=111：1 xor 1 xor 1=1，进位=1&amp;1&amp;1&lt;&lt;1=1+2=3。Java：while(b!=0){int carry=(a&amp;b)&lt;&lt;1;a=a^b;b=carry;}。应用：大数相加、面试题。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是Morris遍历</title><description>## 题目
+什么是Morris遍历
+
+## 参考答案
+Morris遍历：O(1)空间遍历二叉树。原理：利用空闲指针，遍历时建立临时连接指向后继节点。步骤：若左子树空，访问当前节点；若左子树非空，找前驱节点；若无右子树，建立连接。遍历完成。空间O(1)，时间不变O(n)。用于降低空间复杂度。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] 什么是荷兰国旗问题</title><description>## 题目
+什么是荷兰国旗问题
+
+## 参考答案
+荷兰国旗问题：把数组分成三部分（小于/等于/大于目标值）。解法：三指针。left指向0，right指向n-1，curr遍历。curr==0：交换curr和left，curr++,left++。curr==2：交换curr和right，right--。时间O(n)，空间O(1)。快排partition的基础。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：中等 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>medium</difficulty></item><item><title>[算法] DFS和BFS有什么区别</title><description>## 题目
+DFS和BFS有什么区别
+
+## 参考答案
+DFS（深度优先搜索）：沿着一条路径走到底，回溯再探索其他路径。用栈或递归实现，空间O(h)（树高）。BFS（广度优先搜索）：按层次遍历，先访问所有邻居再访问邻居的邻居。用队列实现，空间O(w)（最大宽度）。DFS适合找所有解、拓扑排序、连通分量。BFS适合最短路径（无权图）。时间复杂度都是O(V+E)。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item><item><title>[算法] 什么是贪心算法，它和动态规划的区别是什么</title><description>## 题目
+什么是贪心算法，它和动态规划的区别是什么
+
+## 参考答案
+贪心算法：每步选择当前最优解，不考虑全局，期望获得全局最优（需证明贪心选择性质）。动态规划：保存子问题解，考虑所有子状态。贪心选择性质：局部最优导致全局最优。区别：贪心更快O(n)但需证明适用性，DP通用但需O(n²)或更优。典型问题：活动选择（贪心）、背包问题（DP）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item><item><title>[算法] 什么是Manacher算法</title><description>## 题目
+什么是Manacher算法
+
+## 参考答案
+Manacher算法：O(n)时间求最长回文子串。核心思想：中心扩展法优化+回文半径数组。步骤：1.预处理字符串，两端加特殊字符。2.维护右边界和中心点。3.利用已求得的回文半径，避免重复计算。回文半径数组p[i]表示以i为中心的最长回文半径。时间O(n)，空间O(n)。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item><item><title>[算法] 什么是分数规划</title><description>## 题目
+什么是分数规划
+
+## 参考答案
+分数规划：优化比率问题，如最大化A/B。最优比率生成树、最优比率环等。解决：二分答案+判定。设ans为答案，二分x，判断是否存在解使得A - x*B &gt;= 0。将原问题转化为判定问题。典型题目：最优比率生成树（POJ 2728）。判定函数需贪心或DP。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item><item><title>[算法] 什么是Pollard Rho算法</title><description>## 题目
+什么是Pollard Rho算法
+
+## 参考答案
+Pollard Rho：大整数分解算法。原理：生日悖论+随机化。步骤：1.选随机数x,c。2.计算x1=(x*x+c)%n。3.求gcd(x1-x2,n)。4.找到因子或继续迭代。复杂度约O(n^1/4)。与MillerRabin素数检测配合可分解任意整数。应用：RSA密码破解、质因数分解。实现简单但需随机种子。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item><item><title>[算法] 什么是DP优化-单调队列</title><description>## 题目
+什么是DP优化-单调队列
+
+## 参考答案
+DP单调队列优化：用于优化形如dp[i]=max/min(dp[j]+cost(j,i))且cost有单调性的DP。滑动窗口DP。维护单调队列，队首是当前最优。dp[i]=dp[queue[head]]+cost。典型：编辑距离、股票买卖问题。优化后O(n)代替O(n²)。关键是证明单调性。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item><item><title>[算法] 什么是线段树合并</title><description>## 题目
+什么是线段树合并
+
+## 参考答案
+线段树合并：合并两棵相同结构的线段树。应用：区间合并问题、并查集树上维护。递归合并：两树对应节点合并。动态开点：节点可空则创建。时间复杂度O(n log n)。典型：区间加合并染色。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 算法</source><hint>难度：困难 | 分类：算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>算法</tag><difficulty>hard</difficulty></item></fps>

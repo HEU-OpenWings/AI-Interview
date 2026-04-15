@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[JVM] JVM的内存区域有哪些</title><description>## 题目
+JVM的内存区域有哪些
+
+## 参考答案
+JVM内存区域：1.堆（Heap）：对象实例、数组，GC主要区域。2.方法区（Method Area）：类信息、常量、静态变量，JDK8为元空间。3.虚拟机栈（VM Stack）：方法调用栈帧。4.本地方法栈：Native方法。5.程序计数器（PC Register）：当前字节码行号。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JVM</source><hint>难度：简单 | 分类：JVM</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JVM</tag><difficulty>easy</difficulty></item><item><title>[JVM] 什么是类加载器，有哪些类型</title><description>## 题目
+什么是类加载器，有哪些类型
+
+## 参考答案
+类加载器分类（从上层到下层）：1.启动类加载器（Bootstrap）：加载JAVA_HOME/lib下核心类库。2.扩展类加载器（Extension）：加载JAVA_HOME/lib/ext。3.应用类加载器（App/ClassLoader）：加载classpath下类。4.自定义类加载器。类加载器的委托模型：双亲委派。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JVM</source><hint>难度：简单 | 分类：JVM</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JVM</tag><difficulty>easy</difficulty></item><item><title>[JVM] JVM的垃圾回收算法有哪些</title><description>## 题目
+JVM的垃圾回收算法有哪些
+
+## 参考答案
+JVM GC算法：1.Mark-Sweep：标记清除，产生碎片。2.Copying：复制算法，适合年轻代（Eden→Survivor）。3.Mark-Compact：标记整理，适合老年代，无碎片。4.分代收集：年轻代Minor GC（复制），老年代Major GC（标记整理）。GC Roots：栈帧引用的对象、方法区静态/常量引用的对象。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JVM</source><hint>难度：中等 | 分类：JVM</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JVM</tag><difficulty>medium</difficulty></item><item><title>[JVM] 什么是Minor GC和Major GC</title><description>## 题目
+什么是Minor GC和Major GC
+
+## 参考答案
+Minor GC（Young GC）：发生在年轻代，Eden满触发，复制算法，快速完成。对象年龄超过阈值晋升老年代。Major GC/Full GC：发生在老年代或整个堆，标记整理/标记清除，停顿时间长。触发条件：老年代空间不足、System.gc()、元空间不足、Minor GC晋升失败。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JVM</source><hint>难度：中等 | 分类：JVM</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JVM</tag><difficulty>medium</difficulty></item><item><title>[JVM] G1垃圾收集器有什么特点</title><description>## 题目
+G1垃圾收集器有什么特点
+
+## 参考答案
+G1（Garbage First）特点：1.分区结构：把堆划分为多个大小相等的Region。2.可预测停顿：通过-XX:MaxGCPauseMillis设置目标停顿时间。3.优先回收价值最高的Region。4.并发标记：SATB（Snapshot-At-The-Beginning）算法。5. Mixed GC：回收年轻代+部分老年代。适合大堆（&gt;6GB）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JVM</source><hint>难度：困难 | 分类：JVM</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JVM</tag><difficulty>hard</difficulty></item><item><title>[JVM] 如何排查JVM问题</title><description>## 题目
+如何排查JVM问题
+
+## 参考答案
+JVM问题排查：1.OOM：jmap -heap/dump分析堆，MAT/JProfiler分析。2.GC频繁：jstat -gcutil分析GC频率和时间。3.死锁：jstack -l分析线程dump。4.内存泄漏：长时间观察对象增长。5.类加载问题：-verbose:class。常用工具：jmap/jhat/jstack/jstat、arthas、GCViewer。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JVM</source><hint>难度：困难 | 分类：JVM</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JVM</tag><difficulty>hard</difficulty></item></fps>

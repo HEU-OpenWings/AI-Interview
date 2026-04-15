@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[浏览器] 浏览器的渲染过程是什么</title><description>## 题目
+浏览器的渲染过程是什么
+
+## 参考答案
+浏览器渲染流程：1.HTML解析生成DOM树。2.CSS解析生成CSSOM。3.DOM+CSSOM生成Render Tree。4.Layout：计算节点几何信息。5.Paint：绘制节点到图层。6.Composite：合成图层。关键优化：减少重排（reflow）、减少重绘（repaint）、使用transform/opacity（只触发合成）、will-change预声明。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 浏览器</source><hint>难度：简单 | 分类：浏览器</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>浏览器</tag><difficulty>easy</difficulty></item><item><title>[浏览器] 什么是回流和重绘，如何优化</title><description>## 题目
+什么是回流和重绘，如何优化
+
+## 参考答案
+回流（重排）：几何属性变化触发，重新计算布局。触发：元素尺寸、位置、内容、窗口尺寸、字体变化。重绘：外观变化触发，不影响布局。重排必定重绘。优化：1.批量修改DOM（文档碎片）。2.使用CSS类批量修改。3.使用transform/opacity（不触发回流）。4.先隐藏再修改。5.CSS will-change预声明。6.避免table布局。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 浏览器</source><hint>难度：中等 | 分类：浏览器</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>浏览器</tag><difficulty>medium</difficulty></item><item><title>[浏览器] 什么是Service Worker，它能做什么</title><description>## 题目
+什么是Service Worker，它能做什么
+
+## 参考答案
+Service Worker是浏览器后台运行的脚本，实现离线缓存、推送通知。生命周期：install→waiting→activate。作用域：由scope控制。使用：1.缓存策略（Stale-while-revalidate、Cache-first、Network-first）。2.离线应用。3.拦截网络请求。4.Web Push通知。5.后台同步。需HTTPS支持。是PWA的核心技术。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 浏览器</source><hint>难度：困难 | 分类：浏览器</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>浏览器</tag><difficulty>hard</difficulty></item><item><title>[浏览器] 什么是WebAssembly，它有什么优势</title><description>## 题目
+什么是WebAssembly，它有什么优势
+
+## 参考答案
+WebAssembly（WASM）是低级字节码格式，可在浏览器高效运行。来源：C/C++/Rust等语言编译而来。优势：1.接近原生性能。2.平台无关。3.沙箱安全。4.流式编译启动快。应用：游戏、视频编解码、图像处理、AI推理。JavaScript调用WASM：fetch→instantiate→调用导出的函数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 浏览器</source><hint>难度：困难 | 分类：浏览器</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>浏览器</tag><difficulty>hard</difficulty></item></fps>

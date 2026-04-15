@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[系统设计] 如何设计一个分布式ID生成器</title><description>## 题目
+如何设计一个分布式ID生成器
+
+## 参考答案
+分布式ID要求：唯一、有序、可量。方案：1.UUID：简单但无序、字符串、占用空间大。2.数据库自增：单机可行，分布式需集群+步长。3.Redis INCR：性能高，需持久化防重启。4.Snowflake：时间戳+机器ID+序列号，趋势递增。5.Leaf（美团）：Snowflake+Zookeeper。6.百度UidGenerator。推荐Snowflake变种。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 系统设计</source><hint>难度：中等 | 分类：系统设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>系统设计</tag><difficulty>medium</difficulty></item><item><title>[系统设计] 如何设计一个延迟队列</title><description>## 题目
+如何设计一个延迟队列
+
+## 参考答案
+延迟队列实现：1.Redis ZSet：score为执行时间，用定时任务扫描。2.Redis过期Key事件通知。3.RabbitMQ：TTL+死信队列。4.时间轮算法：Kafka/Timer。5.RocketMQ延迟消息（不支持任意时间）。6.DLQ+定时任务扫描。技术选型根据业务量：Redis适合小量，RabbitMQ适合中等，Kafka/TimingWheel适合大量。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 系统设计</source><hint>难度：中等 | 分类：系统设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>系统设计</tag><difficulty>medium</difficulty></item><item><title>[系统设计] 如何设计一个评论系统</title><description>## 题目
+如何设计一个评论系统
+
+## 参考答案
+评论系统设计：1.存储：关系型存评论+树形结构（邻接表或闭包表），NoSQL存评论内容。2.点赞：Redis Sorted Set（用户ID+时间戳）。3.分页：cursor游标分页。4.楼层回复：@机制。5.敏感词：DFA/Trie过滤。6.接口幂等、防刷。7.缓存热点数据（热门评论）。8.异步写入队列。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 系统设计</source><hint>难度：中等 | 分类：系统设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>系统设计</tag><difficulty>medium</difficulty></item><item><title>[系统设计] 如何设计一个接口幂等性方案</title><description>## 题目
+如何设计一个接口幂等性方案
+
+## 参考答案
+幂等实现方案：1.唯一索引：数据库唯一键防止重复插入。2.Token机制：提交前获取Token，提交时验证并删除。3.分布式锁：基于Redis/Zookeeper锁。4.状态机：订单状态流转幂等。5.防重表：记录已处理请求。6.去重表+唯一请求ID。关键：选择合适粒度、考虑并发、控制锁粒度。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 系统设计</source><hint>难度：困难 | 分类：系统设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>系统设计</tag><difficulty>hard</difficulty></item><item><title>[系统设计] 如何设计一个秒杀系统</title><description>## 题目
+如何设计一个秒杀系统
+
+## 参考答案
+秒杀系统设计：1.页面静态化+CDN。2.入口限流+Nginx层限流。3.验证码防脚本。4.消息队列削峰（Kafka/RabbitMQ）。5.缓存库存（Redis），预减库存。6.异步下单，消息队列通知。7.库存数据库乐观锁。8.热点数据隔离。9.风控系统。核心：高并发下保证库存不超卖、用户体验不降级。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 系统设计</source><hint>难度：困难 | 分类：系统设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>系统设计</tag><difficulty>hard</difficulty></item><item><title>[系统设计] 如何设计一个Feed流系统</title><description>## 题目
+如何设计一个Feed流系统
+
+## 参考答案
+Feed流设计：1.推模式（写扩散）：发微博推送给所有粉丝，适合粉丝少。2.拉模式（读扩散）：读取时拉取关注人微博，适合粉丝多。3.混合模式：活跃用户推，冷用户拉。4.存储：Redis List/Timeline、MySQL、ES。5.分页：带时间戳的游标分页。6.去重、点赞评论、缓存预热。7.拉黑/删博处理。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 系统设计</source><hint>难度：困难 | 分类：系统设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>系统设计</tag><difficulty>hard</difficulty></item></fps>

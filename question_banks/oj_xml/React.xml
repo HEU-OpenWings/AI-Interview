@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[React] React中props和state有什么区别</title><description>## 题目
+React中props和state有什么区别
+
+## 参考答案
+props是从父组件传入的数据，是组件的只读接口，用于组件间通信。props变化会触发组件更新。state是组件内部管理的状态，用于响应用户操作或服务器数据。state变化触发重新渲染。原则：props不变，state可变。组件不应修改props，应保持组件纯净。State应保持最精简，避免冗余数据。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React的虚拟DOM是什么，有什么优势</title><description>## 题目
+React的虚拟DOM是什么，有什么优势
+
+## 参考答案
+虚拟DOM是真实DOM的JavaScript对象表示，是React的抽象层。更新流程：state变化→生成新虚拟DOM树→Diff算法对比新旧虚拟DOM→只更新变化的真实DOM。优势：1.减少直接DOM操作，提高性能。2.跨平台，React Native可渲染原生组件。3.批量更新减少重排重绘。4.代码更易维护。代价：首次渲染可能稍慢，但整体性能更好。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React如何处理表单</title><description>## 题目
+React如何处理表单
+
+## 参考答案
+React表单处理：1.受控组件：表单值存在state，onChange更新state。2.非受控组件：表单值存在DOM，用ref获取。3.多个输入：用name或封装成子组件。4.表单验证：自封装或用formik/react-hook-form。React Hook Form：性能好、使用register API、支持yup/zod验证。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React中key的作用是什么</title><description>## 题目
+React中key的作用是什么
+
+## 参考答案
+React中key用于标识列表中的元素，帮助Diff算法高效更新。规则：1.key必须唯一。2.优先使用ID而非index。3.key改变时组件会重新创建。4.删除中间元素，index会导致错误的diff。作用：Diff时通过key匹配，正确复用DOM元素，提高渲染性能。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React如何处理事件</title><description>## 题目
+React如何处理事件
+
+## 参考答案
+React事件处理：1.所有事件委托到root元素（React17+）或document（旧版）。2.事件对象是SyntheticEvent，跨浏览器兼容。3.事件处理函数需bind或在constructor绑定（class组件）。4.Hook中箭头函数或直接bind。5.事件命名camelCase而非小写。6.阻止默认行为需e.preventDefault()。React17改变委托到root是为了更好支持微前端。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React的ref有什么用途</title><description>## 题目
+React的ref有什么用途
+
+## 参考答案
+React ref用途：1.获取DOM元素。2.获取类组件实例。3.保存任意可变值（不触发重渲染）。创建：createRef（class）、useRef（Hook）。访问：ref.current。转发：forwardRef包裹后父组件可访问子组件DOM。注意事项：ref不能在函数组件上使用（除非forwardRef+useImperativeHandle）。setState后ref.current可能仍为旧值。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React的useState如何使用</title><description>## 题目
+React的useState如何使用
+
+## 参考答案
+useState：const [state, setState] = useState(initialValue)。setState可传值或函数。惰性初始化：useState(()=&gt; computeExpensive())。更新是合并不是替换（对象类型需展开）。批量更新：React18前只批处理事件处理函数，18后全部批处理。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React的keys为什么不能是index</title><description>## 题目
+React的keys为什么不能是index
+
+## 参考答案
+React keys应为稳定唯一ID。原因：1.删除中间项，index变化导致错误的DOM复用。2.列表重排，index误导diff。3.性能退化。解决方案：用id/prop.id作为key。index作为key的场景：静态列表不增删、不排序。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：简单 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>easy</difficulty></item><item><title>[React] React Hooks的使用规则是什么</title><description>## 题目
+React Hooks的使用规则是什么
+
+## 参考答案
+Hooks使用规则：1.只在React函数组件或自定义Hook中调用。2.不要在循环、条件或嵌套函数中调用，保持调用顺序一致（Hooks依赖链表）。违反规则会导致状态错乱。解决方案：使用eslint-plugin-react-hooks强制检查。自定义Hook：以use开头的函数，内部可调用其他Hook，用于逻辑复用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] useEffect有哪些使用场景</title><description>## 题目
+useEffect有哪些使用场景
+
+## 参考答案
+useEffect使用场景：1.副作用操作：数据获取、订阅、手动修改DOM。2.清理操作：return函数清理订阅、定时器。3.依赖控制执行时机：空数组只执行一次（componentDidMount），有数组在变化时执行。4.多个useEffect分离不同逻辑。useLayoutEffect同步执行，在DOM更新后浏览器绘制前执行。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React的setState是同步还是异步的</title><description>## 题目
+React的setState是同步还是异步的
+
+## 参考答案
+setState在React事件处理中是异步的，在原生事件和setTimeout中是同步的。原因：React17前的批量更新机制，避免重复渲染。React18后所有情况都批量更新（Automatic Batching）。setState第二个参数是回调，DOM已更新但组件可能未重新渲染。获取最新state：1.用componentDidUpdate。2.用setState回调。3.用useEffect。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React的Context是什么</title><description>## 题目
+React的Context是什么
+
+## 参考答案
+Context是React跨层级传递数据的方式。创建：React.createContext。Provider提供：&lt;Context.Provider value={}&gt;包裹。Consumer消费：&lt;Context.Consumer&gt;或useContext Hook。特点：所有子组件都能获取，层层传递时更方便。适合主题、用户信息、语言等全局数据。过度使用会导致组件复用困难。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React的PureComponent和Component区别是什么</title><description>## 题目
+React的PureComponent和Component区别是什么
+
+## 参考答案
+PureComponent自动实现了shouldComponentUpdate，对props和state进行浅比较。Component需要手动实现shouldComponentUpdate。性能优化：减少不必要的渲染。注意事项：1.只做浅比较，深层嵌套对象变化可能不触发更新。2.Props函数每次渲染是新的引用需注意。3.不可变数据是正确比较的前提。Functional组件用React.memo。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React如何实现代码分割</title><description>## 题目
+React如何实现代码分割
+
+## 参考答案
+React代码分割：1.React.lazy：const Comp = React.lazy(() =&gt; import('./Comp'))。2.React.Suspense包裹。3.React Router懒加载路由。4.Webpack魔法注释：import(/* webpackChunkName: 'name' */ './Comp')。5.React.lazy和ErrorBoundary配合使用。注意：Suspense的fallback是加载状态。动态导入返回Promise。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React的memo和useMemo有什么区别</title><description>## 题目
+React的memo和useMemo有什么区别
+
+## 参考答案
+React.memo：包裹组件，props浅比较决定是否渲染。类似PureComponent。useMemo：缓存计算结果，依赖变化时重新计算。useCallback：缓存函数引用。memo用于组件，useMemo/useCallback用于值。memo包裹子组件，useMemo包裹计算结果，useCallback包裹回调函数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React的useLayoutEffect如何使用</title><description>## 题目
+React的useLayoutEffect如何使用
+
+## 参考答案
+useLayoutEffect：DOM更新后同步执行，layout变化后立即执行。比useEffect更早执行。同步阻塞浏览器绘制。适用：读取/修改 DOM 布局（如测量元素宽高）。注意：SSR时useLayoutEffect会警告。依赖变化时重新执行。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：中等 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>medium</difficulty></item><item><title>[React] React的Fiber架构是什么</title><description>## 题目
+React的Fiber架构是什么
+
+## 参考答案
+Fiber是React 16引入的调和引擎，解决大型应用卡顿问题。核心思想：将渲染工作拆分为小单元（Fiber节点），可在任意时刻中断（时间切片），优先处理高优先级更新。关键概念：fiber节点树、workLoop工作循环、双缓冲（current/workInProgress树）、lane优先级模型。Fiber使可中断渲染成为可能，提升交互流畅度。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React性能优化方法有哪些</title><description>## 题目
+React性能优化方法有哪些
+
+## 参考答案
+React性能优化：1.减少不必要的渲染：shouldComponentUpdate、React.memo、React.PureComponent。2.缓存计算：useMemo缓存计算结果，useCallback缓存函数。3.代码分割：React.lazy+Suspense。4.虚拟列表：react-window/virtualized处理长列表。5.避免内联对象/数组创建。6.Keys使用稳定ID而非index。7.使用Fragment减少DOM节点。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] 什么是React Server Components</title><description>## 题目
+什么是React Server Components
+
+## 参考答案
+React Server Components（RSC）是React 18的新特性，组件在服务端渲染。特点：1.服务端组件直接访问后端资源（数据库、文件系统）。2.零客户端JS。3.自动代码分割。4.支持流式渲染。使用：默认是Server Component，添加'use client'声明Client Component。限制：不能使用hooks、浏览器API。适合数据获取场景。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] 什么是Redux Toolkit，它解决了什么问题</title><description>## 题目
+什么是Redux Toolkit，它解决了什么问题
+
+## 参考答案
+Redux Toolkit（RTK）是Redux官方推荐的工具集，解决Redux复杂性问题。核心：1.createSlice：自动生成action和reducer。2.createAsyncThunk：简化异步逻辑。3.configureStore：简化store配置。4.createSelector：性能优化。5.immer集成：可变式更新语法。优势：减少样板代码、内置最佳实践、更易维护。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React的 Reconciliation 和 Diff算法是什么</title><description>## 题目
+React的 Reconciliation 和 Diff算法是什么
+
+## 参考答案
+Reconciliation是React对比新旧Virtual DOM决定如何更新真实DOM的过程。Diff策略：1.同层对比，O(n³)降为O(n)。2.不同类型节点直接重建。3.同类型节点对比props。4.通过key匹配子节点（key要稳定）。Element类型不同→卸载重建。Element类型相同→只更新props。Children对比用key匹配，复用已有DOM。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React的ErrorBoundary是什么</title><description>## 题目
+React的ErrorBoundary是什么
+
+## 参考答案
+ErrorBoundary是错误边界组件，捕获子组件渲染错误。实现：class组件定义getDerivedStateFromError或componentDidCatch。只能捕获渲染阶段错误，不能捕获事件处理、异步代码、SSR错误。使用：包裹可能出错的组件。React18后未捕获错误会导致整个应用卸载。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React的Suspense与ErrorBoundary如何配合</title><description>## 题目
+React的Suspense与ErrorBoundary如何配合
+
+## 参考答案
+Suspense处理异步加载（lazy组件、异步数据）。ErrorBoundary处理渲染错误（组件JS错误）。两者配合：&lt;ErrorBoundary&gt;&lt;Suspense fallback={&lt;Loading/&gt;}&gt;&lt;AsyncComponent/&gt;&lt;/Suspense&gt;&lt;/ErrorBoundary&gt;。ErrorBoundary捕获组件树异常，Suspense显示加载状态。可嵌套使用ErrorBoundary保护不同区域。自定义fallback处理不同错误。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React的useDeferredValue是什么</title><description>## 题目
+React的useDeferredValue是什么
+
+## 参考答案
+useDeferredValue是React 18的Hook，用于延迟更新非紧急UI。语法：const deferredValue = useDeferredValue(value)。工作机制：React优先处理紧急更新，延迟处理deferredValue更新。适用：搜索输入、防抖替代、复杂列表渲染。特点：不改变渲染顺序，只是延迟。与useTransition配合使用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React Server Components是什么</title><description>## 题目
+React Server Components是什么
+
+## 参考答案
+React Server Components：服务端组件，0客户端JS。特点：可直接读数据库/文件/模块。只支持服务端，不支持hooks/浏览器API。默认Server Component，use client声明Client Component。好处：减少JS包大小、更好的数据获取。可与Client Component混用。Next.js 13+支持。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item><item><title>[React] React的createPortal是什么</title><description>## 题目
+React的createPortal是什么
+
+## 参考答案
+createPortal：React 16+将子节点渲染到任意DOM节点。语法：ReactDOM.createPortal(child, container)。应用：Modal弹窗、Teleport（Vue3原生替代）、Tooltip。事件冒泡正常工作（真实DOM在根外但React树内）。需手动管理生命周期。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: React</source><hint>难度：困难 | 分类：React</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>React</tag><difficulty>hard</difficulty></item></fps>

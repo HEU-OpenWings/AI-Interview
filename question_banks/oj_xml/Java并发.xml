@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[Java并发] 什么是线程和进程</title><description>## 题目
+什么是线程和进程
+
+## 参考答案
+进程是程序的一次执行过程，是资源分配的基本单位，有独立的地址空间。线程是CPU调度的基本单位，是进程内的执行流，同一进程的线程共享地址空间。进程切换开销大（切换页表、缓存等），线程切换开销小。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] 创建线程有哪几种方式</title><description>## 题目
+创建线程有哪几种方式
+
+## 参考答案
+创建线程方式：1.继承Thread类，重写run()方法。2.实现Runnable接口，实现run()方法。3.实现Callable接口，实现call()方法，配合FutureTask获取结果。4.使用线程池（Executor框架）。推荐使用线程池方式，可复用线程、控制并发数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] run()和start()有什么区别</title><description>## 题目
+run()和start()有什么区别
+
+## 参考答案
+start()方法启动新线程，调用后线程进入就绪状态，等待CPU调度。run()方法是线程执行的主体逻辑，直接调用run()不会启动新线程，只会在当前线程同步执行。start()只能调用一次，run()可以反复调用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] sleep()和wait()有什么区别</title><description>## 题目
+sleep()和wait()有什么区别
+
+## 参考答案
+sleep()是Thread类的静态方法，让线程休眠，不释放锁，超时后自动唤醒。wait()是Object类的方法，让线程等待，释放对象锁，需要其他线程调用notify()/notifyAll()唤醒。sleep()可以在任何地方调用，wait()必须在synchronized代码块中调用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] 什么是线程安全</title><description>## 题目
+什么是线程安全
+
+## 参考答案
+线程安全指多个线程访问共享变量时，程序行为始终正确。线程不安全的原因：1.CPU时间片切换。2.编译器指令重排。3.共享资源竞争。解决方法：1.synchronized同步。2.Lock锁。3.volatile保证可见性和有序性。4.原子类。5.无锁编程（CAS）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] synchronized加在静态方法和实例方法上有什么区别</title><description>## 题目
+synchronized加在静态方法和实例方法上有什么区别
+
+## 参考答案
+synchronized修饰实例方法：锁对象是this（当前实例），多个实例不互斥，同一实例的方法互斥。synchronized修饰静态方法：锁对象是类对象（Class对象），所有实例共享一把锁。静态方法锁比实例方法锁范围更大。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] 守护线程和用户线程有什么区别</title><description>## 题目
+守护线程和用户线程有什么区别
+
+## 参考答案
+Java线程分两类：1.用户线程（User Thread）：JVM等待所有用户线程结束才退出。2.守护线程（Daemon Thread）：为用户线程提供服务，如GC线程。当JVM中只剩守护线程时，JVM会直接退出。设置：thread.setDaemon(true)，必须在start()前设置。常见守护线程：垃圾回收线程、内存管理线程。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] notify和notifyAll有什么区别</title><description>## 题目
+notify和notifyAll有什么区别
+
+## 参考答案
+notify随机唤醒一个等待该对象锁的线程。notifyAll唤醒所有等待线程。wait()必须在synchronized块中调用。notifyAll更安全，避免死锁。notify可能导致只有一个线程被唤醒，其他继续等待。使用场景：1.只唤醒特定类型用notify。2.不确定唤醒谁用notifyAll。3.通常用notifyAll更保险。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] 什么是Thread.join方法</title><description>## 题目
+什么是Thread.join方法
+
+## 参考答案
+Thread.join()使当前线程等待指定线程执行完成。有三个重载：join()无限等待、join(long millis)等待指定毫秒、join(long millis,int nanos)。底层是wait/notify机制，线程结束时自动notify。常用场景：主线程等待子线程完成（计算结果）。注意：join要放在start之后。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] 什么是Thread.interrupt方法</title><description>## 题目
+什么是Thread.interrupt方法
+
+## 参考答案
+Thread.interrupt()设置线程的中断状态为true。不会真正中断线程，只是设置标志。配合isInterrupted()判断是否被中断。阻塞方法（sleep、wait、join）会抛出InterruptedException并清除中断状态。优雅处理：捕获异常或用Thread.currentThread().isInterrupted()判断。不可靠：线程可能在sleep前被中断。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] 什么是ThreadLocal</title><description>## 题目
+什么是ThreadLocal
+
+## 参考答案
+ThreadLocal为每个线程提供独立变量副本。方法：set(T)、get()、remove()。底层：ThreadLocalMap，key是ThreadLocal弱引用。内存泄漏：ThreadLocal为null时弱引用可被GC，但value可能泄漏。remove()可避免。适用：数据库连接、Session、用户信息。线程池中使用需remove。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：简单 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>easy</difficulty></item><item><title>[Java并发] synchronized的底层原理是什么</title><description>## 题目
+synchronized的底层原理是什么
+
+## 参考答案
+synchronized基于对象头的Mark Word实现。加锁时通过CAS修改Mark Word，偏向锁→轻量级锁→重量级锁逐步升级。Mark Word记录锁状态、线程ID、偏向时间戳等信息。重量级锁依赖操作系统的Mutex Lock实现，涉及用户态到内核态的切换，开销大。JDK6后引入锁膨胀优化。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] synchronized和ReentrantLock有什么区别</title><description>## 题目
+synchronized和ReentrantLock有什么区别
+
+## 参考答案
+1.来源：synchronized是Java关键字，ReentrantLock是JUC包的类。2.锁释放：synchronized自动释放，ReentrantLock需手动unlock()。3.中断：synchronized不可中断等待线程，ReentrantLock可tryLock()。4.公平锁：synchronized不支持，ReentrantLock可设置公平/非公平。5.绑定条件：ReentrantLock可绑定多个Condition。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] volatile关键字的作用是什么</title><description>## 题目
+volatile关键字的作用是什么
+
+## 参考答案
+volatile保证可见性和有序性：1.可见性：一个线程修改后，其他线程立即可见。2.有序性：禁止指令重排（内存屏障）。volatile不保证原子性，不能替代synchronized。适用场景：状态标记量（如volatile boolean flag=true）、单例模式（double-check）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是ThreadLocal，有什么用途</title><description>## 题目
+什么是ThreadLocal，有什么用途
+
+## 参考答案
+ThreadLocal为每个线程提供独立的变量副本，实现线程隔离。底层是ThreadLocalMap，key是ThreadLocal对象（弱引用），value是存储的值（强引用）。用途：1.保存线程上下文信息。2.数据库连接管理。3.Session管理。4.日期工具类的线程安全。注意事项：使用完调用remove()防止内存泄漏。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是线程池，有哪些核心参数</title><description>## 题目
+什么是线程池，有哪些核心参数
+
+## 参考答案
+线程池是管理线程的容器，避免频繁创建销毁线程的开销。核心参数：1.corePoolSize核心线程数。2.maximumPoolSize最大线程数。3.keepAliveTime空闲线程存活时间。4.unit时间单位。5.workQueue任务队列（BlockingQueue）。6.threadFactory线程工厂。7.handler拒绝策略。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 线程池有哪些拒绝策略</title><description>## 题目
+线程池有哪些拒绝策略
+
+## 参考答案
+JDK内置4种拒绝策略：1.AbortPolicy（默认）：抛出RejectedExecutionException。2.CallerRunsPolicy：由调用线程执行任务。3.DiscardPolicy：直接丢弃任务。4.DiscardOldestPolicy：丢弃队列中最老的任务。还有自定义策略实现RejectedExecutionHandler接口。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 如何合理设置线程池大小</title><description>## 题目
+如何合理设置线程池大小
+
+## 参考答案
+CPU密集型任务（计算为主）：CPU核心数+1。IO密集型任务（IO为主）：CPU核心数 * 2 或 CPU核心数 / (1-阻塞系数)。混合型任务：根据实际情况测试调整。也可使用Runtime.getRuntime().availableProcessors()动态获取CPU核心数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是JMM，它有什么作用</title><description>## 题目
+什么是JMM，它有什么作用
+
+## 参考答案
+JMM（Java Memory Model）是Java内存模型，定义了线程和主内存之间的抽象关系。作用：1.屏蔽硬件和OS内存访问差异。2.规范volatile、synchronized等关键字语义。3.保证可见性、有序性、原子性。核心规则：happens-before原则（8条规则）。线程工作内存与主内存交互规则保证了并发安全。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是守护线程</title><description>## 题目
+什么是守护线程
+
+## 参考答案
+守护线程（Daemon Thread）为用户线程提供后台服务。特点：JVM不会等待守护线程结束。设置：thread.setDaemon(true)，必须在start前设置。应用：GC、内存管理、监控。注意点：守护线程中的finally可能不执行。线程池中的线程默认非守护。Spring Boot的线程池可配置daemon。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是死锁的检测方法</title><description>## 题目
+什么是死锁的检测方法
+
+## 参考答案
+死锁检测方法：1.jstack命令导出线程dump，分析Blocked线程和持有锁的情况。2.JMX的ThreadMXBean.findDeadlockedThreads()。3.Arthas的thread -b命令。4.代码审查：分析锁的获取顺序。5.自动化检测：使用工具或编写脚本检测循环等待。预防死锁：固定加锁顺序、加超时锁。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是BlockingQueue</title><description>## 题目
+什么是BlockingQueue
+
+## 参考答案
+BlockingQueue是阻塞队列，继承Queue接口，线程安全。实现：ArrayBlockingQueue（有界）、LinkedBlockingQueue（可选有界）、PriorityBlockingQueue、SynchronousQueue、DelayQueue。核心方法：put(E)阻塞队列满时、take()阻塞队列空时、offer(E, time)带超时。应用：生产者消费者模式、线程池任务队列。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是Exchanger</title><description>## 题目
+什么是Exchanger
+
+## 参考答案
+Exchanger是JDK并发工具，用于两个线程交换数据。exchange(V)阻塞直到另一个线程调用exchange()。可设置超时。单槽交换，线程安全。用处：遗传算法（交换染色体）、校对问题。原理：Unsafe的CAS操作。异常：Exchanger遇到不可中断的Thread.interrupt会抛出InterruptedException。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是StampedLock</title><description>## 题目
+什么是StampedLock
+
+## 参考答案
+StampedLock是JDK8的读写锁改进版。特点：1.乐观读：validate()验证。2.比ReadWriteLock更高性能。3.支持写锁、悲观读锁、乐观读锁。tryConvertToWriteLock()升级。不可重入。适用于读多写少场景。悲观望锁：readLock().tryConvertToWriteLock()。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：中等 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>medium</difficulty></item><item><title>[Java并发] 什么是AQS，它的实现原理是什么</title><description>## 题目
+什么是AQS，它的实现原理是什么
+
+## 参考答案
+AQS（AbstractQueuedSynchronizer）是JUC包的基础，使用CLH变体队列管理等待线程。核心：1.state变量表示资源状态（volatile修饰）。2.tryAcquire/tryRelease由子类实现获取/释放锁。3.获取失败线程加入队列，park()阻塞。4.释放锁时唤醒队列头部线程unpark()。AQS支持独占和共享两种模式。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 什么是CAS，ABA问题如何解决</title><description>## 题目
+什么是CAS，ABA问题如何解决
+
+## 参考答案
+CAS（Compare And Swap）是无锁编程核心，通过三个操作数（内存位置、预期值、新值）实现原子更新。底层依赖CPU的cmpxchg指令。ABA问题：线程1读取A，线程2改为B又改回A，线程1无法检测到变化。解决方案：1.版本号机制AtomicStampedReference。2.双引用AtomicMarkableReference。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] CountDownLatch、CyclicBarrier、Semaphore有什么区别</title><description>## 题目
+CountDownLatch、CyclicBarrier、Semaphore有什么区别
+
+## 参考答案
+CountDownLatch：倒计时门栓，线程等待计数归零，只能用一次。用于主线程等待子任务完成。CyclicBarrier：循环栅栏，所有线程到达后同时释放，可循环使用。用于多线程计算后合并结果。Semaphore：信号量，控制同时访问资源的线程数，用于限流。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] ConcurrentHashMap如何保证线程安全</title><description>## 题目
+ConcurrentHashMap如何保证线程安全
+
+## 参考答案
+JDK7：分段锁（Segment数组，每个Segment类似HashMap）。JDK8：取消分段锁，使用Node数组+CAS+synchronized。put时：1.计算hash。2.检查是否需要初始化。3.CAS尝试放入头节点。4.synchronized锁住头节点处理冲突。get时：无锁，使用volatile保证可见性。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 请解释伪共享及其解决方案</title><description>## 题目
+请解释伪共享及其解决方案
+
+## 参考答案
+伪共享：CPU缓存行64字节，多个变量在同一缓存行，一个线程修改导致其他线程缓存行失效。解决：1.缓存行填充：使用无用字段填充缓存行。2.@Contended注解（Java8+，需开启-XX:-RestrictContended）。3.合理布局数据结构。JDK8 ConcurrentHashMap有大量伪共享优化。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 什么是偏向锁、轻量级锁、重量级锁</title><description>## 题目
+什么是偏向锁、轻量级锁、重量级锁
+
+## 参考答案
+锁升级过程：无锁→偏向锁→轻量级锁→重量级锁。偏向锁：同一线程反复获取锁，取消同步开销，设置对象头Mark Word记录线程ID。轻量级锁：线程栈帧创建Lock Record，CAS替换Mark Word，失败自旋。重量级锁：Monitor对象，依赖OS Mutex，线程阻塞唤醒涉及用户态内核态切换，开销大。不可降级。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 如何排查多线程性能问题</title><description>## 题目
+如何排查多线程性能问题
+
+## 参考答案
+排查步骤：1.使用jstack导出线程dump，分析线程状态和死锁。2.jstat查看GC频率和时间。3.jmap分析内存占用。4.使用arthas/cat工具在线诊断。5.分析CPU使用率（top -Hp）。6.检查锁竞争（jstack + ThreadInfo分析）。7.使用火焰图（async-profiler）。优化方向：减少锁粒度、减小临界区、使用无锁并发。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] CompletableFuture有哪些用法</title><description>## 题目
+CompletableFuture有哪些用法
+
+## 参考答案
+CompletableFuture是JDK8的异步编程工具。常用方法：1.创建：CompletableFuture.supplyAsync()/runAsync()。2.组合：thenApply/thenCompose/thenCombine。3.消费：thenAccept/thenRun。4.异常处理：exceptionally/handle。5.多任务：allOf/anyOf/join。优势：链式调用、函数式编程、支持非阻塞。比Future更强大，支持回调和组合。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] LockSupport是什么</title><description>## 题目
+LockSupport是什么
+
+## 参考答案
+LockSupport是JDK并发包的基础工具类，提供park/unpark线程阻塞唤醒。park()阻塞当前线程，unpark(thread)唤醒指定线程。相比Object.wait()，更灵活，不需要获取锁，不会有虚假唤醒。park支持等待到某个时间点。底层用Unsafe的park/unpark。Lock、AQS、Condition底层都用它。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] SynchronousQueue是什么</title><description>## 题目
+SynchronousQueue是什么
+
+## 参考答案
+SynchronousQueue是Java并发阻塞队列，没有容量。每个插入操作必须等待另一个线程的移除操作，反之亦然。特性：1.容量为0。2.不存储元素。3.put/take操作必须配对。4.公平模式可保证FIFO。应用：线程间直接传递数据、生产者消费者场景。Executors.newCachedThreadPool()底层用它。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 什么是Phaser</title><description>## 题目
+什么是Phaser
+
+## 参考答案
+Phaser是JDK7的同步屏障，支持动态注册 parties 数量。方法：register()注册、arriveAndAwaitAdvance()到达并等待、arriveAndDeregister()到达并注销。应用：多阶段并行任务，如并发下载文件的各部分。与CountDownLatch区别：parties数可动态变化。与CyclicBarrier区别：parties变化不影响已等待的线程。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 什么是Fork/Join框架</title><description>## 题目
+什么是Fork/Join框架
+
+## 参考答案
+Fork/Join是Java7的并行计算框架，基于工作窃取。ForkJoinPool执行ForkJoinTask。支持分治：fork()分任务，join()合并结果。work-stealing：空闲线程窃取其他队列任务。比ThreadPool更高效，适合计算密集型分治任务。RecursiveTask（有返回值）、RecursiveAction（无返回值）。需要开启多个线程。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item><item><title>[Java并发] 什么是LongAdder</title><description>## 题目
+什么是LongAdder
+
+## 参考答案
+LongAdder是JDK8高并发计数器，比AtomicLong性能更好。原理：分段Cell数组，每个线程累加到不同Cell，减少竞争。无冲突时退化为类似AtomicLong。sum()汇总所有Cell。初始空时才创建Cell数组。get直接返回sum()。适合高并发计数器：限流、统计。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java并发</source><hint>难度：困难 | 分类：Java并发</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java并发</tag><difficulty>hard</difficulty></item></fps>

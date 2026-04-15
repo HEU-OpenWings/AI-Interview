@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[JavaScript] let、const、var的区别是什么</title><description>## 题目
+let、const、var的区别是什么
+
+## 参考答案
+var是函数作用域，存在变量提升，可重复声明。let和const是块级作用域，有暂时性死区（TDZ），不能在同一作用域重复声明。const声明常量，指向对象的引用不能变但属性可变。推荐：优先const，需要修改变量用let，避免var。ES6+应全部使用let和const。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] JavaScript的数据类型有哪些</title><description>## 题目
+JavaScript的数据类型有哪些
+
+## 参考答案
+JavaScript数据类型：原始类型（7种）：Number、String、Boolean、Undefined、Null、Symbol（ES6）、BigInt（ES2020）。引用类型（1种）：Object（包含Array、Function、Date、RegExp等）。可用typeof检测原始类型（typeof null为object是历史bug），instanceof检测引用类型。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] 什么是事件冒泡和事件捕获</title><description>## 题目
+什么是事件冒泡和事件捕获
+
+## 参考答案
+事件冒泡：事件从子元素向父元素传播，逐级向上触发同名事件。事件捕获：事件从父元素向子元素传播，逐级向下触发同名事件。addEventListener第三个参数true表示捕获阶段处理，false表示冒泡阶段处理。可用stopPropagation()阻止传播，stopImmediatePropagation()阻止同元素后续处理，preventDefault()阻止默认行为。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] null和undefined有什么区别</title><description>## 题目
+null和undefined有什么区别
+
+## 参考答案
+undefined：变量声明但未赋值，或函数没有返回值，或对象属性不存在。null：表示空对象引用，主动设置为空。typeof null返回object（历史bug）。==比较时null==undefined为true，===比较为false。null用于清除对象引用，undefined表示未定义。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] JavaScript的作用域有哪些</title><description>## 题目
+JavaScript的作用域有哪些
+
+## 参考答案
+JavaScript作用域：1.全局作用域：window（浏览器）/global（Node）。2.函数作用域：function内部。3.块级作用域：let/const声明的{}内部（ES6+）。4.词法作用域：变量查找基于定义位置而非调用位置。var无块级作用域，只有函数作用域。闭包可以访问外部作用域变量。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] 什么是DOM和BOM</title><description>## 题目
+什么是DOM和BOM
+
+## 参考答案
+DOM（Document Object Model）：文档对象模型，将HTML/XML解析为树结构，JavaScript可操作页面元素。核心：document对象、Node接口、DOM树遍历。BOM（Browser Object Model）：浏览器对象模型，操作浏览器窗口。核心：window、navigator、location、history、screen、alert/confirm/prompt。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] JavaScript的事件委托是什么</title><description>## 题目
+JavaScript的事件委托是什么
+
+## 参考答案
+事件委托（Event Delegation）利用事件冒泡，在父元素上监听子元素事件。好处：1.减少事件监听器数量。2.动态添加的子元素自动绑定事件。3.减少内存占用。原理：事件冒泡到父元素，在父元素处理。实现：e.target判断触发元素。应用：列表项点击、表单事件代理、表格行操作。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] 什么是事件循环中的宏任务和微任务</title><description>## 题目
+什么是事件循环中的宏任务和微任务
+
+## 参考答案
+宏任务（Macrotask）：setTimeout、setInterval、I/O、UI渲染。微任务（Microtask）：Promise.then/catch/finally、MutationObserver、process.nextTick(Node)。执行顺序：同步任务→微任务→宏任务。微任务队列在宏任务前清空。async函数中await后的代码相当于微任务。Node.js的process.nextTick优先级高于Promise。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] JavaScript中的Symbol有什么用途</title><description>## 题目
+JavaScript中的Symbol有什么用途
+
+## 参考答案
+Symbol：ES6新增基本类型，每次调用Symbol()创建唯一值。用途：1.对象属性键，避免冲突。2.定义类的私有成员。3.自定义迭代器[Symbol.iterator]。4.模块化防止命名冲突。5.Symbol.for(key)全局注册。6.Symbol.hasInstance instanceof定制。常用系统Symbol：Symbol.toPrimitive、Symbol.toStringTag。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] 什么是事件冒泡和捕获</title><description>## 题目
+什么是事件冒泡和捕获
+
+## 参考答案
+事件冒泡：事件从触发元素向上传播到根元素。事件捕获：相反方向。addEventListener第三个参数：true捕获，false冒泡（默认）。stopPropagation()阻止传播。stopImmediatePropagation()阻止同元素其他处理程序。事件委托利用冒泡：父元素监听子元素事件。IE低版本只支持冒泡。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] 什么是事件委托</title><description>## 题目
+什么是事件委托
+
+## 参考答案
+事件委托：利用事件冒泡，在父元素监听子元素事件。好处：1.减少事件监听器。2.动态元素自动绑定。3.减少内存占用。实现：e.target判断实际触发元素。应用：列表项点击、表单事件、表格操作。e.stopPropagation()可阻止冒泡。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：简单 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>easy</difficulty></item><item><title>[JavaScript] 什么是闭包，它有什么用途和缺点</title><description>## 题目
+什么是闭包，它有什么用途和缺点
+
+## 参考答案
+闭包是函数能访问其词法作用域外部变量的能力。形成：内部函数引用外部变量，外部函数返回内部函数。用途：1.数据私有化/模块化。2.函数工厂。3.保存变量值。4.缓存结果。缺点：闭包持有外部变量引用，可能导致内存泄漏。循环中的闭包需注意i值捕获问题（用let或IIFE解决）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 原型链是什么，如何实现继承</title><description>## 题目
+原型链是什么，如何实现继承
+
+## 参考答案
+原型链是JavaScript实现继承的机制。每个对象有__proto__指向构造函数的prototype，prototype的__proto__又指向上级，形成链式结构直到Object.prototype.__proto__为null。属性查找沿原型链向上。实现继承方法：1.原型链继承（子原型=父实例）。2.构造函数继承（call/apply）。3.组合继承（原型链+构造函数）。4.原型式继承（Object.create）。5.寄生式继承。6.ES6 class extends。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 什么是深拷贝和浅拷贝</title><description>## 题目
+什么是深拷贝和浅拷贝
+
+## 参考答案
+浅拷贝：只复制对象第一层属性，引用类型共享内存。方法：Object.assign()、扩展运算符{...obj}、Array.prototype.slice()、concat()。深拷贝：递归复制所有层级，引用类型也创建新副本。方法：JSON.parse(JSON.stringify())（不支持函数、undefined、Symbol、Date、正则、循环引用），lodash的deepClone，手写递归实现。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] Promise有哪三种状态</title><description>## 题目
+Promise有哪三种状态
+
+## 参考答案
+Promise三种状态：pending（待定/进行中）、fulfilled（已兑现/成功）、rejected（已拒绝/失败）。状态一旦改变就不可逆。Promise是微任务，在事件循环的微任务队列执行。.then()/.catch()/.finally()处理状态转换。Promise.resolve()和Promise.reject()创建已决议的Promise。Promise.all()等待所有完成，Promise.race()返回最快的一个。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 如何实现一个防抖函数</title><description>## 题目
+如何实现一个防抖函数
+
+## 参考答案
+防抖函数实现：function debounce(fn, delay, immediate) { let timer; return function(...args) { clearTimeout(timer); if(immediate &amp;&amp; !timer) fn.apply(this, args); timer = setTimeout(() =&gt; !immediate &amp;&amp; fn.apply(this, args), delay); }; }; 应用：搜索框输入、窗口resize、表单验证。React/Vue中使用时注意取消定时器和正确绑定this。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 什么是JSONP，它的原理是什么</title><description>## 题目
+什么是JSONP，它的原理是什么
+
+## 参考答案
+JSONP是跨域解决方案，利用script标签不受同源限制。原理：服务端返回一段JavaScript代码（调用本地函数），script标签加载执行。局限：仅支持GET、存在安全风险（XSS）。实现：动态创建script，设置src为接口URL，定义callback函数接收数据。现代方案：CORS。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 如何实现图片懒加载</title><description>## 题目
+如何实现图片懒加载
+
+## 参考答案
+图片懒加载实现：1.IntersectionObserver（推荐）：观察元素进入视口时加载。2.滚动监听+getBoundingClientRect（需节流）。3.原生loading属性：&lt;img loading='lazy'&gt;。4.data-src存储真实src，滚动时赋值。5.库：lazysizes。IntersectionObserver示例：observer.observe(img)，进入视口时img.src = img.dataset.src。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 如何实现浅拷贝和深拷贝</title><description>## 题目
+如何实现浅拷贝和深拷贝
+
+## 参考答案
+浅拷贝：Object.assign()、{...obj}、Array.slice/concat。深拷贝：JSON.parse(JSON.stringify())（不支持函数、undefined、循环引用、Date、正则）。lodash的deepClone。手写递归实现（处理Date、正则、函数、循环引用）。structuredClone（浏览器原生，Node18+）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 什么是BigInt</title><description>## 题目
+什么是BigInt
+
+## 参考答案
+BigInt：ES2020新增类型，表示任意精度整数。创建：BigInt(123)或123n。运算：+、-、*、/、%、**、&amp;、|、^、~、&lt;&lt;、&gt;&gt;。不能与Number混合运算。BigInt.asIntN/asUintN截断。用途：大数计算、超过Number安全范围（Number.MAX_SAFE_INTEGER=2^53-1）。性能比Number略低。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 如何实现数组去重</title><description>## 题目
+如何实现数组去重
+
+## 参考答案
+数组去重：1.Set：[...new Set(arr)]。2.Object键值：遍历存key。3.双for循环+splice。4.filter+indexOf。5.排序后相邻比较。6.排序+reduce。性能：Set最优O(n)。保留顺序用Set或filter。对象去重需JSON.stringify或Map。考虑NaN：Set能正确处理NaN去重。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 什么是BOM和DOM</title><description>## 题目
+什么是BOM和DOM
+
+## 参考答案
+BOM（Browser Object Model）：浏览器对象模型，window/navigator/location/history/screen/alert/confirm/prompt。DOM（Document Object Model）：文档对象模型，document/element/event。关系：DOM是BOM的子集，document是window的属性。BOM处理浏览器窗口，DOM处理页面内容。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：中等 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>medium</difficulty></item><item><title>[JavaScript] 什么是事件循环（Event Loop）</title><description>## 题目
+什么是事件循环（Event Loop）
+
+## 参考答案
+事件循环是JavaScript处理异步操作的机制。执行顺序：1.执行同步代码（调用栈）。2.调用栈空时，提取微任务队列所有任务执行（Promise.then、MutationObserver）。3.提取宏任务队列一个任务执行（setTimeout、setInterval、I/O、UI渲染）。4.重复步骤2-3。微任务优先于宏任务。Node.js的事件循环分为6个阶段：timers、pending callbacks、idle/prepare、poll、check、close callbacks。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是Generator函数，它有什么特点</title><description>## 题目
+什么是Generator函数，它有什么特点
+
+## 参考答案
+Generator是生成器函数，function*定义，调用返回Generator对象。特点：1.可暂停执行（yield），暂停时保存状态。2.可恢复执行（next()）。3.可传值（next(value)作为yield返回值）。4.可抛出异常（throw()）。应用：实现Iterator、异步流程控制（co库）、状态机、防抖函数。Symbol.iterator实现可迭代对象。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是async/await，它和Promise有什么关系</title><description>## 题目
+什么是async/await，它和Promise有什么关系
+
+## 参考答案
+async/await是Promise的语法糖，让异步代码看起来像同步代码。async函数自动返回Promise。await等待Promise决议（fulfilled或rejected）。优点：代码简洁，避免回调地狱。错误处理可用try/catch。注意：await阻塞后面的代码，不是阻塞整个线程；循环中的await需注意性能；await必须用在async函数中。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是Web Worker，如何使用</title><description>## 题目
+什么是Web Worker，如何使用
+
+## 参考答案
+Web Worker是浏览器提供的后台线程，用于计算密集任务。特点：独立JS上下文，不能直接操作DOM，通过postMessage通信。创建：const worker = new Worker('work.js')。通信：worker.postMessage()发送，onmessage接收。 terminate()终止。类型：专用Worker（Dedicated Worker）、共享Worker（SharedWorker）、Service Worker。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是Module Federation</title><description>## 题目
+什么是Module Federation
+
+## 参考答案
+Module Federation是Webpack 5的新特性，实现微前端架构。核心：允许应用动态加载其他应用的模块，运行时共享依赖而不打包。可实现：1.独立开发部署的微应用。2.共享组件库。3.动态加载远程模块。关键配置：name、filename、exposes、remotes、shared。Vue/React项目都可用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是Web Worker的通信机制</title><description>## 题目
+什么是Web Worker的通信机制
+
+## 参考答案
+Web Worker通信：主线程和Worker线程通过消息传递。postMessage()发送消息，onmessage接收消息。消息是拷贝传递（结构化克隆算法），大对象传递有性能问题。Transferable对象可转移所有权（零拷贝），如ArrayBuffer。Worker内部可importScripts加载脚本。terminate()终止Worker。SharedWorker可在多个页面间共享。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是WebSocket心跳机制</title><description>## 题目
+什么是WebSocket心跳机制
+
+## 参考答案
+WebSocket心跳机制：客户端和服务端定期发送心跳包检测连接状态。目的：1.检测对方是否存活。2.保持连接活跃，防止被中间设备断开。3.及时发现断线。实现：定时setInterval发送ping消息，收到pong响应视为正常。超时未响应则重连。心跳间隔通常30-60秒。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是尾递归优化</title><description>## 题目
+什么是尾递归优化
+
+## 参考答案
+尾递归：函数最后一步是调用自身，不保存调用栈。JavaScript引擎的尾递归优化（TCO）：尾递归不创建新的调用栈帧，递归调用变成循环。ES6标准化尾调用语法（但浏览器支持有限）。示例：return f(n-1, acc*f) 优于 return f(n-1)*n。Python未实现TCO。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是WeakMap和WeakSet</title><description>## 题目
+什么是WeakMap和WeakSet
+
+## 参考答案
+WeakMap：键必须是对象，值可以是任意。WeakSet：只能存放对象。没有forEach/iterate方法，不可遍历。关键：持有弱引用，键对象无其他引用时可被GC。应用：WeakMap存DOM节点元数据、缓存对象、私有属性实现。防止内存泄漏。不适合存储长期存在的数据。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是Proxy和Reflect</title><description>## 题目
+什么是Proxy和Reflect
+
+## 参考答案
+Proxy：ES6代理对象，拦截操作（get、set、has、delete等）。const p = new Proxy(target, handler)。Reflect：ES6Reflect对象，Object操作的方法化（Reflect.get/set）。Reflect是Proxy handler方法的默认实现。配合使用：Reflect.has(target, prop)等价于 prop in target。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item><item><title>[JavaScript] 什么是MutationObserver</title><description>## 题目
+什么是MutationObserver
+
+## 参考答案
+MutationObserver：监听DOM树变化。观察：子节点增减、属性变化、文本变化。创建：new MutationObserver(callback)。观察：observer.observe(target, options)。断开：disconnect()。批量操作：MutationRecords数组。callback在微任务队列执行。性能比DOM Mutation events好很多。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: JavaScript</source><hint>难度：困难 | 分类：JavaScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>JavaScript</tag><difficulty>hard</difficulty></item></fps>

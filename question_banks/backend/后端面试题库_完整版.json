@@ -1,0 +1,584 @@
+[
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "Java是什么类型的语言",
+    "answer": "Java是编译型语言（编译成字节码）+解释型语言（JVM解释执行）的混合。Java源代码先被编译成字节码（.class文件），然后由JVM在不同平台上解释执行，实现了一次编写、到处运行。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "JDK、JRE、JVM三者的区别和关系是什么",
+    "answer": "JDK（Java Development Kit）是Java开发工具包，包含JRE和开发工具（javac、javadoc等）。JRE（Java Runtime Environment）是Java运行环境，包含JVM和类库。JVM（Java Virtual Machine）是Java虚拟机，负责运行字节码。关系：JDK = JRE + 开发工具，JRE = JVM + 类库。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "Java中==和equals()有什么区别",
+    "answer": "==是运算符，比较基本类型时比较值，比较引用类型时比较内存地址。equals()是Object类的方法，默认行为与==相同（比较地址），但String、Integer等类重写了equals()方法，比较对象内容而非地址。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "String为什么是不可变的",
+    "answer": "String不可变的好处：1.保证线程安全。2.实现字符串常量池，节省内存。3.安全考量（反射、类加载器、并发等）。4.hashCode缓存。实现方式：String类用final修饰byte[]数组，数组私有，无公开setter，保证不可变。Java9后改为byte[]+coder标记编码。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "String、StringBuilder、StringBuffer有什么区别",
+    "answer": "String是不可变字符串，每次操作创建新对象。StringBuilder是可变字符串，线程不安全，效率最高。StringBuffer是可变字符串，线程安全（方法用synchronized修饰），效率较低。性能：StringBuilder > StringBuffer > String。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "final关键字有哪些用法",
+    "answer": "final修饰变量：变量变成常量，赋值后不可修改。final修饰方法：方法不能被子类重写。final修饰类：类不能被继承，如String、Math。final修饰参数：参数在方法内不能被修改。final修饰成员变量必须在构造器或初始化块中赋值。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "static关键字有哪些用法",
+    "answer": "static修饰成员变量：类变量，所有对象共享一份。static修饰方法：类方法，可直接类名调用，不能使用this/super，不能被子类重写（可被隐藏）。static修饰代码块：静态代码块，类加载时执行一次。static修饰内部类：静态内部类，不需要外部类实例。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "什么是自动拆箱和装箱",
+    "answer": "装箱是将基本数据类型转换为包装类对象（如int→Integer），拆箱是将包装类对象转换为基本数据类型（如Integer→int）。JDK5引入自动装箱拆箱，简化了代码。注意事项：Integer缓存-128到127，==比较可能为true或false。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "重载和重写的区别是什么",
+    "answer": "重载（Overload）发生在同一类中，方法名相同但参数列表不同（个数、类型、顺序），与返回类型无关。重写（Override）发生在父子类中，方法签名完全相同，子类方法不能比父类更严格（访问修饰符可以扩大，如protected→public）。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "简单",
+    "question": "接口和抽象类有什么区别",
+    "answer": "接口（Java8前）完全抽象，只有抽象方法；抽象类可以有抽象方法和具体方法。接口只能有public修饰符，抽象类可以有各种访问修饰符。接口只能继承接口，抽象类只能继承一个类。类可以实现多个接口，但只能继承一个抽象类。Java8后接口可以有default和static方法。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "中等",
+    "question": "什么是泛型，泛型有哪些分类",
+    "answer": "泛型即参数化类型，在编译时提供类型安全。分类：1.泛型类：如ArrayList<T>。2.泛型接口：如List<T>。3.泛型方法：如<T> void method(T t)。4.泛型限定：如<T extends Number>限定上界，<? super T>限定下界。多限定：<T extends A & B>。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "中等",
+    "question": "什么是类型擦除，泛型有哪些限制",
+    "answer": "类型擦除是编译器在编译时移除泛型信息，用上限类型或Object替换，保留必要类型信息（桥接方法）。限制：1.不能new泛型实例 T t = new T()。2.不能new泛型数组 T[] arr = new T[10]。3.不能用基本类型 <int>。4.不能创建泛型类数组。5.不能实例化泛型类对象。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "中等",
+    "question": "Java中如何实现浅拷贝和深拷贝",
+    "answer": "浅拷贝：对象.clone()，只复制对象本身，引用类型共享内存。实现条件：类实现Cloneable接口，重写clone()方法（可选择调用super.clone()）。深拷贝：1.重写clone()方法，深拷贝所有引用对象。2.序列化：实现Serializable，通过对象流读写实现深拷贝。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "中等",
+    "question": "Object类有哪些方法",
+    "answer": "Object类方法：1.getClass()返回类对象。2.hashCode()返回哈希值。3.equals(Object obj)判断相等。4.clone()创建并返回对象副本。5.toString()返回字符串表示。6.notify()/notifyAll()/wait()用于线程通信。7.finalize()垃圾回收前调用（已废弃）。8.reflect相关方法。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "中等",
+    "question": "hashCode()和equals()的关系是什么",
+    "answer": "hashCode()返回哈希值，用于HashMap等哈希结构快速定位。equals()判断对象真正相等。关系：1.相等的对象必须有相同的hashCode。2.hashCode相同的对象不一定equals。3.重写equals()必须重写hashCode()，保持一致性。4.HashMap先比较hashCode再比较equals。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "中等",
+    "question": "BigDecimal为什么不能用equals比较",
+    "answer": "BigDecimal的equals()不仅比较值，还比较精度。例如：new BigDecimal(\"1.0\")和new BigDecimal(\"1.00\")的equals()返回false，但compareTo()返回0（相等）。正确做法是用compareTo()比较BigDecimal值的大小，或者使用stripTrailingZeros()去掉尾随零后再用equals()。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "困难",
+    "question": "解释Java的双亲委派模型及其作用",
+    "answer": "双亲委派模型：类加载器收到加载请求时，先委派给父类加载器处理，父类无法完成时自己才加载。层次：启动类加载器→扩展类加载器→应用类加载器→自定义类加载器。作用：1.保证类加载安全，避免核心API被篡改。2.避免类的重复加载。3.保证类加载的统一性。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "困难",
+    "question": "Java有哪四种引用类型",
+    "answer": "1.强引用（StrongReference）：最常用，GC时不回收。2.软引用（SoftReference）：内存不足时回收，可用于缓存。3.弱引用（WeakReference）：GC时发现就回收，适用于WeakHashMap。4.虚引用（PhantomReference）：完全不影响GC，随时可被回收，用于跟踪对象被GC的时机。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "困难",
+    "question": "什么是注解，注解有哪些分类",
+    "answer": "注解是代码的元数据，提供额外信息。分类：1.按来源：JDK注解（@Override/@Deprecated）、第三方注解、自定义注解。2.按生命周期：SOURCE（源码保留）、CLASS（编译时保留）、RUNTIME（运行时保留）。3.按用途：标记注解、元注解（@Target/@Retention/@Documented）。"
+  },
+  {
+    "category": "Java基础",
+    "difficulty": "困难",
+    "question": "Java 8有哪些新特性",
+    "answer": "Java 8主要新特性：1.Lambda表达式和函数式接口。2.Stream API。3.接口默认方法和静态方法。4.新的日期时间API（java.time）。5.Optional类。6.方法引用（::）。7.重复注解@Repeatable。8.Base64编码。9.并行数组操作。10.元空间替代永久代。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "简单",
+    "question": "什么是线程和进程",
+    "answer": "进程是程序的一次执行过程，是资源分配的基本单位，有独立的地址空间。线程是CPU调度的基本单位，是进程内的执行流，同一进程的线程共享地址空间。进程切换开销大（切换页表、缓存等），线程切换开销小。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "简单",
+    "question": "创建线程有哪几种方式",
+    "answer": "创建线程方式：1.继承Thread类，重写run()方法。2.实现Runnable接口，实现run()方法。3.实现Callable接口，实现call()方法，配合FutureTask获取结果。4.使用线程池（Executor框架）。推荐使用线程池方式，可复用线程、控制并发数。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "简单",
+    "question": "run()和start()有什么区别",
+    "answer": "start()方法启动新线程，调用后线程进入就绪状态，等待CPU调度。run()方法是线程执行的主体逻辑，直接调用run()不会启动新线程，只会在当前线程同步执行。start()只能调用一次，run()可以反复调用。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "简单",
+    "question": "sleep()和wait()有什么区别",
+    "answer": "sleep()是Thread类的静态方法，让线程休眠，不释放锁，超时后自动唤醒。wait()是Object类的方法，让线程等待，释放对象锁，需要其他线程调用notify()/notifyAll()唤醒。sleep()可以在任何地方调用，wait()必须在synchronized代码块中调用。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "简单",
+    "question": "什么是线程安全",
+    "answer": "线程安全指多个线程访问共享变量时，程序行为始终正确。线程不安全的原因：1.CPU时间片切换。2.编译器指令重排。3.共享资源竞争。解决方法：1.synchronized同步。2.Lock锁。3.volatile保证可见性和有序性。4.原子类。5.无锁编程（CAS）。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "简单",
+    "question": "synchronized加在静态方法和实例方法上有什么区别",
+    "answer": "synchronized修饰实例方法：锁对象是this（当前实例），多个实例不互斥，同一实例的方法互斥。synchronized修饰静态方法：锁对象是类对象（Class对象），所有实例共享一把锁。静态方法锁比实例方法锁范围更大。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "synchronized的底层原理是什么",
+    "answer": "synchronized基于对象头的Mark Word实现。加锁时通过CAS修改Mark Word，偏向锁→轻量级锁→重量级锁逐步升级。Mark Word记录锁状态、线程ID、偏向时间戳等信息。重量级锁依赖操作系统的Mutex Lock实现，涉及用户态到内核态的切换，开销大。JDK6后引入锁膨胀优化。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "synchronized和ReentrantLock有什么区别",
+    "answer": "1.来源：synchronized是Java关键字，ReentrantLock是JUC包的类。2.锁释放：synchronized自动释放，ReentrantLock需手动unlock()。3.中断：synchronized不可中断等待线程，ReentrantLock可tryLock()。4.公平锁：synchronized不支持，ReentrantLock可设置公平/非公平。5.绑定条件：ReentrantLock可绑定多个Condition。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "volatile关键字的作用是什么",
+    "answer": "volatile保证可见性和有序性：1.可见性：一个线程修改后，其他线程立即可见。2.有序性：禁止指令重排（内存屏障）。volatile不保证原子性，不能替代synchronized。适用场景：状态标记量（如volatile boolean flag=true）、单例模式（double-check）。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "什么是ThreadLocal，有什么用途",
+    "answer": "ThreadLocal为每个线程提供独立的变量副本，实现线程隔离。底层是ThreadLocalMap，key是ThreadLocal对象（弱引用），value是存储的值（强引用）。用途：1.保存线程上下文信息。2.数据库连接管理。3.Session管理。4.日期工具类的线程安全。注意事项：使用完调用remove()防止内存泄漏。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "什么是线程池，有哪些核心参数",
+    "answer": "线程池是管理线程的容器，避免频繁创建销毁线程的开销。核心参数：1.corePoolSize核心线程数。2.maximumPoolSize最大线程数。3.keepAliveTime空闲线程存活时间。4.unit时间单位。5.workQueue任务队列（BlockingQueue）。6.threadFactory线程工厂。7.handler拒绝策略。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "线程池有哪些拒绝策略",
+    "answer": "JDK内置4种拒绝策略：1.AbortPolicy（默认）：抛出RejectedExecutionException。2.CallerRunsPolicy：由调用线程执行任务。3.DiscardPolicy：直接丢弃任务。4.DiscardOldestPolicy：丢弃队列中最老的任务。还有自定义策略实现RejectedExecutionHandler接口。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "中等",
+    "question": "如何合理设置线程池大小",
+    "answer": "CPU密集型任务（计算为主）：CPU核心数+1。IO密集型任务（IO为主）：CPU核心数 * 2 或 CPU核心数 / (1-阻塞系数)。混合型任务：根据实际情况测试调整。也可使用Runtime.getRuntime().availableProcessors()动态获取CPU核心数。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "困难",
+    "question": "什么是AQS，它的实现原理是什么",
+    "answer": "AQS（AbstractQueuedSynchronizer）是JUC包的基础，使用CLH变体队列管理等待线程。核心：1.state变量表示资源状态（volatile修饰）。2.tryAcquire/tryRelease由子类实现获取/释放锁。3.获取失败线程加入队列，park()阻塞。4.释放锁时唤醒队列头部线程unpark()。AQS支持独占和共享两种模式。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "困难",
+    "question": "什么是CAS，ABA问题如何解决",
+    "answer": "CAS（Compare And Swap）是无锁编程核心，通过三个操作数（内存位置、预期值、新值）实现原子更新。底层依赖CPU的cmpxchg指令。ABA问题：线程1读取A，线程2改为B又改回A，线程1无法检测到变化。解决方案：1.版本号机制AtomicStampedReference。2.双引用AtomicMarkableReference。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "困难",
+    "question": "CountDownLatch、CyclicBarrier、Semaphore有什么区别",
+    "answer": "CountDownLatch：倒计时门栓，线程等待计数归零，只能用一次。用于主线程等待子任务完成。CyclicBarrier：循环栅栏，所有线程到达后同时释放，可循环使用。用于多线程计算后合并结果。Semaphore：信号量，控制同时访问资源的线程数，用于限流。"
+  },
+  {
+    "category": "Java并发",
+    "difficulty": "困难",
+    "question": "ConcurrentHashMap如何保证线程安全",
+    "answer": "JDK7：分段锁（Segment数组，每个Segment类似HashMap）。JDK8：取消分段锁，使用Node数组+CAS+synchronized。put时：1.计算hash。2.检查是否需要初始化。3.CAS尝试放入头节点。4.synchronized锁住头节点处理冲突。get时：无锁，使用volatile保证可见性。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "简单",
+    "question": "Spring是什么，它有什么特点",
+    "answer": "Spring是轻量级开源框架，提供企业级应用开发一站式解决方案。特点：1.轻量级：核心包小，可按需引入。2.控制反转（IoC）：降低耦合。3.依赖注入（DI）：自动装配。4.面向切面（AOP）：分离关注点。5.容器：管理Bean生命周期。6.框架整合：集成各种框架。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "简单",
+    "question": "什么是IoC和DI",
+    "answer": "IoC（控制反转）是将对象创建和依赖管理权反转给Spring容器，由容器控制对象的生命周期。DI（依赖注入）是IoC的实现方式，通过构造函数、setter方法或注解注入依赖。好处：降低耦合、便于测试、提高可维护性。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "简单",
+    "question": "Spring中Bean的作用域有哪些",
+    "answer": "Bean作用域：1.singleton（单例，默认）：容器中只有一个实例。2.prototype（原型）：每次获取创建新实例。3.request：每个HTTP请求创建一个实例。4.session：每个HTTP会话创建一个实例。5.application：ServletContext生命周期。6.websocket：WebSocket生命周期。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "简单",
+    "question": "@Autowired和@Resource有什么区别",
+    "answer": "@Autowired是Spring注解，默认按类型byType装配，找不到才byName。required属性可设false。@Resource是JDK注解（JSR-250），默认按名称byName，找不到按类型byType。@Resource可指定name属性指定Bean名称。装配顺序：@Resource先名称后类型，@Autowired先类型后名称。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "中等",
+    "question": "Spring Bean的生命周期是什么",
+    "answer": "Spring Bean生命周期：1.实例化。2.属性填充（依赖注入）。3.BeanNameAware.setBeanName()。4.BeanFactoryAware.setBeanFactory()。5.ApplicationContextAware.setApplicationContext()。6.BeanPostProcessor.postProcessBeforeInitialization()。7.@PostConstruct。8.InitializingBean.afterPropertiesSet()。9.自定义init-method。10.BeanPostProcessor.postProcessAfterInitialization()。11.@PreDestroy。12.DisposableBean.destroy()。13.destroy-method。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "中等",
+    "question": "Spring如何解决循环依赖",
+    "answer": "Spring三级缓存解决单例Bean循环依赖：1级缓存singletonObjects（完全初始化）。2级缓存earlySingletonObjects（提前暴露引用）。3级缓存singletonFactories（Bean工厂）。先创建Bean并暴露工厂，注入时发现循环依赖则从2级缓存获取。构造器注入无法解决循环依赖（对象还未创建）。prototype作用域无法解决循环依赖。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "中等",
+    "question": "Spring Boot的自动配置原理是什么",
+    "answer": "自动配置基于@EnableAutoConfiguration注解，通过META-INF/spring.factories（Spring Boot 2.7前）或META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports（Spring Boot 2.7+）加载AutoConfiguration类。每个配置类用@Conditional系列注解判断是否生效。配置属性绑定@EnableConfigurationProperties。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "中等",
+    "question": "@Conditional注解有哪些派生注解",
+    "answer": "@Conditional派生注解：1.@ConditionalOnClass：类路径有指定类才生效。2.@ConditionalOnMissingClass：类路径没有指定类才生效。3.@ConditionalOnBean：容器中有指定Bean才生效。4.@ConditionalOnMissingBean：容器中没有指定Bean才生效。5.@ConditionalOnProperty：配置属性满足条件。6.@ConditionalOnExpression：SpEL表达式为true。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "困难",
+    "question": "Spring事务传播行为有哪些",
+    "answer": "Spring事务传播行为：1.REQUIRED（默认）：当前有事务加入，没有则创建新事务。2.REQUIRES_NEW：创建新事务，挂起当前事务。3.SUPPORTS：支持当前事务，没有则无事务执行。4.NOT_SUPPORTED：不支持事务，挂起当前事务。5.MANDATORY：必须在事务中执行，没有抛异常。6.NEVER：不能在事务中执行，有事务抛异常。7.NESTED：嵌套事务，使用Savepoint。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "困难",
+    "question": "Spring事务的隔离级别有哪些",
+    "answer": "Spring事务隔离级别（与数据库对应）：1.DEFAULT：使用数据库默认隔离级别。2.READ_UNCOMMITTED：读未提交，可能脏读。3.READ_COMMITTED：读已提交，可能不可重复读。4.REPEATABLE_READ：可重复读，可能幻读。5.SERIALIZABLE：串行化，最高隔离但性能最低。建议使用DEFAULT让数据库决定。"
+  },
+  {
+    "category": "Spring框架",
+    "difficulty": "困难",
+    "question": "Spring AOP的原理是什么",
+    "answer": "Spring AOP基于代理模式实现。JDK动态代理：接口+InvocationHandler，被代理类必须实现接口。CGLIB代理：继承被代理类生成子类，性能更好（Spring默认）。AOP概念：Aspect（切面）、Joinpoint（连接点）、Pointcut（切点）、Advice（通知）、Weaving（织入）。通知类型：Before、After、AfterReturning、AfterThrowing、Around。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "简单",
+    "question": "MySQL有哪些存储引擎",
+    "answer": "MySQL主要存储引擎：1.InnoDB（默认）：支持事务、行级锁、外键，适合写多场景。2.MyISAM：不支持事务、表级锁、无外键，适合读多场景。3.Memory：内存存储，速度快但数据易丢失。4.Archive：只支持插入和查询，压缩存储。5.MRG_MyISAM：合并多个MyISAM表。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "简单",
+    "question": "MySQL的char和varchar有什么区别",
+    "answer": "char是固定长度，不足用空格填充，查询快但占空间。varchar是可变长度，只存实际字符，节省空间但查询稍慢。char最大255字节，varchar最大65535字节（65532字符，2-3字节存长度）。char适合定长数据如手机号、UUID，varchar适合变长数据如用户名、地址。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "简单",
+    "question": "什么是索引，索引有哪些类型",
+    "answer": "索引是加速查询的数据结构，类似书的目录。索引类型：1.主键索引（PRIMARY）：唯一非空。2.唯一索引（UNIQUE）：唯一可空。3.普通索引（INDEX）：无限制。4.全文索引（FULLTEXT）：文本搜索。5.复合索引：多列组合。底层常用B+树实现（InnoDB）。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "简单",
+    "question": "SQL语句执行顺序是什么",
+    "answer": "SQL执行顺序：1.FROM（确定表）。2.JOIN（连接表）。3.ON（连接条件）。4.WHERE（筛选条件）。5.GROUP BY（分组）。6.HAVING（分组后筛选）。7.SELECT（选择列）。8.DISTINCT（去重）。9.ORDER BY（排序）。10.LIMIT（限制）。理解执行顺序对优化SQL很重要。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "中等",
+    "question": "什么是索引的最左前缀原则",
+    "answer": "最左前缀原则：复合索引(a,b,c)，查询必须包含最左列a才能使用索引。可以使用的查询：a、ab、abc。不能使用：bc、ac、c。遇到范围查询（>、<、BETWEEN、LIKE）后停止匹配索引。例如：a>1 AND b=2，只能用到a列索引。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "中等",
+    "question": "MySQL慢查询如何优化",
+    "answer": "慢查询优化步骤：1.开启慢查询日志定位。2.EXPLAIN分析执行计划（type、key、rows、Extra）。3.检查索引是否生效。优化方法：1.添加合适索引。2.避免SELECT *。3.优化子查询，用JOIN替代。4.使用LIMIT分页。5.避免在WHERE中对字段使用函数。6.分表分库。7.读写分离。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "中等",
+    "question": "什么是事务，事务有哪些特性",
+    "answer": "事务是数据库操作的逻辑单元，具有ACID特性：1.Atomicity（原子性）：全部成功或全部失败。2.Consistency（一致性）：事务前后数据状态一致。3.Isolation（隔离性）：并发事务互不干扰。4.Durability（持久性）：事务提交后永久保存。隔离级别：读未提交、读已提交、可重复读、串行化。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "中等",
+    "question": "MySQL的MVCC是什么",
+    "answer": "MVCC（Multi-Version Concurrency Control）多版本并发控制，通过隐藏列和undo log实现。InnoDB每行有trx_id（事务ID）和roll_pointer（指向undo log的指针）。读操作分快照读和当前读。可重复读隔离级别下，快照读读取事务开始时的数据版本。MVCC实现读写不冲突，提高并发性能。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "困难",
+    "question": "MySQL如何实现主从复制",
+    "answer": "主从复制原理：1.Master记录数据变更到binlog。2.Slave的IO线程读取Master的binlog写入relaylog。3.Slave的SQL线程重放relaylog应用数据。复制模式：异步复制（默认）、半同步复制（等待至少一个Slave确认）、全同步复制。配置：Master开启binlog，Slave配置relay-log，设置同步账号。"
+  },
+  {
+    "category": "数据库",
+    "difficulty": "困难",
+    "question": "什么是分库分表，常见拆分策略有哪些",
+    "answer": "分库分表解决大数据量问题。垂直拆分：按业务将表或字段分到不同库/表。水平拆分：按数据行拆分到多个表（按ID取模、按时间、按范围）。常用中间件：ShardingSphere、MyCat、TiDB。分片键选择很重要，会影响查询。跨分片查询需要额外处理（ES、搜索组件）。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "简单",
+    "question": "Redis支持哪些数据结构",
+    "answer": "Redis 5种基本数据结构：1.String（字符串）：最常用，缓存、计数器、分布式锁。2.List（列表）：消息队列、分页、排行榜。3.Hash（哈希）：对象存储、购物车。4.Set（集合）：标签、好友关系、共同关注。5.Zset（有序集合）：排行榜、延时队列。特殊类型：BitMap、HyperLogLog、Geospatial。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "简单",
+    "question": "Redis和Memcached有什么区别",
+    "answer": "1.数据结构：Redis支持多种结构，Memcached只支持字符串。2.持久化：Redis支持RDB和AOF，Memcached不支持。3.复制：Redis支持主从复制，Memcached不支持。4.线程模型：Redis单线程+IO多路复用，Memcached多线程。5.内存管理：Redis有多种过期策略和淘汰策略。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "简单",
+    "question": "Redis的持久化机制是什么",
+    "answer": "Redis两种持久化：1.RDB（快照）：定时生成数据备份，执行BGSAVE，fork子进程处理。恢复快但可能丢失数据。2.AOF（追加文件）：记录每次写命令，always/everysec/no三种同步策略。可用BGREWRITEAOF压缩AOF。生产环境常同时开启，优先用AOF恢复。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "中等",
+    "question": "Redis过期键删除策略有哪些",
+    "answer": "Redis三种过期删除策略：1.定时删除：创建定时器，到期立即删除，占用CPU。2.惰性删除：访问key时检查是否过期才删除，内存压力大。3.定期删除：周期性检查，抽查部分key。Redis实际使用惰性删除+定期删除组合。内存满时触发maxmemory-policy淘汰策略。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "中等",
+    "question": "Redis有哪些淘汰策略",
+    "answer": "maxmemory-policy淘汰策略：1.noeviction：不淘汰，返回错误。2.allkeys-lru：所有key中删除最少使用的。3.volatile-lru：已设置过期时间的key中删除最少使用的。4.allkeys-random：所有key随机删除。5.volatile-random：已过期key随机删除。6.volatile-ttl：删除最快过期的。7.allkeys-lfu（Redis4）：所有key删除最不常用的。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "中等",
+    "question": "Redis集群是如何工作的",
+    "answer": "Redis集群（Redis Cluster）：1.数据分片：共16384个槽（slot），每个节点负责一部分槽。2.客户端可连接任意节点，通过MOVED重定向到正确节点。3.高可用：每个主节点可配置从节点，主节点故障时从节点自动提升。4.通信：Gossip协议在节点间传播集群信息。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "困难",
+    "question": "如何解决缓存穿透、击穿、雪崩",
+    "answer": "缓存穿透：查询不存在的数据。解决方案：1.布隆过滤器拦截。2.缓存空值（设置短过期时间）。3.严格参数校验。缓存击穿：热点key失效瞬间。解决方案：1.互斥锁（setNX）。2.热点数据永不过期+异步更新。缓存雪崩：大量key同时失效。解决方案：1.过期时间加随机值。2.多级缓存。3.保证Redis高可用。"
+  },
+  {
+    "category": "Redis",
+    "difficulty": "困难",
+    "question": "Redis为什么是单线程的",
+    "answer": "Redis单线程指核心处理逻辑是单线程（网络IO和命令执行）。单线程优势：1.无锁竞争开销小。2.单线程无上下文切换。3.纯内存操作性能高。瓶颈在网络IO和内存，非CPU。多线程版本Redis 6.0引入多线程IO处理网络读写，但命令执行仍是单线程。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "简单",
+    "question": "TCP和UDP有什么区别",
+    "answer": "TCP：面向连接、可靠传输、拥塞控制、流量控制、首部20字节、速度慢。UDP：无连接、不可靠、不控制拥塞、无流量控制、首部8字节、速度快。TCP适合：文件传输、邮件、Web。UDP适合：视频流、DNS、VoIP、实时游戏。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "简单",
+    "question": "三次握手过程是什么",
+    "answer": "TCP三次握手：1.客户端发送SYN包（SYN=1, seq=x），进入SYN_SENT状态。2.服务器返回SYN+ACK包（SYN=1, ACK=1, seq=y, ack=x+1），进入SYN_RCVD状态。3.客户端发送ACK包（ACK=1, seq=x+1, ack=y+1），双方进入ESTABLISHED状态。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "简单",
+    "question": "四次挥手过程是什么",
+    "answer": "TCP四次挥手：1.主动方发送FIN包（FIN=1, seq=u），进入FIN_WAIT_1。2.被动方发送ACK确认（ACK=1, ack=u+1），进入CLOSE_WAIT，主动方收到后进入FIN_WAIT_2。3.被动方处理完数据后发送FIN包（FIN=1, seq=v），进入LAST_ACK。4.主动方发送ACK确认（ACK=1, ack=v+1），进入TIME_WAIT，等待2MSL后关闭。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "简单",
+    "question": "HTTP和HTTPS有什么区别",
+    "answer": "HTTP是明文传输，端口80。HTTPS是HTTP+SSL/TLS加密传输，端口443。HTTPS需要CA证书，有TLS握手开销。HTTPS提供：1.身份验证（证书认证服务器身份）。2.数据加密。3.数据完整性保护（MAC校验）。对称加密+非对称加密+数字证书组合使用。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "中等",
+    "question": "TCP为什么是三次握手而不是两次",
+    "answer": "三次握手目的：1.确认双方发送和接收能力正常。2.协商初始序列号（ISN）。两次握手问题：服务器无法确认客户端的接收能力和自己的发送能力是否正常。第二次握手后服务器就建立连接，如果ACK丢失客户端不响应，服务器会空等。TCP全双工通信需要确认双方状态。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "中等",
+    "question": "TCP为什么是四次挥手而不是三次",
+    "answer": "四次挥手原因：TCP是全双工通信，客户端和服务端都需要关闭各自到对方的连接。主动方发送FIN表示不再发送数据，但还能接收数据。被动方收到FIN后先回复ACK确认，但可能还有数据要发送，所以先关闭发送通道（发送自己的FIN），再关闭接收通道。需要额外时间处理剩余数据。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "中等",
+    "question": "HTTP 1.0、1.1、2.0有什么区别",
+    "answer": "HTTP1.0：无连接（每次请求新建TCP）、无状态。HTTP1.1：长连接（Connection:keep-alive）、支持管道化（同一连接可并发请求但按序返回）、支持断点续传、新增PUT/DELETE/OPTIONS等。HTTP2.0：二进制分帧（帧代替字节流）、多路复用（一个连接并行传输多个请求）、头部HPACK压缩、Server Push推送、流量控制。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "困难",
+    "question": "什么是CDN，它的工作原理是什么",
+    "answer": "CDN（Content Delivery Network）内容分发网络。工作原理：1.用户请求资源，DNS解析到CDN专用DNS。2.CDN DNS根据用户IP返回最近CDN节点IP。3.用户到CDN节点获取资源。4.节点有缓存则直接返回，无缓存则回源站获取并存入缓存。优势：加速访问、减轻源站压力、抵御DDoS攻击、节省带宽。"
+  },
+  {
+    "category": "计算机网络",
+    "difficulty": "困难",
+    "question": "DNS解析过程是什么",
+    "answer": "DNS解析顺序：1.浏览器缓存。2.系统缓存（hosts文件）。3.本地域名服务器（LDNS）。4.LDNS依次查询：根域名服务器（全球13组）→顶级域名服务器（.com等）→权威域名服务器。5.获取IP后缓存并返回。DNS记录类型：A记录（域名→IPv4）、AAAA（→IPv6）、CNAME（别名）、MX（邮件）、TXT等。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "简单",
+    "question": "进程和线程有什么区别",
+    "answer": "进程是资源分配的基本单位，有独立的地址空间（代码段、数据段、堆、栈）。线程是CPU调度的基本单位，是进程内的执行流，同一进程的线程共享地址空间（堆、代码段、全局变量）。进程切换开销大，线程切换开销小。进程间通信需IPC机制，线程间可直接读写共享变量。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "简单",
+    "question": "什么是用户态和内核态",
+    "answer": "用户态是普通进程运行的状态，权限受限，不能直接访问硬件。内核态是操作系统内核运行的状态，拥有最高权限，可直接访问硬件和内存。用户态进程需通过系统调用（System Call）进入内核态执行特权操作，如文件读写、网络通信、内存分配。切换有开销（上下文保存/恢复）。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "简单",
+    "question": "什么是死锁，死锁的四个必要条件是什么",
+    "answer": "死锁是多个进程互相等待对方持有的资源而无法继续执行。四个必要条件（同时满足才发生）：1.互斥条件：资源只能被一个进程占用。2.占有并等待：进程已持有资源同时申请新资源。3.不可抢占：已分配资源不能被强制夺走。4.循环等待：进程间形成循环等待链（P1等待P2...等待Pn等待P1）。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "中等",
+    "question": "如何预防和解决死锁",
+    "answer": "预防死锁：破坏四个必要条件之一。1.破坏互斥：不太可能。2.破坏占有并等待：一次性申请所有资源。3.破坏不可抢占：已占用资源可被抢占。4.破坏循环等待：按序申请资源（资源排序）。避免死锁：银行家算法动态检测安全状态。检测恢复：资源分配图，死锁定理。实际常用：避免嵌套锁、设置超时、使用无锁数据结构。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "中等",
+    "question": "什么是虚拟内存，有什么作用",
+    "answer": "虚拟内存是操作系统提供的逻辑内存空间，通过页表映射到物理内存和磁盘（swap）。作用：1.程序使用比物理内存更大的地址空间。2.内存保护，不同进程地址空间隔离。3.提高内存利用率，按需加载。4.简化内存分配。实现方式：分页、分段、段页式。页面置换算法：LRU、FIFO、LFU。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "中等",
+    "question": "进程调度算法有哪些",
+    "answer": "常见进程调度算法：1.FCFS（先来先服务）：简单但平均等待时间长。2.SJF（最短作业优先）：平均等待时间最优但可能饥饿。3.优先级调度：可抢占/非抢占，可能饥饿（老化解决）。4.时间片轮转：适合分时系统，时间片大小选择重要。5.多级反馈队列：综合多种算法优点。"
+  },
+  {
+    "category": "操作系统",
+    "difficulty": "困难",
+    "question": "什么是上下文切换，节省上下文切换开销的方法",
+    "answer": "上下文切换是CPU保存一个进程状态，加载另一个进程状态的过程。包括：寄存器、程序计数器、CPU状态等。开销：保存/恢复寄存器、TLB刷新、缓存失效。减少开销方法：1.无锁编程。2.CAS原子操作。3.协程（用户态线程）。4.减少线程数。5.使用乐观锁替代悲观锁。6.合理设置CPU亲和性。"
+  },
+  {
+    "category": "微服务",
+    "difficulty": "简单",
+    "question": "什么是微服务架构，它有哪些优缺点",
+    "answer": "微服务是将大型应用拆分为多个小型自治服务，每个服务独立部署和扩展。优点：1.独立部署，技术异构。2.容错性好，单服务故障不影响全局。3.易于扩展，按需扩展瓶颈服务。4.团队自治。缺点：1.运维复杂（服务数量多）。2.服务间通信开销。3.分布式事务难题。4.调试和追踪困难。适合复杂业务。"
+  },
+  {
+    "category": "微服务",
+    "difficulty": "简单",
+    "question": "微服务与单体架构的区别是什么",
+    "answer": "单体架构：所有功能在一个应用中，部署在单个服务器。优点：开发简单、测试容易、部署方便。缺点：代码耦合、扩展困难、技术栈受限、部署时间长、故障影响大。微服务架构：功能拆分为多个独立服务。优点：松耦合、独立部署、技术灵活、易扩展。缺点：运维复杂、分布式复杂性、数据一致性挑战。"
+  },
+  {
+    "category": "微服务",
+    "difficulty": "中等",
+    "question": "什么是服务注册与发现",
+    "answer": "服务注册：服务启动时将自身地址（IP+端口）注册到注册中心。服务发现：消费者从注册中心获取提供者地址列表。注册中心需高可用，支持心跳检测剔除故障服务。常用组件：Eureka（停止维护）、Nacos（阿里的，支持配置中心）、Consul、Zookeeper。服务发现方式：客户端发现（Ribbon）、服务端发现（Gateway/Nginx）。"
+  },
+  {
+    "category": "微服务",
+    "difficulty": "中等",
+    "question": "什么是API网关，它有什么作用",
+    "answer": "API网关是微服务的统一入口，封装内部系统架构。作用：1.路由转发：根据URL将请求路由到对应服务。2.负载均衡。3.认证鉴权：JWT、OAuth2。4.限流熔断：防止雪崩。5.日志监控。6.协议转换。常用网关：Spring Cloud Gateway、Kong、Zuul、Nginx。"
+  },
+  {
+    "category": "微服务",
+    "difficulty": "困难",
+    "question": "分布式事务如何处理",
+    "answer": "分布式事务解决方案：1.两阶段提交（2PC）：协调者Prepare-Commit，全票通过才提交。问题：同步阻塞、单点故障、数据不一致。2.三阶段提交（3PC）：增加PreCommit阶段。3.TCC（Try-Confirm-Cancel）：业务层面补偿。4.本地消息表（可靠消息最终一致性）：实现简单。5.Seata/Apache ShardingSphere-ElasticJob等中间件。"
+  },
+  {
+    "category": "微服务",
+    "difficulty": "困难",
+    "question": "什么是熔断降级，如何实现",
+    "answer": "熔断：当某个服务故障率超过阈值时，打开熔断器，快速失败返回降级结果，避免级联故障。降级：服务不可用时返回兜底数据或逻辑。常用组件：Sentinel（阿里的）、Hystrix（Netflix，已停止维护）。熔断器三状态：Closed（正常）、Open（熔断）、HalfOpen（探测恢复）。参数：失败率阈值、熔断时长、探测时长。"
+  },
+  {
+    "category": "设计模式",
+    "difficulty": "简单",
+    "question": "单例模式有哪几种实现方式",
+    "answer": "单例模式实现方式：1.饿汉式（静态变量/静态代码块）：类加载即创建，线程安全但可能浪费。2.懒汉式（延迟加载）：首次使用时创建，线程不安全需加锁。3.双重检查锁（DCL）：volatile+synchronized，线程安全且高效。4.静态内部类：类加载时创建，线程安全。5.枚举：最简洁，天然线程安全，防止反射和反序列化创建新对象。"
+  },
+  {
+    "category": "设计模式",
+    "difficulty": "中等",
+    "question": "工厂模式和抽象工厂模式有什么区别",
+    "answer": "工厂模式：创建一个产品（接口），子类决定实例化哪个类。简单工厂（一个工厂类）、工厂方法（工厂接口+具体工厂实现）。抽象工厂：创建产品族（一组相关产品），工厂接口定义创建多种产品，具体工厂实现每个产品族。工厂模式针对单个产品，抽象工厂针对产品族。"
+  },
+  {
+    "category": "设计模式",
+    "difficulty": "中等",
+    "question": "代理模式和装饰器模式有什么区别",
+    "answer": "代理模式：控制对对象的访问，在代理中增强/限制功能，不改变原接口。装饰器模式：动态给对象添加功能，在装饰器中调用原对象方法并增强，不改变接口但改变行为。共同点：都持有原对象引用，都不改变原接口。区别：代理侧重控制访问，装饰器侧重功能增强；代理在编译时确定，装饰器可在运行时组合。"
+  },
+  {
+    "category": "设计模式",
+    "difficulty": "困难",
+    "question": "策略模式和命令模式有什么区别",
+    "answer": "策略模式：定义一系列算法，将每个算法封装，使它们可互换。Context持有Strategy接口，调用algorithm()。适用于：根据不同条件选择不同算法。命令模式：将请求封装为对象，参数化请求、排队执行、撤销操作。Command接口，ConcreteCommand持有Receiver引用。适用于：请求封装、日志记录、撤销重做。策略模式侧重算法可替换，命令模式侧重请求封装和控制。"
+  },
+  {
+    "category": "工具框架",
+    "difficulty": "简单",
+    "question": "Git的常用命令有哪些",
+    "answer": "Git常用命令：git init（初始化）、git clone（克隆）、git add（暂存）、git commit（提交）、git push（推送）、git pull（拉取合并）、git fetch（拉取不合并）、git merge（合并分支）、git rebase（变基）、git status（状态）、git log（历史）、git branch（分支）、git checkout/switch（切换）、git stash（暂存）、git reset（回退）。"
+  },
+  {
+    "category": "工具框架",
+    "difficulty": "简单",
+    "question": "Git的reset和revert有什么区别",
+    "answer": "git reset：重置当前分支指针到指定提交，改变提交历史。--soft只移动HEAD，--mixed移动HEAD+暂存区，--hard移动HEAD+暂存区+工作目录。有风险，会修改历史。git revert：创建一个新提交来撤销指定提交的修改，不改变历史，安全性高。reset适合本地未推送的提交，revert适合已推送的提交。"
+  },
+  {
+    "category": "工具框架",
+    "difficulty": "中等",
+    "question": "Git的merge和rebase有什么区别",
+    "answer": "git merge：合并分支，保留原始提交历史，产生合并提交。特点：历史真实，但可能产生分叉。git rebase：变基，将当前分支的提交在目标分支上重新播放，产生线性历史。特点：历史整洁，但会修改提交历史。rebase黄金法则：不要rebase已推送的提交。多人在同一分支开发时慎用。"
+  },
+  {
+    "category": "工具框架",
+    "difficulty": "中等",
+    "question": "Docker是什么，有什么优势",
+    "answer": "Docker是容器化技术，将应用及依赖打包成镜像运行。优势：1.一致性：开发、测试、生产环境一致。2.隔离性：应用间互不影响。3.轻量级：比虚拟机启动更快、占用资源更少。4.可移植：一次构建多处运行。5.版本控制：可版本化管理镜像。6.生态丰富：Docker Hub有大量镜像。"
+  },
+  {
+    "category": "工具框架",
+    "difficulty": "困难",
+    "question": "Dockerfile的常用指令有哪些",
+    "answer": "Dockerfile指令：1.FROM指定基础镜像。2.LABEL添加元数据。3.RUN执行命令。4.COPY复制文件。5.ADD复制和解压文件（自动解压远程URL）。6.WORKDIR设置工作目录。7.EXPOSE暴露端口。8.ENV设置环境变量。9.CMD/ENTRYPOINT容器启动命令。10.VOLUME声明数据卷。11.USER设置用户。12.ONBUILD延迟执行。构建优化：用多阶段构建、减少层数、顺序优化缓存、删除不必要的文件。"
+  }
+]

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[容器/DevOps] Docker和虚拟机的区别是什么</title><description>## 题目
+Docker和虚拟机的区别是什么
+
+## 参考答案
+Docker容器 vs 虚拟机：1.隔离级别：VM完全隔离，容器共享宿主机内核。2.启动速度：VM需启动OS慢，容器秒级启动。3.资源占用：VM占用更多资源，容器轻量。4.性能：VM接近物理机，容器几乎没有性能损耗。5.迁移：VM需完整镜像，容器镜像小。6.管理：VM管理复杂，容器更简单。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 容器/DevOps</source><hint>难度：简单 | 分类：容器/DevOps</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>容器/DevOps</tag><difficulty>easy</difficulty></item><item><title>[容器/DevOps] K8s有哪些核心概念</title><description>## 题目
+K8s有哪些核心概念
+
+## 参考答案
+Kubernetes核心概念：1.Pod：最小调度单元，可包含多个容器。2.ReplicaSet：维持Pod副本数。3.Deployment：管理部署，支持滚动更新。4.Service：服务发现，负载均衡。5.Ingress：HTTP层路由。6.ConfigMap/Secret：配置管理。7.Volume：持久化存储。8.Namespace：资源隔离。9.HPA：自动扩缩容。10.StatefulSet：有状态应用管理。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 容器/DevOps</source><hint>难度：中等 | 分类：容器/DevOps</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>容器/DevOps</tag><difficulty>medium</difficulty></item><item><title>[容器/DevOps] CI/CD是什么，常用工具有哪些</title><description>## 题目
+CI/CD是什么，常用工具有哪些
+
+## 参考答案
+CI/CD是持续集成/持续交付。CI：代码提交自动构建、测试。CD：在CI基础上自动部署到各环境。常用工具：1.GitLab CI/CD。2.Jenkins。3.GitHub Actions。4.TeamCity。5.CircleCI。流程：代码提交→静态检查→编译→单元测试→集成测试→构建镜像→部署测试环境→部署生产。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 容器/DevOps</source><hint>难度：中等 | 分类：容器/DevOps</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>容器/DevOps</tag><difficulty>medium</difficulty></item><item><title>[容器/DevOps] 如何监控Java应用</title><description>## 题目
+如何监控Java应用
+
+## 参考答案
+Java应用监控：1.Metrics：Micrometer+Prometheus采集。2.链路追踪：SkyWalking、Jaeger、Zipkin（OpenTelemetry）。3.日志：ELK/EFK（Elasticsearch+Logstash+Fluentd+Kibana）。4.JVM监控：JMX、arthas、GC日志。5.APM：SkyWalking、Pinpoint。6.可视化：Grafana大盘。关键指标：QPS、RT、CPU、内存、GC、线程数、连接池。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 容器/DevOps</source><hint>难度：困难 | 分类：容器/DevOps</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>容器/DevOps</tag><difficulty>hard</difficulty></item></fps>

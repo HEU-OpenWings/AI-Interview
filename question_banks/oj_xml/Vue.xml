@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[Vue] Vue的生命周期有哪些</title><description>## 题目
+Vue的生命周期有哪些
+
+## 参考答案
+Vue2生命周期：beforeCreate（实例初始化）、created（实例创建完成）、beforeMount（挂载前）、mounted（挂载完成）、beforeUpdate（数据更新前）、updated（更新完成）、beforeDestroy（销毁前）、destroyed（销毁完成）。keep-alive还有activated/deactivated。Vue3生命周期变化：beforeCreate/created合并到setup，beforeMount改beforeMount，mounted改mounted，新增beforeUnmount/unmounted。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] v-if和v-show有什么区别</title><description>## 题目
+v-if和v-show有什么区别
+
+## 参考答案
+v-if是真正的条件渲染，通过创建/销毁DOM实现，条件为false时不渲染。v-show只是切换display属性，始终渲染DOM（visibility:hidden）。性能：v-if切换开销高（创建/销毁），v-show初始渲染开销高。v-show适合频繁切换，v-if适合条件很少改变的情况。v-if可配合v-else-if和v-else，v-show不行。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] Vue的响应式数据和非响应式数据有哪些</title><description>## 题目
+Vue的响应式数据和非响应式数据有哪些
+
+## 参考答案
+Vue2响应式：Object.defineProperty只能劫持已存在的属性。新增属性不响应：需Vue.set/add。数组索引赋值不响应：需Vue.set/数组方法。解决方案：数组用push/pop等方法、对象用Vue.set。Vue3使用Proxy代理，不存在这些问题。特殊情况：this.$data是响应式的，但this.xxx直接赋值不一定是。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] Vue中的$nextTick是什么</title><description>## 题目
+Vue中的$nextTick是什么
+
+## 参考答案
+$nextTick是DOM更新后获取最新状态的回调。Vue是异步更新，修改数据后不会立即更新DOM。原理：Promise/MutationObserver/setTimeout包装成微任务。在nextTick回调中可获取更新后的DOM。场景：$refs访问、获取元素宽高、依赖DOM的计算属性。Vue3中是nextTick()函数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] Vue中如何实现双向绑定</title><description>## 题目
+Vue中如何实现双向绑定
+
+## 参考答案
+Vue2双向绑定：v-model语法糖，本质是:value + @input。底层：Object.defineProperty劫持get/set，属性变化触发更新。v-model修饰符：.lazy（change事件）、.number（转数字）、.trim（去空格）。v-model可绑定不同prop和事件名：v-model:title.sync等价于:title='x' @update:title='x='。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] Vue中watch和computed区别</title><description>## 题目
+Vue中watch和computed区别
+
+## 参考答案
+computed是计算属性，基于响应式依赖计算，有缓存，只有依赖变化才重新计算。适合派生状态。watch是监听器，监听数据变化执行回调，无缓存，每次渲染都执行。适合副作用操作（异步、DOM操作）。computed可设置getter/setter，watch可设置immediate/ deep。优先用computed，必要时用watch。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] Vue的指令有哪些</title><description>## 题目
+Vue的指令有哪些
+
+## 参考答案
+Vue常用指令：v-bind（:）单向绑定、v-model双向绑定、v-if/v-show条件渲染、v-for循环渲染、v-on(@)事件绑定、v-text/v-html文本/HTML、v-slot插槽、v-once只渲染一次、v-cloak编译结束前不显示。自定义指令：Vue.directive()。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] Vue组件的name属性有什么用</title><description>## 题目
+Vue组件的name属性有什么用
+
+## 参考答案
+Vue组件name属性：1.递归组件自身。2.路由匹配作为组件名。3.devtools显示组件名。4.keep-alive include/exclude匹配。5.组件通信provide/inject。注意：未设置name时自动用文件名。推荐每个组件都设置name。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：简单 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>easy</difficulty></item><item><title>[Vue] computed和watch有什么区别</title><description>## 题目
+computed和watch有什么区别
+
+## 参考答案
+computed是计算属性，基于响应式依赖计算得出结果。有缓存机制，只有依赖变化时才重新计算。适合派生状态。默认只有getter，可设置setter。watch是监听器，监听数据变化执行回调。无缓存，每次渲染都会执行。适合执行异步操作、开销大的操作、需要在数据变化时执行副作用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue组件间通信方式有哪些</title><description>## 题目
+Vue组件间通信方式有哪些
+
+## 参考答案
+Vue组件通信方式：1.props/$emit（父子）。2.$parent/$children（父子）。3.$refs（父子）。4.provide/inject（祖孙）。5.$attrs/$listeners（祖孙）。6.eventBus（任意组件）。7.vuex/pinia（全局）。8.localStorage+事件监听（跨页面）。9.$root（根实例）。Vue3中$listeners合并到$attrs，移除$children。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue3的Composition API有哪些核心函数</title><description>## 题目
+Vue3的Composition API有哪些核心函数
+
+## 参考答案
+Composition API核心函数：1.setup()入口。2.reactive/ref定义响应式。3.computed计算属性。4.watch/watchEffect监听。5.lifeCycle hooks（onMounted等）。6.provide/inject祖孙通信。7.nextTick更新后回调。8.toRefs解构响应式对象。9.isRef判断ref。10.customRef自定义ref。11.readonly只读。12.triggerRef强制更新。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue Router的hash模式和history模式有什么区别</title><description>## 题目
+Vue Router的hash模式和history模式有什么区别
+
+## 参考答案
+Vue Router两种模式：1.hash模式：URL带#，基于window.location.hash。原理：hashchange事件监听。优点：无需服务端配置。缺点：URL不美观，有#。2.history模式：URL无#，基于HTML5 History API。原理：pushState/replaceState+popstate事件。优点：URL美观。缺点：需服务端配置（否则刷新404）。生产环境用history需nginx配置try_files。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vuex和Pinia有什么区别</title><description>## 题目
+Vuex和Pinia有什么区别
+
+## 参考答案
+Pinia是Vuex的继任者，更简洁。区别：1. Pinia无需mutations（actions直接改state）。2. Pinia模块不需要嵌套。3. Pinia有完整的TypeScript支持。4. Pinia自动支持代码分割。5. Pinia更轻量。6. Pinia actions支持同步和异步。Pinia API更接近Vue 3 Composition API。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue的mixin是什么，有什么问题</title><description>## 题目
+Vue的mixin是什么，有什么问题
+
+## 参考答案
+mixin是Vue2复用组件逻辑的方式。特点：1.共享逻辑。2.选项合并规则。3.全局mixin影响所有组件。问题：1.来源不清晰（命名冲突）。2.隐式依赖（属性间依赖）。3.方法冲突难以排查。4.难以Tree-shaking。替代：Composition API + composables、Higher-Order Components。Vue3建议用composables替代。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue3的setup函数如何使用</title><description>## 题目
+Vue3的setup函数如何使用
+
+## 参考答案
+setup是Vue3 Composition API入口，在beforeCreate前执行。接收props和context参数。return返回的内容可在模板中使用。ref定义响应式变量：const count = ref(0)。reactive定义对象响应式。生命周期钩子：onMounted、onUpdated等需单独导入。setup中this为undefined。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue3有哪些新特性</title><description>## 题目
+Vue3有哪些新特性
+
+## 参考答案
+Vue3新特性：1.Composition API。2.Teleport。3.Suspense。4.Fragement多根节点。5.更好的TypeScript支持。6.虚拟DOM重写，更快。7.Proxy响应式替代defineProperty。8.自定义渲染API。9.更好的性能。10.体积更小。11.自定义指令API变化。12.移除一些废弃API。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue的render函数如何使用</title><description>## 题目
+Vue的render函数如何使用
+
+## 参考答案
+Vue render函数：手写render替代模板。参数：createElement(tag, data, children)。tag：标签名/组件/函数。data：attrs、on、props等。children：子节点数组。h别名是createElement。应用：动态组件、render props、性能优化。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：中等 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>medium</difficulty></item><item><title>[Vue] Vue响应式原理是什么</title><description>## 题目
+Vue响应式原理是什么
+
+## 参考答案
+Vue2响应式：Object.defineProperty劫持对象属性的get/set。数组通过重写数组方法实现。缺陷：新增/删除属性不响应，数组索引直接赋值不响应，需要Vue.set/delete。Vue3响应式：Proxy代理整个对象，get时收集依赖，set时触发更新。性能更好，支持更多操作（in、delete、函数拦截）。Reflect保持行为一致。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue Router有哪些导航守卫</title><description>## 题目
+Vue Router有哪些导航守卫
+
+## 参考答案
+Vue Router导航守卫：全局：beforeEach（全局前置）、beforeResolve（全局解析）、afterEach（全局后置）。路由独享：beforeEnter。组件内：beforeRouteEnter（进入前，不能访问this）、beforeRouteUpdate（复用组件时）、beforeRouteLeave（离开前）。守卫接收to/from/next三个参数。守卫执行顺序：触发导航→失活组件beforeRouteLeave→全局beforeEach→复用组件beforeRouteUpdate→路由beforeEnter→解析异步组件→组件beforeRouteEnter→全局beforeResolve→导航确认→afterEach。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue的Virtual DOM原理是什么</title><description>## 题目
+Vue的Virtual DOM原理是什么
+
+## 参考答案
+Virtual DOM是真实DOM的JavaScript对象抽象。Vue3使用 Proxy 响应式 + VDOM。渲染流程：模板→AST→render函数→VDOM树→DIFF→更新真实DOM。DIFF算法（同层比较）：1.按key匹配。2.同节点tag不同则重建。3.同节点比较props/children/事件。优化：静态提升、缓存事件处理函数。VDOM优势：批量更新、跨平台、减少重排重绘。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue3的Suspense组件如何使用</title><description>## 题目
+Vue3的Suspense组件如何使用
+
+## 参考答案
+Suspense是Vue3内置组件，支持异步组件渲染。插槽：default（异步内容）、fallback（加载状态）。使用：配合async组件或setup返回Promise。语法：&lt;Suspense&gt;&lt;template #default&gt;异步内容&lt;/template&gt;&lt;template #fallback&gt;加载中&lt;/template&gt;&lt;/Suspense&gt;。与Vue Router配合需使用defineAsyncComponent。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue的nextTick原理是什么</title><description>## 题目
+Vue的nextTick原理是什么
+
+## 参考答案
+nextTick是DOM更新后获取最新状态的回调。原理：Vue异步更新队列+Promise/ MutationObserver/ setImmediate/ setTimeout。流程：数据变化→Watcher入队→nextTick执行回调时flush队列→DOM更新→执行nextTick回调。Vue2：优先Promise，fallback到MutationObserver/setImmediate/setTimeout。Vue3：使用微任务Promise。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue3的Teleport是什么</title><description>## 题目
+Vue3的Teleport是什么
+
+## 参考答案
+Teleport是Vue3内置组件，将子组件渲染到任意DOM位置。语法：&lt;Teleport to='body'&gt;内容&lt;/Teleport&gt;。to可以是CSS选择器或DOM元素。disabled属性可禁用传送。应用：Modal弹窗、Toast提示、全局通知。不需要z-index手动管理。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue的keep-alive是什么</title><description>## 题目
+Vue的keep-alive是什么
+
+## 参考答案
+keep-alive是Vue内置组件，缓存组件实例。属性：include/exclude（字符串/正则/数组匹配组件名）、max（最大缓存数）。生命周期：失活前调用deactivated，激活调用activated。应用：列表详情页切换、Tab切换。配合router-view缓存路由组件。组件被缓存后不会重新创建。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue3的defineAsyncComponent如何使用</title><description>## 题目
+Vue3的defineAsyncComponent如何使用
+
+## 参考答案
+defineAsyncComponent定义异步组件。语法：const AsyncComp = defineAsyncComponent(() =&gt; import('./Comp.vue'))。选项API：loadingComponent、errorComponent、delay、timeout。配合Suspense：&lt;Suspense&gt;&lt;template #default&gt;&lt;AsyncComp/&gt;&lt;/template&gt;&lt;template #fallback&gt;&lt;Loading/&gt;&lt;/template&gt;&lt;/Suspense&gt;。用于代码分割、优化首屏加载。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue3的响应式原理是什么</title><description>## 题目
+Vue3的响应式原理是什么
+
+## 参考答案
+Vue3使用Proxy实现响应式。new Proxy(obj, { get(target,key){ track(target,key) return Reflect.get(target,key) }, set(target,key,value){ trigger(target,key) return Reflect.set(target,key,value) } })。比defineProperty更好：1.深层响应式无需预递归。2.支持数组索引。3.支持Map/Set。4.支持in操作。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item><item><title>[Vue] Vue3的v-memo是什么</title><description>## 题目
+Vue3的v-memo是什么
+
+## 参考答案
+v-memo：Vue3.2+指令，缓存子树模板。语法：v-memo=[dep1, dep2]。当依赖值未变化时，跳过更新。类似React的useMemo。用于长列表项、避免重复渲染。配合v-for使用。注意：不要在模板中使用复杂计算。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Vue</source><hint>难度：困难 | 分类：Vue</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Vue</tag><difficulty>hard</difficulty></item></fps>

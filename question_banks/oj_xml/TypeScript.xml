@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[TypeScript] TypeScript和JavaScript有什么区别</title><description>## 题目
+TypeScript和JavaScript有什么区别
+
+## 参考答案
+JavaScript是脚本语言，TypeScript是JavaScript的超集。TypeScript添加了：1.静态类型系统。2.接口、泛型、枚举等高级类型。3.编译时检查错误。4.更好的IDE支持。5.面向对象特性（类、模块）。TypeScript代码编译为JavaScript运行。需要tsconfig.json配置。TypeScript让代码更健壮，维护性更好。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: TypeScript</source><hint>难度：简单 | 分类：TypeScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>TypeScript</tag><difficulty>easy</difficulty></item><item><title>[TypeScript] interface和type有什么区别</title><description>## 题目
+interface和type有什么区别
+
+## 参考答案
+interface和type的异同：1.interface可声明合并（同名interface自动合并），type不能。2.type可以声明联合类型、交叉类型、元组，interface不行。3.class实现接口用implements，type无此语法。4.computed properties只能用type。5.extends：interface用extends扩展，type用交叉类型&amp;扩展。总结：对象结构用interface，复杂类型用type。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: TypeScript</source><hint>难度：简单 | 分类：TypeScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>TypeScript</tag><difficulty>easy</difficulty></item><item><title>[TypeScript] TypeScript泛型如何使用</title><description>## 题目
+TypeScript泛型如何使用
+
+## 参考答案
+泛型是类型参数化，增加代码灵活性。&lt;T&gt;定义泛型，可约束类型范围。基本用法：function identity&lt;T&gt;(arg: T): T { return arg; }。调用时：显式identity&lt;string&gt;('hello')或自动推断。泛型约束：&lt;T extends Interface&gt;限制T必须有某属性。常见模式：泛型函数、泛型接口&lt;T&gt;、泛型类&lt;T&gt;、keyof获取键、Partial&lt;T&gt;可选属性、Required&lt;T&gt;必选属性。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: TypeScript</source><hint>难度：中等 | 分类：TypeScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>TypeScript</tag><difficulty>medium</difficulty></item><item><title>[TypeScript] TypeScript映射类型是什么</title><description>## 题目
+TypeScript映射类型是什么
+
+## 参考答案
+映射类型是TypeScript 2.1引入的类型工具，从已有类型创建新类型。语法：type NewType = { [K in keyof OldType]: NewValueType }。内置映射类型：Partial&lt;T&gt;所有属性可选，Required&lt;T&gt;所有属性必选，Readonly&lt;T&gt;只读，Pick&lt;T,K&gt;选取部分属性，Omit&lt;T,K&gt;排除部分属性，Record&lt;K,V&gt;键值对类型。可用+/-修改映射修饰符。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: TypeScript</source><hint>难度：困难 | 分类：TypeScript</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>TypeScript</tag><difficulty>hard</difficulty></item></fps>
