@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[安全] 什么是XSS攻击，如何防范</title><description>## 题目
+什么是XSS攻击，如何防范
+
+## 参考答案
+XSS（跨站脚本攻击）：向页面注入恶意脚本代码。类型：存储型（入库）、反射型（URL参数）、DOM型（前端执行）。危害：盗取Cookie、会话劫持、钓鱼。防范：1.输入过滤/转义。2.Content-Security-Policy头。3.HttpOnly Cookie。4.X-XSS-Protection头。5.Vue/React自动转义。原则：不相信用户输入。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 安全</source><hint>难度：简单 | 分类：安全</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>安全</tag><difficulty>easy</difficulty></item><item><title>[安全] 什么是CSRF攻击，如何防范</title><description>## 题目
+什么是CSRF攻击，如何防范
+
+## 参考答案
+CSRF（跨站请求伪造）：利用用户已登录状态发起恶意请求。原理：用户登录A站，访问B站触发A站请求（Cookie自动携带）。防范：1.Token验证（CSRF Token）。2.双重Cookie验证。3.SameSite Cookie。4.验证请求来源（Referer/Origin）。5.敏感操作二次验证。关键：不执行来源不明的请求。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 安全</source><hint>难度：简单 | 分类：安全</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>安全</tag><difficulty>easy</difficulty></item><item><title>[安全] 什么是SQL注入，如何防范</title><description>## 题目
+什么是SQL注入，如何防范
+
+## 参考答案
+SQL注入：通过用户输入拼接SQL语句，执行恶意SQL。类型：数字注入、字符串注入、盲注。防范：1.参数化查询（PreparedStatement）。2.存储过程。3.输入验证（白名单）。4.Escaping。5.最小权限原则。6.ORM框架自动处理。禁止拼接SQL字符串。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 安全</source><hint>难度：中等 | 分类：安全</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>安全</tag><difficulty>medium</difficulty></item><item><title>[安全] 什么是中间人攻击，如何防范</title><description>## 题目
+什么是中间人攻击，如何防范
+
+## 参考答案
+中间人攻击（MITM）：攻击者拦截并篡改双方通信。场景：公共WiFi、DNS劫持。防范：1.HTTPS强制使用。2.HSTS头强制HTTPS。3.证书锁定（Certificate Pinning）。4.公钥 pinning。5.使用VPN。6.警惕SSL剥离攻击（降级HTTP）。客户端应验证证书有效性。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 安全</source><hint>难度：中等 | 分类：安全</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>安全</tag><difficulty>medium</difficulty></item></fps>

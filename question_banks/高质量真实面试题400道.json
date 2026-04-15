@@ -1,0 +1,3194 @@
+[
+  {
+    "id": "js-001",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的typeof返回哪些类型？null为什么是object？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-002",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说JavaScript中的事件循环机制（Event Loop）",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-003",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的闭包是什么？有什么应用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-004",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的原型和原型链是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-005",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "ES6中的let、const和var有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-006",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的Promise是什么？如何使用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-007",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说async/await的原理和使用场景",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-008",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的this指向问题有哪些规则？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-009",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何实现一个深拷贝函数？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-010",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中new操作符具体做了什么？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-011",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的防抖和节流有什么区别？如何实现？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-012",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说JavaScript中的继承方式有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-013",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中如何实现数组扁平化？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-014",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说JavaScript中的垃圾回收机制",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-015",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的事件委托是什么？有什么好处？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-016",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何理解JavaScript中的执行上下文和作用域链？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-017",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中的call、apply和bind有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-018",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说对Promise.all、Promise.race的理解",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-019",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "JavaScript中如何实现数组去重？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-020",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说JavaScript中的基本数据类型和引用数据类型",
+    "difficulty": "简单"
+  },
+  {
+    "id": "vue-001",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的响应式原理是什么？如何实现的？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "vue-002",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的computed和watch有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "vue-003",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的nextTick是什么？有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-004",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的生命周期钩子有哪些？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "vue-005",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的v-if和v-show有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "vue-006",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的组件通讯方式有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-007",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的keep-alive是什么？有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-008",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue3中的Composition API相比Options API有什么优势？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-009",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的虚拟DOM是什么？为什么需要虚拟DOM？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "vue-010",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的key属性有什么作用？为什么不建议使用index或random作为key？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-011",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说Vue中的diff算法",
+    "difficulty": "困难"
+  },
+  {
+    "id": "vue-012",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的插槽（slot）有哪些？有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-013",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的provide和inject是什么？有什么使用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-014",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的mixin是什么？有什么优缺点？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-015",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue3中的ref和reactive有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-016",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的路由跳转方式有哪些？有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "vue-017",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的导航守卫有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-018",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中如何实现路由懒加载？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-019",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Vue中的$nextTick的原理是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "vue-020",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说Vue3中的setup函数",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-001",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的虚拟DOM是什么？如何工作的？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-002",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的useState和useReducer有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "react-003",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的useEffect和useLayoutEffect有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-004",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的memo和useMemo有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-005",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的Fiber架构是什么？解决了什么问题？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "react-006",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的hooks有哪些？有什么限制？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-007",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的setState是同步还是异步的？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "react-008",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中如何实现性能优化？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-009",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的context是什么？如何使用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-010",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "React中的Suspense和lazy是什么？有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-001",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说说flex布局的常用属性及作用",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-002",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "CSS中的flex:1具体代表什么？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-003",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何实现垂直居中？有哪些方法？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-004",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说说CSS中的BFC（块级格式化上下文）是什么？有什么作用？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "css-005",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "CSS中的盒模型是什么？content-box和border-box有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-006",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "position属性有哪些值？分别有什么特点？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-007",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "CSS中如何实现两栏布局和三栏布局？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-008",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "CSS Grid和Flexbox有什么区别？分别适用什么场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-009",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "CSS中的层叠规则是什么？优先级如何计算？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-010",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说一说CSS中的transform、transition和animation的区别",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-001",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "HTTP和HTTPS有什么区别？HTTPS是如何保证安全的？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-002",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "HTTP请求的方法有哪些？GET和POST有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "net-003",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "HTTP状态码有哪些？分别代表什么意思？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "net-004",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "说说HTTP/1.0、HTTP/1.1和HTTP/2的区别",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-005",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "为什么HTTP1.1不能实现多路复用？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "net-006",
+    "category": "计算机网络",
+    "sub_category": "TCP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "TCP的三次握手和四次挥手是什么？为什么需要三次握手？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-007",
+    "category": "计算机网络",
+    "sub_category": "TCP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "TCP和UDP有什么区别？各自适用什么场景？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "net-008",
+    "category": "计算机网络",
+    "sub_category": "TCP",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "什么是TCP的滑动窗口？有什么作用？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "net-009",
+    "category": "计算机网络",
+    "sub_category": "浏览器",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "浏览器的缓存机制是什么？强缓存和协商缓存有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-010",
+    "category": "计算机网络",
+    "sub_category": "浏览器",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "浏览器中Cookie、Session、Token有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-011",
+    "category": "计算机网络",
+    "sub_category": "浏览器",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "浏览器的渲染过程是什么？如何优化渲染性能？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "net-012",
+    "category": "计算机网络",
+    "sub_category": "浏览器",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "什么是XSS攻击和CSRF攻击？如何防范？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-001",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Webpack中的loader和plugin有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-002",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Webpack的构建流程是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "build-003",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Webpack中如何实现代码分割（code splitting）？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-004",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Webpack中的Tree Shaking是什么？有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-005",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Webpack和Vite有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-006",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "Babel是什么？Webpack中如何使用Babel？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "perf-001",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何提升首屏加载速度？有哪些优化方案？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-002",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何计算白屏时间和首屏时间？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-003",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "前端项目如何找出性能瓶颈？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-004",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何优化图片加载？有哪些方案？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "perf-005",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "什么是懒加载？如何在项目中使用？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "perf-006",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "前端面试进阶/牛客网/掘金",
+    "question": "如何减少回流和重绘？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-001",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "JDK、JRE、JVM三者的区别和关系是什么？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-002",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Java中==和equals()有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-003",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "String为什么是不可变的？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-004",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "String、StringBuilder、StringBuffer有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-005",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "final关键字有哪些用法？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-006",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "static关键字有哪些用法？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-007",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是自动拆箱和装箱？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-008",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "接口和抽象类有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-009",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "重载和重写有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-010",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Java中的异常处理机制是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-col-001",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "ArrayList和LinkedList有什么区别？各自适用什么场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-col-002",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "HashMap的底层实现原理是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "java-col-003",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "HashMap、Hashtable、ConcurrentHashMap有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-col-004",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "HashMap为什么线程不安全？如何实现线程安全？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "java-col-005",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "HashSet的底层实现是什么？为什么add、contains、remove操作都是O(1)？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-col-006",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "HashMap扩容机制是什么？什么时候会触发扩容？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-col-007",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "ConcurrentHashMap是如何实现线程安全的？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "java-col-008",
+    "category": "Java",
+    "sub_category": "Java集合",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Java中的List、Set、Map有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-thread-001",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "线程和进程有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-thread-002",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "创建线程有哪些方式？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "java-thread-003",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "synchronized关键字的原理是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "java-thread-004",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "synchronized和ReentrantLock有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-thread-005",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "volatile关键字的作用是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-thread-006",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "ThreadLocal是什么？有什么使用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-thread-007",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是线程池？为什么要使用线程池？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-thread-008",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "线程池的核心参数有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-thread-009",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是CAS？有什么优缺点？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "java-thread-010",
+    "category": "Java",
+    "sub_category": "Java并发",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是ABA问题？如何解决？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "jvm-001",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "JVM的内存区域划分是怎样的？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "jvm-002",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "堆和栈有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "jvm-003",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是垃圾回收？有哪些垃圾回收算法？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "jvm-004",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Minor GC和Full GC有什么区别？什么时候会触发？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "jvm-005",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "常见的垃圾收集器有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "jvm-006",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是类加载机制？类加载的过程是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "jvm-007",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是双亲委派模型？为什么要使用双亲委派？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "jvm-008",
+    "category": "Java",
+    "sub_category": "JVM",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "如何排查JVM内存泄漏问题？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mysql-001",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "MySQL的索引是什么？有哪些类型？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-002",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "B树和B+树有什么区别？为什么MySQL使用B+树？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mysql-003",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "InnoDB和MyISAM有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-004",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是事务？事务的四大特性是什么？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "mysql-005",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是脏读、不可重复读和幻读？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-006",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "MySQL的隔离级别有哪些？默认隔离级别是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-007",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是MVCC？有什么作用？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mysql-008",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "SQL优化有哪些常用方法？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-009",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是慢查询？如何优化慢查询？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-010",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "数据库连接池有什么用？有哪些常见的连接池？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "redis-001",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis有哪些数据类型？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "redis-002",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis和Memcached有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-003",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis的持久化机制有哪些？RDB和AOF有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-004",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis的过期键删除策略有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-005",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis如何实现分布式锁？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "redis-006",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis的缓存穿透、缓存击穿、缓存雪崩是什么？如何解决？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "redis-007",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis的主从复制原理是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-008",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis哨兵模式有什么用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-009",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis集群是如何工作的？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-010",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Redis为什么这么快？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "spring-001",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Spring的核心模块有哪些？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "spring-002",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是IoC？有什么好处？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "spring-003",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "什么是DI？有哪些注入方式？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "spring-004",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "BeanFactory和FactoryBean有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-005",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Bean的作用域有哪些？默认是什么？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "spring-006",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Bean的生命周期是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "spring-007",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Spring中 @Autowired 和 @Resource 有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "spring-008",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Spring事务的传播行为有哪些？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-009",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Spring AOP的原理是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-010",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金/JavaGuide",
+    "question": "Spring Boot的自动配置原理是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-arr-001",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "两数之和 - 给定一个数组和一个目标值，返回两个数的索引",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-arr-002",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "合并两个有序数组 - 合并两个有序数组为一个有序数组",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-arr-003",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "删除排序数组中的重复项 - 返回去重后的数组长度",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-arr-004",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "最大子序和 - 给定整数数组，找到具有最大和的连续子数组",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-arr-005",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "旋转数组 - 将数组向右旋转k步",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-arr-006",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "矩阵置零 - 如果矩阵中有0，将其所在的行和列都置为0",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-list-001",
+    "category": "算法",
+    "sub_category": "链表",
+    "source": "LeetCode/牛客网",
+    "question": "反转链表 - 反转一个单链表",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-list-002",
+    "category": "算法",
+    "sub_category": "链表",
+    "source": "LeetCode/牛客网",
+    "question": "两数相加 - 给定两个非空链表，表示两个非负整数，返回它们的和",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-list-003",
+    "category": "算法",
+    "sub_category": "链表",
+    "source": "LeetCode/牛客网",
+    "question": "合并两个有序链表 - 合并两个有序链表为一个有序链表",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-list-004",
+    "category": "算法",
+    "sub_category": "链表",
+    "source": "LeetCode/牛客网",
+    "question": "环形链表 - 判断链表是否有环",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-list-005",
+    "category": "算法",
+    "sub_category": "链表",
+    "source": "LeetCode/牛客网",
+    "question": "链表中倒数第k个节点 - 返回链表中倒数第k个节点",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-list-006",
+    "category": "算法",
+    "sub_category": "链表",
+    "source": "LeetCode/牛客网",
+    "question": "删除链表的倒数第N个节点",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-str-001",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "有效的括号 - 判断字符串中的括号是否匹配",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-str-002",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "最长公共前缀 - 找出字符串数组中的最长公共前缀",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-str-003",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "字符串转换整数 - 实现atoi函数",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-str-004",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "回文串判断 - 判断一个字符串是否为回文串",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-str-005",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "无重复字符的最长子串 - 找到字符串中不含重复字符的最长子串长度",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-tree-001",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "二叉树的中序遍历 - 返回中序遍历结果",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-tree-002",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "二叉树的最大深度 - 返回二叉树的最大深度",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-tree-003",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "验证二叉搜索树 - 判断一棵二叉树是否为BST",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-tree-004",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "二叉树的最近公共祖先 - 找到两个节点的最近公共祖先",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-tree-005",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "从前序和中序遍历构建二叉树",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-dp-001",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "爬楼梯 - 有n阶楼梯，每次可以爬1或2阶，有多少种爬法？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-dp-002",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "打家劫舍 - 不能偷相邻的两家，最多能偷多少钱？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-dp-003",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "最长递增子序列 - 找到最长递增子序列的长度",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-dp-004",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "编辑距离 - 将word1转换成word2的最少操作数",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-dp-005",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "背包问题 - 0-1背包和完全背包的区别和应用",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-sort-001",
+    "category": "算法",
+    "sub_category": "排序查找",
+    "source": "LeetCode/牛客网",
+    "question": "二分查找 - 在有序数组中查找目标值",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-sort-002",
+    "category": "算法",
+    "sub_category": "排序查找",
+    "source": "LeetCode/牛客网",
+    "question": "快速排序的原理是什么？时间复杂度是多少？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-sort-003",
+    "category": "算法",
+    "sub_category": "排序查找",
+    "source": "LeetCode/牛客网",
+    "question": "归并排序的原理是什么？时间复杂度是多少？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-sort-004",
+    "category": "算法",
+    "sub_category": "排序查找",
+    "source": "LeetCode/牛客网",
+    "question": "Top K问题 - 如何在海量数据中找到前K大的数？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-other-001",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "合并区间 - 合并重叠的区间",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-other-002",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "括号生成 - 生成所有有效的括号组合",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-other-003",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "LRU缓存 - 实现一个LRU缓存",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-other-004",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "接雨水 - 给定非负整数数组，计算能接多少雨水",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-021",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的typeof操作符返回哪些值？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-022",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中如何实现数组flat扁平化？有哪些方法？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-023",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "说一说JavaScript中的symbol类型及其应用场景",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-024",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中BigInt是什么？有什么用途？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-025",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的Map和Set有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-026",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中什么是WeakMap和WeakSet？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-027",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中如何判断一个对象是空对象？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-028",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "说一说JavaScript中的0.1+0.2为什么不等于0.3？如何解决？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-029",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中什么是Generator函数？有什么特点？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-030",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的Proxy是什么？有什么应用？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-031",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的Reflect是什么？为什么要使用Reflect？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-032",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中如何实现浅拷贝和深拷贝？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-033",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的事件流是什么？捕获和冒泡有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-034",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中如何阻止事件冒泡和默认行为？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-035",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的localStorage、sessionStorage、Cookie有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "js-036",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中如何实现函数节流？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-037",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中如何实现函数防抖？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-038",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的apply、call、bind的区别和使用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "js-039",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "说一说JavaScript中的设计模式有哪些？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "js-040",
+    "category": "JavaScript",
+    "sub_category": "JavaScript核心",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中的模块化发展历程？CommonJS、ES6 Module、AMD、CMD的区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "vue-021",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue3中的toRefs和toRef有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-022",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue3中的watch和watchEffect有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-023",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue3中的Teleport是什么？有什么使用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-024",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue3中的defineAsyncComponent是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-025",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue中如何实现条件渲染和列表渲染？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "vue-026",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue中的过滤器（filter）是什么？为什么不推荐使用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-027",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue中如何处理异步组件加载失败的情况？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-028",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue中的$set和$delete有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-029",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue中父子组件的生命周期执行顺序是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "vue-030",
+    "category": "Vue",
+    "sub_category": "Vue核心",
+    "source": "牛客网/掘金",
+    "question": "Vue中如何实现一个自定义指令？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-011",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中如何处理表单输入？受控组件和非受控组件的区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-012",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中的PureComponent和Component有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "react-013",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中render props和高阶组件有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "react-014",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中错误边界是什么？如何实现？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "react-015",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中的Portals是什么？有什么使用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-016",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中如何实现全局状态管理？Redux、Zustand、Recoil的区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "react-017",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中useCallback和useMemo的适用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-018",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中如何理解ref的转发（forwardRef）？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-019",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React 18中的新特性有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "react-020",
+    "category": "React",
+    "sub_category": "React核心",
+    "source": "牛客网/掘金",
+    "question": "React中的useId是什么？解决了什么问题？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-011",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "牛客网/掘金",
+    "question": "CSS中的圣杯布局和双飞翼布局如何实现？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "css-012",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "牛客网/掘金",
+    "question": "CSS中如何实现一个三角形？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-013",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "牛客网/掘金",
+    "question": "CSS中的clearfix是什么？如何实现？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-014",
+    "category": "CSS",
+    "sub_category": "CSS布局",
+    "source": "牛客网/掘金",
+    "question": "CSS中如何实现自适应正方形？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-015",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "牛客网/掘金",
+    "question": "CSS中的伪类和伪元素有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-016",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "牛客网/掘金",
+    "question": "CSS中的display:none和visibility:hidden有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-017",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "牛客网/掘金",
+    "question": "CSS中的line-height和vertical-align有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "css-018",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "牛客网/掘金",
+    "question": "CSS中的z-index和层叠上下文是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "css-019",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "牛客网/掘金",
+    "question": "CSS中如何实现文字溢出省略号？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "css-020",
+    "category": "CSS",
+    "sub_category": "CSS渲染",
+    "source": "牛客网/掘金",
+    "question": "CSS中的媒体查询是什么？如何使用？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "net-013",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "牛客网/掘金",
+    "question": "HTTP缓存的头部字段有哪些？分别有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-014",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "牛客网/掘金",
+    "question": "HTTPS的握手过程是怎样的？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "net-015",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "牛客网/掘金",
+    "question": "HTTP的长连接和短连接有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-016",
+    "category": "计算机网络",
+    "sub_category": "HTTP",
+    "source": "牛客网/掘金",
+    "question": "什么是WebSocket？与HTTP有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-017",
+    "category": "计算机网络",
+    "sub_category": "TCP",
+    "source": "牛客网/掘金",
+    "question": "TCP的TIME_WAIT状态是什么？为什么需要这个状态？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "net-018",
+    "category": "计算机网络",
+    "sub_category": "TCP",
+    "source": "牛客网/掘金",
+    "question": "TCP的四次挥手为什么需要TIME_WAIT状态？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "net-019",
+    "category": "计算机网络",
+    "sub_category": "DNS",
+    "source": "牛客网/掘金",
+    "question": "DNS的解析过程是怎样的？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "net-020",
+    "category": "计算机网络",
+    "sub_category": "HTTPS",
+    "source": "牛客网/掘金",
+    "question": "什么是数字证书？数字证书的作用是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-007",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "牛客网/掘金",
+    "question": "Webpack中的hash、chunkhash、contenthash有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-008",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "牛客网/掘金",
+    "question": "Webpack中如何配置多入口？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-009",
+    "category": "前端工程化",
+    "sub_category": "Webpack",
+    "source": "牛客网/掘金",
+    "question": "Webpack中的devServer有哪些常用配置？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-010",
+    "category": "前端工程化",
+    "sub_category": "其他",
+    "source": "牛客网/掘金",
+    "question": "Git的常用命令有哪些？merge和rebase有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "build-011",
+    "category": "前端工程化",
+    "sub_category": "其他",
+    "source": "牛客网/掘金",
+    "question": "什么是CI/CD？如何在前端项目中实现？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "build-012",
+    "category": "前端工程化",
+    "sub_category": "其他",
+    "source": "牛客网/掘金",
+    "question": "npm、yarn、pnpm有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "build-013",
+    "category": "前端工程化",
+    "sub_category": "其他",
+    "source": "牛客网/掘金",
+    "question": "package.json中的dependencies和devDependencies有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "build-014",
+    "category": "前端工程化",
+    "sub_category": "其他",
+    "source": "牛客网/掘金",
+    "question": "什么是Monorepo？有什么优势？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-007",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "牛客网/掘金",
+    "question": "如何减少DNS查询次数？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "perf-008",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "牛客网/掘金",
+    "question": "如何减少HTTP请求次数？有哪些方法？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-009",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "牛客网/掘金",
+    "question": "什么是预解析（DNS Prefetch）？如何使用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-010",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "牛客网/掘金",
+    "question": "如何减少白屏时间？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-011",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "牛客网/掘金",
+    "question": "前端监控指标有哪些？如何进行性能监控？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "perf-012",
+    "category": "性能优化",
+    "sub_category": "前端性能",
+    "source": "牛客网/掘金",
+    "question": "什么是长任务（Long Task）？如何优化？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-011",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金",
+    "question": "Java中的反射机制是什么？有什么应用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-012",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金",
+    "question": "Java中的注解是什么？有什么用途？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-013",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金",
+    "question": "Java中的泛型是什么？为什么要使用泛型？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-014",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金",
+    "question": "Java 8有哪些新特性？Lambda表达式有什么优势？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "java-015",
+    "category": "Java",
+    "sub_category": "Java基础",
+    "source": "牛客网/掘金",
+    "question": "Java中的Stream API有哪些常用操作？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-011",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金",
+    "question": "MySQL中如何进行分库分表？有哪些策略？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mysql-012",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金",
+    "question": "什么是主从复制？MySQL主从复制的原理是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-013",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金",
+    "question": "什么是读写分离？如何实现？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-014",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金",
+    "question": "MySQL中如何优化慢查询？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mysql-015",
+    "category": "数据库",
+    "sub_category": "MySQL",
+    "source": "牛客网/掘金",
+    "question": "什么是覆盖索引？有什么优势？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-011",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金",
+    "question": "Redis中有序集合（Sorted Set）有什么应用场景？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-012",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金",
+    "question": "Redis的scan命令有什么优势？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-013",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金",
+    "question": "Redis的数据淘汰策略有哪些？默认是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-014",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金",
+    "question": "Redis中如何实现点赞功能？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "redis-015",
+    "category": "缓存",
+    "sub_category": "Redis",
+    "source": "牛客网/掘金",
+    "question": "Redis和MySQL如何保持数据一致性？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-011",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金",
+    "question": "Spring中如何解决循环依赖问题？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-012",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金",
+    "question": "Spring中的三级缓存是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-013",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金",
+    "question": "Spring Boot和Spring有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "spring-014",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金",
+    "question": "Spring Boot的启动流程是怎样的？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "spring-015",
+    "category": "Java",
+    "sub_category": "Spring",
+    "source": "牛客网/掘金",
+    "question": "Spring中的事务失效场景有哪些？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-036",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "如何判断一个链表是否有环？环的入口在哪里？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-037",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现一个栈包含min函数，能在O(1)时间内获取最小值？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-038",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "如何求两个链表的第一个公共节点？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-039",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现字符串的全排列？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-040",
+    "category": "算法",
+    "sub_category": "其他",
+    "source": "LeetCode/牛客网",
+    "question": "如何用栈实现队列？用队列实现栈？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-041",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "如何在排序数组中查找元素的第一个和最后一个位置？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-042",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "如何在O(n)时间内找出数组中的第K大元素？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-043",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "如何求连续子数组的最大和？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-044",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现正则表达式匹配？支持.和*",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-045",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现字符串转整数（atoi）？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-046",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "如何判断一棵树是否是平衡二叉树？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-047",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "如何序列化二叉树和反序列化？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-048",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛辰网",
+    "question": "如何理解动态规划的状态转移方程？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-049",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "股票最大利润问题（最多交易一次）如何解决？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-050",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "路径问题（不同路径）如何用动态规划解决？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "scene-001",
+    "category": "系统设计",
+    "sub_category": "场景设计",
+    "source": "牛客网/掘金",
+    "question": "如何设计一个短链接系统？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-002",
+    "category": "系统设计",
+    "sub_category": "场景设计",
+    "source": "牛客网/掘金",
+    "question": "如何设计一个秒杀系统？需要注意哪些问题？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-003",
+    "category": "系统设计",
+    "sub_category": "场景设计",
+    "source": "牛客网/掘金",
+    "question": "如何设计一个高并发的消息推送系统？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-004",
+    "category": "系统设计",
+    "sub_category": "场景设计",
+    "source": "牛客网/掘金",
+    "question": "如何设计一个搜索建议系统？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-005",
+    "category": "系统设计",
+    "sub_category": "场景设计",
+    "source": "牛客网/掘金",
+    "question": "如何设计一个Feed流系统？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-006",
+    "category": "系统设计",
+    "sub_category": "场景设计",
+    "source": "牛客网/掘金",
+    "question": "如何设计一个延迟消息队列？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-007",
+    "category": "系统设计",
+    "sub_category": "架构设计",
+    "source": "牛客网/掘金",
+    "question": "什么是CAP理论？分布式系统中如何权衡？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-008",
+    "category": "系统设计",
+    "sub_category": "架构设计",
+    "source": "牛客网/掘金",
+    "question": "什么是BASE理论？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "scene-009",
+    "category": "系统设计",
+    "sub_category": "架构设计",
+    "source": "牛客网/掘金",
+    "question": "什么是雪花算法？有什么优缺点？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "scene-010",
+    "category": "系统设计",
+    "sub_category": "架构设计",
+    "source": "牛客网/掘金",
+    "question": "如何实现分布式ID生成器？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-001",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个简易的Promise",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-002",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个浅拷贝函数",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-003",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个深拷贝函数",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-004",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个new操作符",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-005",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个防抖函数",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-006",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个节流函数",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-007",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个call函数",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-008",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个apply函数",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-009",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个bind函数",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-010",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个instanceof",
+    "difficulty": "困难"
+  },
+  {
+    "id": "os-001",
+    "category": "操作系统",
+    "sub_category": "操作系统基础",
+    "source": "牛客网/掘金",
+    "question": "进程和线程有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "os-002",
+    "category": "操作系统",
+    "sub_category": "操作系统基础",
+    "source": "牛客网/掘金",
+    "question": "什么是死锁？死锁产生的条件有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-003",
+    "category": "操作系统",
+    "sub_category": "操作系统基础",
+    "source": "牛客网/掘金",
+    "question": "如何预防和避免死锁？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-004",
+    "category": "操作系统",
+    "sub_category": "操作系统基础",
+    "source": "牛客网/掘金",
+    "question": "什么是协程？与线程有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-005",
+    "category": "操作系统",
+    "sub_category": "操作系统基础",
+    "source": "牛客网/掘金",
+    "question": "进程间的通信方式有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-006",
+    "category": "操作系统",
+    "sub_category": "内存管理",
+    "source": "牛客网/掘金",
+    "question": "什么是分页和分段？有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-007",
+    "category": "操作系统",
+    "sub_category": "内存管理",
+    "source": "牛客网/掘金",
+    "question": "什么是页面置换算法？常见的有哪些？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-008",
+    "category": "操作系统",
+    "sub_category": "内存管理",
+    "source": "牛客网/掘金",
+    "question": "什么是虚拟内存？有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "os-009",
+    "category": "操作系统",
+    "sub_category": "Linux",
+    "source": "牛客网/掘金",
+    "question": "Linux中的零拷贝是什么？有什么优势？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "os-010",
+    "category": "操作系统",
+    "sub_category": "Linux",
+    "source": "牛客网/掘金",
+    "question": "Linux中的select、poll、epoll有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-001",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是分布式锁？有哪些实现方式？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-002",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是分布式事务？有哪些解决方案？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-003",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是2PC和3PC？有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-004",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是TCC事务？有什么优缺点？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-005",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是Paxos算法？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-006",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是Raft算法？与Paxos有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-007",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是一致性哈希？有什么优势？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "dist-008",
+    "category": "分布式",
+    "sub_category": "分布式基础",
+    "source": "牛客网/掘金",
+    "question": "什么是负载均衡？有哪些算法？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mq-001",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "Kafka、RabbitMQ、RocketMQ有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mq-002",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "Kafka为什么这么快？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mq-003",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "Kafka如何保证消息不丢失？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mq-004",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "Kafka如何保证消息不重复消费？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mq-005",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "Kafka中的分区和副本机制是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mq-006",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "Kafka如何实现消息顺序性？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "mq-007",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "什么是消息队列的重复消费和幂等性？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "mq-008",
+    "category": "消息队列",
+    "sub_category": "消息队列基础",
+    "source": "牛客网/掘金",
+    "question": "如何处理消息队列的消息积压问题？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "micro-001",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "SOA和微服务架构有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "micro-002",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "微服务架构有哪些优点和缺点？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "micro-003",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "什么是服务注册与发现？有哪些组件？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "micro-004",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "什么是API网关？有什么作用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "micro-005",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "什么是配置中心？有哪些实现？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "micro-006",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "微服务如何实现链路追踪？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "micro-007",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "什么是服务降级和熔断？有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "micro-008",
+    "category": "微服务",
+    "sub_category": "微服务基础",
+    "source": "牛客网/掘金",
+    "question": "什么是Docker和Kubernetes？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "db-001",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "什么是数据库连接池？为什么要使用？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "db-002",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "MySQL的锁有哪些类型？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "db-003",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "什么是乐观锁和悲观锁？有什么区别？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "db-004",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "MySQL中如何实现分布式事务？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "db-005",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "什么是binlog、redo log、undo log？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "db-006",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "MySQL的查询优化器是如何工作的？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "db-007",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "什么是数据库索引的最左前缀原则？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "db-008",
+    "category": "数据库",
+    "sub_category": "数据库进阶",
+    "source": "牛客网/掘金",
+    "question": "如何分析一条SQL的性能？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-051",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "股票最大利润问题（可以交易多次）如何解决？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-052",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "硬币找零问题（完全背包）如何解决？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-053",
+    "category": "算法",
+    "sub_category": "动态规划",
+    "source": "LeetCode/牛客网",
+    "question": "回文子串问题如何用动态规划解决？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-054",
+    "category": "算法",
+    "sub_category": "查找",
+    "source": "LeetCode/牛客网",
+    "question": "二维矩阵中查找是否存在某元素？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-055",
+    "category": "算法",
+    "sub_category": "查找",
+    "source": "LeetCode/牛客网",
+    "question": "旋转数组中的最小数字如何查找？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-056",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "如何判断一个字符串是否包含所有字母？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-057",
+    "category": "算法",
+    "sub_category": "字符串",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现字符串的全排列（可以有重复字符）？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-058",
+    "category": "算法",
+    "sub_category": "数组",
+    "source": "LeetCode/牛客网",
+    "question": "如何在O(1)时间内删除链表节点？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-059",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "如何按层遍历二叉树？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-060",
+    "category": "算法",
+    "sub_category": "树",
+    "source": "LeetCode/牛客网",
+    "question": "如何求二叉树的直径？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-061",
+    "category": "算法",
+    "sub_category": "堆",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现一个最小堆？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-062",
+    "category": "算法",
+    "sub_category": "堆",
+    "source": "LeetCode/牛客网",
+    "question": "如何在数据流中获取中位数？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-063",
+    "category": "算法",
+    "sub_category": "图",
+    "source": "LeetCode/牛客网",
+    "question": "如何检测图中是否存在环？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-064",
+    "category": "算法",
+    "sub_category": "图",
+    "source": "LeetCode/牛客网",
+    "question": "如何实现迷宫问题的求解？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-065",
+    "category": "算法",
+    "sub_category": "位运算",
+    "source": "LeetCode/牛客网",
+    "question": "如何只出现一次的数字（其他数字出现两次）？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "algo-066",
+    "category": "算法",
+    "sub_category": "位运算",
+    "source": "LeetCode/牛客网",
+    "question": "如何用位运算实现加法？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "algo-067",
+    "category": "算法",
+    "sub_category": "贪心",
+    "source": "LeetCode/牛客网",
+    "question": "分发糖果问题如何用贪心算法解决？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-068",
+    "category": "算法",
+    "sub_category": "贪心",
+    "source": "LeetCode/牛客网",
+    "question": "无重叠区间问题如何用贪心算法解决？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-069",
+    "category": "算法",
+    "sub_category": "递归",
+    "source": "LeetCode/牛客网",
+    "question": "如何理解递归的终止条件和返回值？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "algo-070",
+    "category": "算法",
+    "sub_category": "递归",
+    "source": "LeetCode/牛客网",
+    "question": "什么是尾递归？如何优化？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-011",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个数组的flat函数",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-012",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个简易的发布订阅模式",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-013",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个简易的观察者模式",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-014",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个简易的Promise.all",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-015",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个简易的JSON.stringify",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-016",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个简易的JSON.parse",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-017",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个函数柯里化",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-018",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个函数组合",
+    "difficulty": "困难"
+  },
+  {
+    "id": "hand-019",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个数组reduce",
+    "difficulty": "中等"
+  },
+  {
+    "id": "hand-020",
+    "category": "JavaScript",
+    "sub_category": "手写实现",
+    "source": "牛客网/掘金",
+    "question": "手写实现一个防抖和节流结合的函数",
+    "difficulty": "困难"
+  },
+  {
+    "id": "browser-001",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "浏览器的渲染原理是什么？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "browser-002",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "什么是DOM树和CSSOM树？如何构建？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "browser-003",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "什么是回流和重绘？如何优化？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "browser-004",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "浏览器的Event Loop与Node.js有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "browser-005",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "什么是宏任务和微任务？执行顺序是什么？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "browser-006",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "浏览器的存储机制有哪些？有什么区别？",
+    "difficulty": "简单"
+  },
+  {
+    "id": "browser-007",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "什么是浏览器安全？XSS、CSRF如何防范？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "browser-008",
+    "category": "浏览器",
+    "sub_category": "浏览器原理",
+    "source": "牛客网/掘金",
+    "question": "什么是同源策略？如何解决跨域问题？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "final-001",
+    "category": "JavaScript",
+    "source": "牛客网/掘金",
+    "question": "JavaScript中什么是WeakRef？有什么使用场景？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "final-002",
+    "category": "Vue",
+    "source": "牛客网/掘金",
+    "question": "Vue3中的Suspense组件如何使用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "final-003",
+    "category": "React",
+    "source": "牛客网/掘金",
+    "question": "React中如何理解useTransition和useDeferredValue？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "final-004",
+    "category": "算法",
+    "source": "LeetCode/牛客网",
+    "question": "如何用单调栈解决接雨水问题？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "final-005",
+    "category": "分布式",
+    "source": "牛客网/掘金",
+    "question": "什么是ZAB协议？与Raft有什么区别？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "final-006",
+    "category": "数据库",
+    "source": "牛客网/掘金",
+    "question": "什么是数据库的两阶段提交协议？",
+    "difficulty": "困难"
+  },
+  {
+    "id": "final-007",
+    "category": "浏览器",
+    "source": "牛客网/掘金",
+    "question": "什么是Web Workers？如何使用？",
+    "difficulty": "中等"
+  },
+  {
+    "id": "final-008",
+    "category": "前端工程化",
+    "source": "牛客网/掘金",
+    "question": "什么是AST？如何在前端项目中应用？",
+    "difficulty": "困难"
+  }
+]

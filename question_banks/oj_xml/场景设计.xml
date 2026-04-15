@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[场景设计] 如何设计一个计数器功能</title><description>## 题目
+如何设计一个计数器功能
+
+## 参考答案
+计数器设计：1.Redis INCR/INCRBY原子递增。2.防刷：限流+验证码。3.高并发：Redis集群或多实例。4.持久化：定时写DB或AOF。5.多维度：按天/月/用户维度。6.误差容忍：允许少量误差可用HyperLogLog。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：简单 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>easy</difficulty></item><item><title>[场景设计] 如何设计一个搜索提示功能</title><description>## 题目
+如何设计一个搜索提示功能
+
+## 参考答案
+搜索提示设计：1.前缀树（Trie）存储词库。2.Redis ZSet存储搜索词+搜索量，按前缀查询。3.ElasticSearch/ES的completion suggester。4.限制返回数量和长度。5.缓存热点词。6.拼音搜索用pinyin-trie。7.异步加载+防抖。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：中等 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>medium</difficulty></item><item><title>[场景设计] 如何设计一个用户签到系统</title><description>## 题目
+如何设计一个用户签到系统
+
+## 参考答案
+签到系统设计：1.Redis Bitmap存签到记录，key=年月，offset=日期。2.SET记录连续签到天数。3.每日统计写入数据库。4.补签：更新Bitmap和数据库。5.奖励：数据库记录奖励规则。6.首页展示：用Pipeline批量获取。7.签到提醒：定时任务+消息推送。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：中等 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>medium</difficulty></item><item><title>[场景设计] 如何设计一个文件上传功能</title><description>## 题目
+如何设计一个文件上传功能
+
+## 参考答案
+文件上传设计：1.前端：FormData、分片上传、断点续传。2.后端：接收文件流，校验大小/类型。3.存储：本地/S3/OSS。4.分片：每个分片独立上传，服务器合并。5.进度：前端轮询或WebSocket。6.安全：文件名处理、防注入。7.异步处理：队列解耦。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：中等 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>medium</difficulty></item><item><title>[场景设计] 如何设计一个红包系统</title><description>## 题目
+如何设计一个红包系统
+
+## 参考答案
+红包系统设计：1.发红包：原子扣钱，生成红包ID，金额按算法拆分。2.算法：二倍均值法（随机金额=[0,2*均值]）。3.存数据库：红包信息和领取记录。4.领红包：Redis原子操作抢，互斥锁防止超卖。5.先到先得vs随机金额。6.过期退款：定时任务。7.并发控制：乐观锁/分布式锁。8.监控：红包领取成功率。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：困难 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>hard</difficulty></item><item><title>[场景设计] 如何设计一个排行榜系统</title><description>## 题目
+如何设计一个排行榜系统
+
+## 参考答案
+排行榜设计：1.实时排行：Redis ZSet（分数+用户ID）。2.日榜/月榜/年榜：用不同的Key。3.周边数据：用户昵称头像缓存。4.缓存预热：定时计算写入ZSet。5.分区：按时间或范围分区。6.实时更新用ZINCRBY。7.分页：ZREVRANGE。8.展示用户排名：ZREVRANK。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：困难 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>hard</difficulty></item><item><title>[场景设计] 如何设计一个延迟消息系统</title><description>## 题目
+如何设计一个延迟消息系统
+
+## 参考答案
+延迟消息实现：1.定时轮询：扫描数据库+状态判断。2.Redis ZSet：score为执行时间，定时扫描。3.时间轮算法：Kafka/TimingWheel。4.RabbitMQ插件或TTL+死信队列。5.RocketMQ延迟消息（固定延迟级别）。6.定时调度（如XXL-JOB）+消息表。关键：高精度、低延迟、可重试。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：困难 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>hard</difficulty></item><item><title>[场景设计] 如何设计一个投票系统</title><description>## 题目
+如何设计一个投票系统
+
+## 参考答案
+投票系统设计：1.防刷：验证码、IP/用户限投。2.存储：投票记录MySQL，用户投票状态Redis。3.并发：乐观锁防重复投票。4.计数：Redis INCR，异步写DB。5.排行榜：ZSet。6.实时：消息推送通知。7.安全：加密签名验证。8.分布式：用户ID+投票ID唯一索引。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：困难 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>hard</difficulty></item><item><title>[场景设计] 如何设计一个邮件发送系统</title><description>## 题目
+如何设计一个邮件发送系统
+
+## 参考答案
+邮件系统设计：1.发送：SMTP/API（SendGrid）。2.队列：RabbitMQ/Kafka削峰。3.模板：Thymeleaf/Freemarker。4.重试：失败重试+死信队列。5.追踪：打开率、点击率（图片+链接）。6.黑名单：过滤退订用户。7.频率：防止滥用。8.异步：立即响应+后台发送。9.日志：审计追溯。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 场景设计</source><hint>难度：困难 | 分类：场景设计</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>场景设计</tag><difficulty>hard</difficulty></item></fps>

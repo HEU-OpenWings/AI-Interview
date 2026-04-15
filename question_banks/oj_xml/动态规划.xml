@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[动态规划] 如何用DP求斐波那契数列</title><description>## 题目
+如何用DP求斐波那契数列
+
+## 参考答案
+斐波那契DP：dp[i]=dp[i-1]+dp[i-2]。优化：1.递归+记忆化：时间O(n)空间O(n)。2.空间优化：只用两个变量滚动。3.矩阵快速幂：时间O(logn)。注意：递归有栈溢出风险。斐波那契通项公式：(φ^n - (-φ)^n)/√5。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 动态规划</source><hint>难度：简单 | 分类：动态规划</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>动态规划</tag><difficulty>easy</difficulty></item><item><title>[动态规划] 如何用DP解决背包问题</title><description>## 题目
+如何用DP解决背包问题
+
+## 参考答案
+01背包：每件物品选或不选。dp[i][j]=max(dp[i-1][j], dp[i-1][j-wi]+vi)。空间优化为一维数组（倒序遍历j）。完全背包：每件物品无限。空间优化时正序遍历j。多重背包：每件物品有限个，用二进制优化。01背包是所有背包问题的基础。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 动态规划</source><hint>难度：中等 | 分类：动态规划</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>动态规划</tag><difficulty>medium</difficulty></item><item><title>[动态规划] 如何用DP求最长公共子序列</title><description>## 题目
+如何用DP求最长公共子序列
+
+## 参考答案
+LCS（Longest Common Subsequence）：dp[i][j]表示str1前i个和str2前j个的LCS长度。递推：相等时dp[i][j]=dp[i-1][j-1]+1，否则dp[i][j]=max(dp[i-1][j], dp[i][j-1])。时间O(mn)空间可优化到O(min(m,n))。可用此思想求编辑距离。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 动态规划</source><hint>难度：中等 | 分类：动态规划</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>动态规划</tag><difficulty>medium</difficulty></item><item><title>[动态规划] 什么是状态压缩DP</title><description>## 题目
+什么是状态压缩DP
+
+## 参考答案
+状态压缩DP：用二进制表示状态压缩到整数。适用：小规模集合（n≤20）。应用：旅行商问题、集合覆盖、棋盘问题。技巧：位运算（&amp;、|、^）、DP数组用int[]。如：dp[mask]表示到达mask状态的最优值。mask第i位为1表示已访问i节点。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 动态规划</source><hint>难度：困难 | 分类：动态规划</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>动态规划</tag><difficulty>hard</difficulty></item><item><title>[动态规划] 什么是区间DP</title><description>## 题目
+什么是区间DP
+
+## 参考答案
+区间DP：合并石子、矩阵链乘等。思路：枚举区间长度len，从小到大。dp[l][r]表示[l,r]区间的最优解。合并：dp[l][r]=min(dp[l][k]+dp[k+1][r]+cost(l,r,k))。时间复杂度O(n³)。关键：枚举分割点k。应用：括号匹配、合并回文。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 动态规划</source><hint>难度：困难 | 分类：动态规划</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>动态规划</tag><difficulty>hard</difficulty></item></fps>

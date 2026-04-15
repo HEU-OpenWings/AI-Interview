@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[经典算法] 什么是汉诺塔问题</title><description>## 题目
+什么是汉诺塔问题
+
+## 参考答案
+汉诺塔：三个柱子，n个圆盘从A移到C，规则大盘不能放小盘上。递归解法：1.将n-1个盘子从A经C移到B。2.将最大盘子从A移到C。3.将n-1个盘子从B经A移到C。移动次数：2^n-1。时间复杂度O(2^n)。经典递归问题。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典算法</source><hint>难度：简单 | 分类：经典算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典算法</tag><difficulty>easy</difficulty></item><item><title>[经典算法] 什么是LRU缓存，请用代码实现</title><description>## 题目
+什么是LRU缓存，请用代码实现
+
+## 参考答案
+LRU实现：HashMap+双向链表。HashMap提供O(1)查找，链表提供O(1)插入删除。get：移到链表头部。put：已存在移到头，不存在插入头，超容量删除尾。Java已有LinkedHashMap可直接使用。Redis使用LFU（最近最不常用）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典算法</source><hint>难度：中等 | 分类：经典算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典算法</tag><difficulty>medium</difficulty></item><item><title>[经典算法] 什么是布隆过滤器，有什么优缺点</title><description>## 题目
+什么是布隆过滤器，有什么优缺点
+
+## 参考答案
+Bloom Filter：用多个哈希函数映射到位数组，判断元素是否存在。可能有假阳性（误报），但没有假阴性（不漏报）。空间效率高，查询O(k)。应用：缓存穿透防护、爬虫URL去重、垃圾邮件过滤。参数：n预期元素数，p误判率。计算：m=-n*lnp/ln²，k=mn/m。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典算法</source><hint>难度：中等 | 分类：经典算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典算法</tag><difficulty>medium</difficulty></item><item><title>[经典算法] 什么是跳表（Skip List）</title><description>## 题目
+什么是跳表（Skip List）
+
+## 参考答案
+Skip List：多层链表，上层是下层的快速通道。查找：从顶层开始，向右向下逼近。插入：随机层数，逐层插入。删除：找到节点，逐层删除。期望时间复杂度：O(logn)。Redis ZSet用它实现有序集合。对比平衡树：实现简单，无需旋转平衡。支持范围查询。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典算法</source><hint>难度：困难 | 分类：经典算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典算法</tag><difficulty>hard</difficulty></item><item><title>[经典算法] 什么是一致性哈希算法</title><description>## 题目
+什么是一致性哈希算法
+
+## 参考答案
+一致性哈希：将哈希空间组织成环，服务器和数据都映射到环上。数据找最近顺时针服务器。优点：节点增减只影响局部。问题：可能负载不均（虚拟节点解决）。应用：分布式缓存（Redis集群）、负载均衡。实现：用TreeMap组织服务器节点，查询大于等于key的最小节点。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典算法</source><hint>难度：困难 | 分类：经典算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典算法</tag><difficulty>hard</difficulty></item></fps>

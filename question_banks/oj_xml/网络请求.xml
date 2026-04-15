@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[网络请求] fetch和axios有什么区别</title><description>## 题目
+fetch和axios有什么区别
+
+## 参考答案
+fetch是浏览器原生API，无需额外引入。axios是第三方库。区别：1.fetch需手动处理错误（response.ok判断），axios会自动抛出错误。2.fetch不支持取消请求和超时，axios支持。3.fetch不能监听上传进度，axios可以。4.fetch默认不带cookie，axios默认携带。5.axios有请求/响应拦截器，fetch没有。6.axios有转换请求/响应数据功能。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 网络请求</source><hint>难度：简单 | 分类：网络请求</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>网络请求</tag><difficulty>easy</difficulty></item><item><title>[网络请求] 什么是跨域，如何解决</title><description>## 题目
+什么是跨域，如何解决
+
+## 参考答案
+跨域是浏览器同源策略阻止的跨站请求。同源：协议+域名+端口都相同。解决方案：1.CORS（跨域资源共享）：服务端设置Access-Control-Allow-Origin。2.JSONP：利用script标签不受同源限制（仅GET）。3.代理服务器：Nginx/WebpackDevServer代理。4.postMessage。5.WebSocket不受同源限制。6.document.domain（仅限子域名）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 网络请求</source><hint>难度：中等 | 分类：网络请求</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>网络请求</tag><difficulty>medium</difficulty></item><item><title>[网络请求] 什么是RESTful API</title><description>## 题目
+什么是RESTful API
+
+## 参考答案
+RESTful是REST架构风格的API设计规范。核心原则：1.资源导向：URL表示资源，用名词复数形式如/users。2.HTTP方法表示操作：GET查询、POST创建、PUT完整更新、PATCH部分更新、DELETE删除。3.无状态：服务端不保存客户端状态。4.统一接口：标准HTTP状态码（200/201/400/404/500等）。5.版本控制：URL加/v1/或Header传递。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 网络请求</source><hint>难度：中等 | 分类：网络请求</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>网络请求</tag><difficulty>medium</difficulty></item></fps>

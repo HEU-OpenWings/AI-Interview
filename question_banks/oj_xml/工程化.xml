@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[工程化] Webpack和Vite有什么区别</title><description>## 题目
+Webpack和Vite有什么区别
+
+## 参考答案
+Webpack是模块打包工具，Vite是下一代前端构建工具。区别：1.开发体验：Webpack需打包整个项目启动慢，Vite利用浏览器ESM实现即时启动。2.热更新：Webpack热更新需重新编译模块图，Vite仅更新变更模块。3.构建速度：Vite基于Rollup，生产构建更快。4.生态：Webpack插件更丰富。Vite适合新项目，Webpack适合大型复杂项目。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工程化</source><hint>难度：简单 | 分类：工程化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工程化</tag><difficulty>easy</difficulty></item><item><title>[工程化] Babel的作用是什么</title><description>## 题目
+Babel的作用是什么
+
+## 参考答案
+Babel是JavaScript编译器，将新版本JS语法转换为旧版本JS（如ES6转ES5）。核心功能：1.语法转换：箭头函数、类、async/await等。2.源码转换：React JSX、Vue模板。3.Polyfill：Promise、Map等运行时补丁。配置：babel.config.js/.babelrc，presets预设（@babel/preset-env自动根据目标环境转换），plugins插件。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工程化</source><hint>难度：简单 | 分类：工程化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工程化</tag><difficulty>easy</difficulty></item><item><title>[工程化] Tree Shaking是什么，如何实现</title><description>## 题目
+Tree Shaking是什么，如何实现
+
+## 参考答案
+Tree Shaking是消除无用代码（dead code）的技术，基于ES Module静态分析。原理：ES Module导入导出在编译时确定，Webpack可分析模块依赖图，标记未使用的导出。实现条件：1.使用ES Module语法（import/export）。2.mode:production自动启用。3.禁止babel将ES Module转为CommonJS。4.sideEffects在package.json标记无副作用文件。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工程化</source><hint>难度：中等 | 分类：工程化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工程化</tag><difficulty>medium</difficulty></item><item><title>[工程化] Code Splitting是什么，有哪些实现方式</title><description>## 题目
+Code Splitting是什么，有哪些实现方式
+
+## 参考答案
+Code Splitting代码分割是将代码拆分为多个bundle，按需加载。方式：1.手动分割：多个入口文件entry。2.动态导入：import()语法，Webpack自动分割。3.React.lazy+Suspense：组件级分割。4.路由级分割：React Router配合。5.公共依赖分割：splitChunks提取公共模块。好处：减少首屏加载时间，按需加载优化缓存。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工程化</source><hint>难度：困难 | 分类：工程化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工程化</tag><difficulty>hard</difficulty></item><item><title>[工程化] Monorepo是什么，有什么优缺点</title><description>## 题目
+Monorepo是什么，有什么优缺点
+
+## 参考答案
+Monorepo是将多个项目放在一个代码仓库管理。工具：Lerna、Nx、Turborepo、Rush、Pnpm Workspace。优点：1.代码复用方便。2.统一版本管理。3.跨项目重构容易。4.依赖统一。5.Atomic Commit。缺点：1.仓库体积大。2.CI/CD复杂。3.权限控制难。4.学习成本。适合组件库、多应用项目。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工程化</source><hint>难度：困难 | 分类：工程化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工程化</tag><difficulty>hard</difficulty></item><item><title>[工程化] 什么是微前端，它有什么优缺点</title><description>## 题目
+什么是微前端，它有什么优缺点
+
+## 参考答案
+微前端是将微服务思想应用到前端。多个独立子应用组成完整页面。方案：1.iframe。2.Web Components。3.Module Federation。4.qiankun。5.single-spa。优点：独立开发部署、技术栈无关、团队自治、增量升级。缺点：样式冲突、状态共享复杂、SEO问题、运维复杂、初始加载量大。适合大型应用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工程化</source><hint>难度：困难 | 分类：工程化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工程化</tag><difficulty>hard</difficulty></item></fps>

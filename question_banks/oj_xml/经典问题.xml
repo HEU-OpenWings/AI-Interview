@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[经典问题] 如何判断链表有环</title><description>## 题目
+如何判断链表有环
+
+## 参考答案
+判断链表环的方法：1.哈希表：遍历节点存入Set，已访问过则有环。时间O(n)空间O(n)。2.快慢指针：快指针每次走两步，慢指针每次走一步，若相遇则有环。时间O(n)空间O(1)。扩展：找环入口（相遇后slow重置到头，两指针同速走，再次相遇即入口）。环长度：第一次相遇后继续走，第二次相遇走过的步数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：简单 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>easy</difficulty></item><item><title>[经典问题] 如何找到链表的倒数第K个节点</title><description>## 题目
+如何找到链表的倒数第K个节点
+
+## 参考答案
+方法1：先走K步再同步走。快慢指针：快指针先走K步，然后快慢同步走，当快指针到达末尾，慢指针在倒数第K个。时间O(n)空间O(1)。注意边界：K大于链表长度需处理。扩展：删除倒数第N个节点（找到前一个节点）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：简单 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>easy</difficulty></item><item><title>[经典问题] 如何反转链表</title><description>## 题目
+如何反转链表
+
+## 参考答案
+反转链表方法：1.迭代：三指针（prev,cur,next），cur指向prev，依次后移。时间O(n)空间O(1)。2.递归：head指向剩余链表的反转结果，head.next.next=head。时间O(n)空间O(n)。扩展：反转链表前N个节点、k个一组反转、每两个节点反转。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：中等 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>medium</difficulty></item><item><title>[经典问题] 如何合并两个有序链表</title><description>## 题目
+如何合并两个有序链表
+
+## 参考答案
+合并有序链表：1.迭代：创建哑节点，依次比较两链表节点，小的接入结果链表。时间O(m+n)空间O(1)。2.递归：返回较小节点+合并剩余链表。时间O(m+n)空间O(m+n)。扩展：合并K个有序链表（优先队列或分治）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：中等 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>medium</difficulty></item><item><title>[经典问题] 如何判断两个链表是否相交</title><description>## 题目
+如何判断两个链表是否相交
+
+## 参考答案
+判断相交：1.哈希集合：将A链表节点存入Set，遍历B链表检查是否存在。时间O(m+n)空间O(m)。2.双指针：pA走完A走B，pB走完B走A，若相交终会相遇。时间O(m+n)空间O(1)。扩展：找相交节点（相遇点即相交）、判断环链表相交。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：中等 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>medium</difficulty></item><item><title>[经典问题] 如何用递归求斐波那契数列最优解</title><description>## 题目
+如何用递归求斐波那契数列最优解
+
+## 参考答案
+递归求斐波那契：1.朴素递归：f(n)=f(n-1)+f(n-2)，时间O(2^n)。2.记忆化递归：用数组保存已计算结果，时间O(n)空间O(n)。3.迭代：只用两个变量滚动，时间O(n)空间O(1)。4.矩阵快速幂：[[1,1],[1,0]]^n，时间O(logn)。面试推荐：记忆化+空间优化或迭代。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：中等 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>medium</difficulty></item><item><title>[经典问题] LRU缓存是什么，如何实现</title><description>## 题目
+LRU缓存是什么，如何实现
+
+## 参考答案
+LRU（Least Recently Used）：最近最少使用缓存淘汰策略。实现：1.哈希表+双向链表。哈希表O(1)查找，链表O(1)插入删除。get：移到链表头部。put：已存在移到头部，不存在插入头部，超容量删除尾部。2.使用LinkedHashMap（Java）或OrderedDict（Python）。3.Redis实现：LFU（最不经常使用）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：困难 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>hard</difficulty></item><item><title>[经典问题] 如何实现字符串全排列</title><description>## 题目
+如何实现字符串全排列
+
+## 参考答案
+字符串全排列：1.递归+回溯：固定一个字符，递归排列剩余字符。交换法：位置i与j交换，递归处理。剪枝：跳过重复字符（排序后相邻比较）。2.字典序法：生成下一个排列（从后向前找第一对升序，交换，后缀反转）。时间O(n!*n)。需去重则用Set或剪枝。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 经典问题</source><hint>难度：困难 | 分类：经典问题</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>经典问题</tag><difficulty>hard</difficulty></item></fps>

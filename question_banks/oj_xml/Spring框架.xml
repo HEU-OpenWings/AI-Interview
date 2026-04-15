@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[Spring框架] Spring是什么，它有什么特点</title><description>## 题目
+Spring是什么，它有什么特点
+
+## 参考答案
+Spring是轻量级开源框架，提供企业级应用开发一站式解决方案。特点：1.轻量级：核心包小，可按需引入。2.控制反转（IoC）：降低耦合。3.依赖注入（DI）：自动装配。4.面向切面（AOP）：分离关注点。5.容器：管理Bean生命周期。6.框架整合：集成各种框架。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] 什么是IoC和DI</title><description>## 题目
+什么是IoC和DI
+
+## 参考答案
+IoC（控制反转）是将对象创建和依赖管理权反转给Spring容器，由容器控制对象的生命周期。DI（依赖注入）是IoC的实现方式，通过构造函数、setter方法或注解注入依赖。好处：降低耦合、便于测试、提高可维护性。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] Spring中Bean的作用域有哪些</title><description>## 题目
+Spring中Bean的作用域有哪些
+
+## 参考答案
+Bean作用域：1.singleton（单例，默认）：容器中只有一个实例。2.prototype（原型）：每次获取创建新实例。3.request：每个HTTP请求创建一个实例。4.session：每个HTTP会话创建一个实例。5.application：ServletContext生命周期。6.websocket：WebSocket生命周期。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] @Autowired和@Resource有什么区别</title><description>## 题目
+@Autowired和@Resource有什么区别
+
+## 参考答案
+@Autowired是Spring注解，默认按类型byType装配，找不到才byName。required属性可设false。@Resource是JDK注解（JSR-250），默认按名称byName，找不到按类型byType。@Resource可指定name属性指定Bean名称。装配顺序：@Resource先名称后类型，@Autowired先类型后名称。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] Spring的优点有哪些</title><description>## 题目
+Spring的优点有哪些
+
+## 参考答案
+Spring优点：1.IoC/DI降低耦合。2.AOP支持横切关注点。3.容器管理Bean生命周期。4.事务管理。5.集成主流框架（MyBatis、Hibernate）。6.测试支持。7.简洁的异常处理。8.丰富的生态（Spring Boot/Cloud/Data等）。9.模块化设计。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] BeanFactory和FactoryBean有什么区别</title><description>## 题目
+BeanFactory和FactoryBean有什么区别
+
+## 参考答案
+BeanFactory是Spring IOC容器顶层接口，提供getBean()等基础功能。FactoryBean是创建Bean的工厂接口，实现它可以自定义Bean创建逻辑，返回对象可能是任意类型。两者关系：BeanFactory是容器，FactoryBean是Bean的一种创建方式。通过&amp;前缀获取FactoryBean本身而非其创建的对象。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] @Component和@Bean有什么区别</title><description>## 题目
+@Component和@Bean有什么区别
+
+## 参考答案
+@Component和@Bean都用于Spring Bean注册。@Component是类级别注解，Spring自动扫描并创建Bean（需开启组件扫描）。@Bean是方法级别注解，在@Configuration类中使用，手动注册Bean。@Bean适合第三方库类、定制化配置。@Bean可控制Bean的创建过程，比@Component更灵活。@Component自动推断Bean名称，@Bean可自定义名称。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] Spring如何处理异常</title><description>## 题目
+Spring如何处理异常
+
+## 参考答案
+Spring异常处理：1.@ControllerAdvice全局异常处理。2.@ExceptionHandler注解处理特定异常。3.HandlerExceptionResolver接口。4.实现ResponseEntityExceptionHandler。处理顺序：@ExceptionHandler→HandlerExceptionResolver→default。返回：ModelAndView或JSON。配合@ResponseStatus设置HTTP状态码。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] Spring Boot的-starter依赖是什么</title><description>## 题目
+Spring Boot的-starter依赖是什么
+
+## 参考答案
+Spring Boot starter是一组依赖集合，简化配置。命名：spring-boot-starter-xxx（官方）、xxx-spring-boot-starter（第三方）。原理：引入starter后自动配置生效，通过META-INF/spring.factories或spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports。常用：web、data-jpa、security、redis、mybatis-plus。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] Spring Boot有哪些核心注解</title><description>## 题目
+Spring Boot有哪些核心注解
+
+## 参考答案
+Spring Boot核心注解：@SpringBootApplication（@SpringBootConfiguration+@EnableAutoConfiguration+@ComponentScan）、@Configuration、@Bean、@ComponentScan、@EnableAutoConfiguration。常用：@RestController（@Controller+@ResponseBody）、@Service、@Repository、@Autowired、@Value、@ConfigurationProperties。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] 什么是Spring Boot的devtools</title><description>## 题目
+什么是Spring Boot的devtools
+
+## 参考答案
+Spring Boot DevTools：开发工具。功能：1.热部署（Classes变更自动重启）。2.页面热加载（Thymeleaf/Freemaker修改刷新）。3.自动重启（比普通重启快）。4.远程调试。5.IDE联动。配置：devtools依赖，yml devtools.radix.enabled=false禁用重启。原理：classpath文件变化触发重启。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：简单 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>easy</difficulty></item><item><title>[Spring框架] Spring Bean的生命周期是什么</title><description>## 题目
+Spring Bean的生命周期是什么
+
+## 参考答案
+Spring Bean生命周期：1.实例化。2.属性填充（依赖注入）。3.BeanNameAware.setBeanName()。4.BeanFactoryAware.setBeanFactory()。5.ApplicationContextAware.setApplicationContext()。6.BeanPostProcessor.postProcessBeforeInitialization()。7.@PostConstruct。8.InitializingBean.afterPropertiesSet()。9.自定义init-method。10.BeanPostProcessor.postProcessAfterInitialization()。11.@PreDestroy。12.DisposableBean.destroy()。13.destroy-method。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring如何解决循环依赖</title><description>## 题目
+Spring如何解决循环依赖
+
+## 参考答案
+Spring三级缓存解决单例Bean循环依赖：1级缓存singletonObjects（完全初始化）。2级缓存earlySingletonObjects（提前暴露引用）。3级缓存singletonFactories（Bean工厂）。先创建Bean并暴露工厂，注入时发现循环依赖则从2级缓存获取。构造器注入无法解决循环依赖（对象还未创建）。prototype作用域无法解决循环依赖。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring Boot的自动配置原理是什么</title><description>## 题目
+Spring Boot的自动配置原理是什么
+
+## 参考答案
+自动配置基于@EnableAutoConfiguration注解，通过META-INF/spring.factories（Spring Boot 2.7前）或META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports（Spring Boot 2.7+）加载AutoConfiguration类。每个配置类用@Conditional系列注解判断是否生效。配置属性绑定@EnableConfigurationProperties。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] @Conditional注解有哪些派生注解</title><description>## 题目
+@Conditional注解有哪些派生注解
+
+## 参考答案
+@Conditional派生注解：1.@ConditionalOnClass：类路径有指定类才生效。2.@ConditionalOnMissingClass：类路径没有指定类才生效。3.@ConditionalOnBean：容器中有指定Bean才生效。4.@ConditionalOnMissingBean：容器中没有指定Bean才生效。5.@ConditionalOnProperty：配置属性满足条件。6.@ConditionalOnExpression：SpEL表达式为true。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring用了哪些设计模式</title><description>## 题目
+Spring用了哪些设计模式
+
+## 参考答案
+Spring使用的设计模式：1.单例模式：Bean默认单例。2.工厂模式：BeanFactory。3.代理模式：AOP基于JDK/CGLIB代理。4.模板方法：JdbcTemplate等。5.观察者模式：ApplicationEvent事件机制。6.适配器模式：HandlerAdapter。7.装饰器模式：InputStreamReader装饰BufferedReader。8.策略模式：Resource实现。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring如何处理循环依赖</title><description>## 题目
+Spring如何处理循环依赖
+
+## 参考答案
+Spring三级缓存处理循环依赖：1级singletonObjects（成熟Bean）。2级earlySingletonObjects（提前暴露）。3级singletonFactories（Bean工厂）。流程：实例化A后暴露工厂→填充属性B→实例化B→填充属性A→从2级缓存获取A的早期引用→B完成。构造器注入无法解决。prototype作用域无法解决。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring有哪些通知类型</title><description>## 题目
+Spring有哪些通知类型
+
+## 参考答案
+Spring AOP通知类型（5种+环绕）：1.Before：目标方法前执行。2.After Returning：目标方法正常返回后执行。3.After Throwing：目标方法抛异常后执行。4.After：目标方法无论是否异常都执行（finally）。5.Around：包裹目标方法，可决定是否执行。执行顺序：Around(Begin)→Before→Method→AfterReturning→After→Around(End)。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring的Aware接口有哪些</title><description>## 题目
+Spring的Aware接口有哪些
+
+## 参考答案
+Spring Aware接口让Bean获取Spring容器功能。常见Aware：1.BeanNameAware获取Bean名称。2.BeanFactoryAware获取工厂。3.ApplicationContextAware获取上下文。4.MessageSourceAware国际化消息。5.ApplicationEventPublisherAware事件发布。6.ResourceLoaderAware资源加载。使用Aware会耦合Spring，推荐使用@PostConstruct或其他替代方案。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring的BeanPostProcessor和BeanFactoryPostProcessor区别</title><description>## 题目
+Spring的BeanPostProcessor和BeanFactoryPostProcessor区别
+
+## 参考答案
+BeanFactoryPostProcessor：操作Bean定义（BeanDefinition），在Bean实例化前调用，可修改Bean属性、替换Bean定义。BeanPostProcessor：操作Bean实例，在Bean初始化前后调用，可包装Bean（代理）。执行顺序：BeanFactoryPostProcessor先执行。常见实现：@Autowired通过AutowiredAnnotationBeanPostProcessor处理。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring如何处理CORS跨域</title><description>## 题目
+Spring如何处理CORS跨域
+
+## 参考答案
+Spring CORS处理：1.全局配置：WebMvcConfigurer的addCorsMappings()。2.@CrossOrigin注解 Controller/方法。3.Filter：CorsFilter。4.网关配置（如Spring Cloud Gateway）。参数：allowedOrigins、allowedMethods、allowedHeaders、allowCredentials、maxAge。预检请求OPTIONS。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring的init-method和@PostConstruct区别</title><description>## 题目
+Spring的init-method和@PostConstruct区别
+
+## 参考答案
+init-method和@PostConstruct都用于初始化。执行顺序：1.@PostConstruct。2.init-method。3.InitializingBean.afterPropertiesSet()。destroy同理：@PreDestroy→destroy-method→DisposableBean.destroy()。@PostConstruct是JSR-250注解，init-method是XML/注解属性。推荐@PostConstruct，更标准。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：中等 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>medium</difficulty></item><item><title>[Spring框架] Spring事务传播行为有哪些</title><description>## 题目
+Spring事务传播行为有哪些
+
+## 参考答案
+Spring事务传播行为：1.REQUIRED（默认）：当前有事务加入，没有则创建新事务。2.REQUIRES_NEW：创建新事务，挂起当前事务。3.SUPPORTS：支持当前事务，没有则无事务执行。4.NOT_SUPPORTED：不支持事务，挂起当前事务。5.MANDATORY：必须在事务中执行，没有抛异常。6.NEVER：不能在事务中执行，有事务抛异常。7.NESTED：嵌套事务，使用Savepoint。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring事务的隔离级别有哪些</title><description>## 题目
+Spring事务的隔离级别有哪些
+
+## 参考答案
+Spring事务隔离级别（与数据库对应）：1.DEFAULT：使用数据库默认隔离级别。2.READ_UNCOMMITTED：读未提交，可能脏读。3.READ_COMMITTED：读已提交，可能不可重复读。4.REPEATABLE_READ：可重复读，可能幻读。5.SERIALIZABLE：串行化，最高隔离但性能最低。建议使用DEFAULT让数据库决定。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring AOP的原理是什么</title><description>## 题目
+Spring AOP的原理是什么
+
+## 参考答案
+Spring AOP基于代理模式实现。JDK动态代理：接口+InvocationHandler，被代理类必须实现接口。CGLIB代理：继承被代理类生成子类，性能更好（Spring默认）。AOP概念：Aspect（切面）、Joinpoint（连接点）、Pointcut（切点）、Advice（通知）、Weaving（织入）。通知类型：Before、After、AfterReturning、AfterThrowing、Around。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring如何处理请求</title><description>## 题目
+Spring如何处理请求
+
+## 参考答案
+Spring请求处理流程：1.DispatcherServlet接收请求。2.HandlerMapping找到对应Controller方法。3.执行拦截器preHandle。4.参数解析器ArgumentResolver处理参数。5.执行Handler（Controller方法）。6.处理返回值（ReturnValueHandler）。7.执行拦截器postHandle。8.处理异常（ExceptionHandler）。9.视图解析渲染。10.执行拦截器afterCompletion。11.返回响应。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring Boot的@Condition注解原理是什么</title><description>## 题目
+Spring Boot的@Condition注解原理是什么
+
+## 参考答案
+@Conditional及其派生注解通过Condition接口判断是否注册Bean。核心：Condition.matches()方法判断是否满足条件。常见条件：1.ClassPath：@ConditionalOnClass。2.Bean：@ConditionalOnBean。3.Property：@ConditionalOnProperty。4.Resource：@ConditionalOnResource。5.Expression：@ConditionalOnExpression。实现原理：ConfigurationClassPostProcessor解析配置类时，对每个@Bean和@ComponentScan项调用Condition评估。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring事务失效的场景有哪些</title><description>## 题目
+Spring事务失效的场景有哪些
+
+## 参考答案
+Spring事务失效场景：1.非public方法（默认proxy）。2.self-invocation同类方法调用。3.异常被catch吞掉。4.异常类型不匹配（默认只回滚RuntimeException和Error）。5.事务传播行为不当。6.rollbackFor配置错误。7.多数据源未配置正确事务管理器。8.注解在接口方法但使用JDK代理。解决方法：AspectJ编译织入、编程式事务、 TransactionTemplate。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring如何实现声明式事务</title><description>## 题目
+Spring如何实现声明式事务
+
+## 参考答案
+Spring事务基于AOP实现。核心组件：TransactionInterceptor拦截方法，TransactionAttributeSource解析事务配置。流程：获取事务→开启事务→执行目标方法→提交/回滚。传播行为通过判断是否有活跃事务决定挂起或新建。异常回滚需配置rollbackFor。ThreadLocal保存事务状态保证线程安全。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring Boot的启动流程是什么</title><description>## 题目
+Spring Boot的启动流程是什么
+
+## 参考答案
+Spring Boot启动流程：1.SpringApplication创建应用实例。2.run()启动：准备Environment。3.createApplicationContext创建上下文。4.refreshContext刷新容器（执行BeanFactoryPostProcessor、BeanPostProcessor、initMessageSource等）。5.onRefresh()启动内嵌Tomcat。6.finishRefresh()发布ContextRefreshedEvent。7.CallRunners执行ApplicationRunner/CommandLineRunner。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring MVC的工作流程是什么</title><description>## 题目
+Spring MVC的工作流程是什么
+
+## 参考答案
+Spring MVC流程：1.请求→DispatcherServlet。2.HandlerMapping找Handler。3.HandlerAdapter执行Handler。4.参数解析、调用方法。5.返回ModelAndView。6.ViewResolver解析视图。7.渲染View（填充Model）。8.返回响应。核心组件：DispatcherServlet、HandlerMapping、HandlerAdapter、ViewResolver、View。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring Validation如何实现参数校验</title><description>## 题目
+Spring Validation如何实现参数校验
+
+## 参考答案
+Spring Validation参数校验：1.添加依赖spring-boot-starter-validation。2.实体类加注解@NotNull、@Size、@Email等。3.Controller方法参数加@Valid。4.校验结果BindingResult。5.全局异常处理@ExceptionHandler(MethodArgumentNotValidException.class)。分组校验：@Validated(UserGroup.Add.class)。自定义校验：实现ConstraintValidator。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring的注解驱动开发是什么</title><description>## 题目
+Spring的注解驱动开发是什么
+
+## 参考答案
+注解驱动开发：用注解替代XML配置Bean。核心注解：@Configuration/@Bean（替代&lt;bean&gt;）、@ComponentScan（替代&lt;context:component-scan&gt;）、@Component/@Service/@Repository/@Controller（替代&lt;bean&gt;）、@Autowired/@Qualifier（替代&lt;property ref&gt;）。@Enable*注解开启功能：@EnableAsync、@EnableCaching。@Conditional条件注册Bean。注解驱动让配置更简洁。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring WebFlux是什么</title><description>## 题目
+Spring WebFlux是什么
+
+## 参考答案
+Spring WebFlux是响应式Web框架。特点：非阻塞、响应式、函数式编程。底层：Reactor/RxJava响应式库。注解：@Controller/@RestController（同步）、@FunctionalRouterFunctions（函数式路由）。比传统MVC性能高，适合IO密集型。Mono（0或1元素）、Flux（0到N元素）。需要配响应式数据源。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item><item><title>[Spring框架] Spring Boot配置优先级是什么</title><description>## 题目
+Spring Boot配置优先级是什么
+
+## 参考答案
+Spring Boot配置优先级（从高到低）：1.命令行参数。2.操作系统环境变量。3.ServletConfig/ServletContext参数。4.@PropertySource。5. application.properties/yml（外部）。6. @PropertySource（代码）。7.默认值。Profile生效：application-{profile}.properties优先级高于默认。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Spring框架</source><hint>难度：困难 | 分类：Spring框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Spring框架</tag><difficulty>hard</difficulty></item></fps>

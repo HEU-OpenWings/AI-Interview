@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[工具框架] Git的常用命令有哪些</title><description>## 题目
+Git的常用命令有哪些
+
+## 参考答案
+Git常用命令：git init（初始化）、git clone（克隆）、git add（暂存）、git commit（提交）、git push（推送）、git pull（拉取合并）、git fetch（拉取不合并）、git merge（合并分支）、git rebase（变基）、git status（状态）、git log（历史）、git branch（分支）、git checkout/switch（切换）、git stash（暂存）、git reset（回退）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工具框架</source><hint>难度：简单 | 分类：工具框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工具框架</tag><difficulty>easy</difficulty></item><item><title>[工具框架] Git的reset和revert有什么区别</title><description>## 题目
+Git的reset和revert有什么区别
+
+## 参考答案
+git reset：重置当前分支指针到指定提交，改变提交历史。--soft只移动HEAD，--mixed移动HEAD+暂存区，--hard移动HEAD+暂存区+工作目录。有风险，会修改历史。git revert：创建一个新提交来撤销指定提交的修改，不改变历史，安全性高。reset适合本地未推送的提交，revert适合已推送的提交。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工具框架</source><hint>难度：简单 | 分类：工具框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工具框架</tag><difficulty>easy</difficulty></item><item><title>[工具框架] Git的merge和rebase有什么区别</title><description>## 题目
+Git的merge和rebase有什么区别
+
+## 参考答案
+git merge：合并分支，保留原始提交历史，产生合并提交。特点：历史真实，但可能产生分叉。git rebase：变基，将当前分支的提交在目标分支上重新播放，产生线性历史。特点：历史整洁，但会修改提交历史。rebase黄金法则：不要rebase已推送的提交。多人在同一分支开发时慎用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工具框架</source><hint>难度：中等 | 分类：工具框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工具框架</tag><difficulty>medium</difficulty></item><item><title>[工具框架] Docker是什么，有什么优势</title><description>## 题目
+Docker是什么，有什么优势
+
+## 参考答案
+Docker是容器化技术，将应用及依赖打包成镜像运行。优势：1.一致性：开发、测试、生产环境一致。2.隔离性：应用间互不影响。3.轻量级：比虚拟机启动更快、占用资源更少。4.可移植：一次构建多处运行。5.版本控制：可版本化管理镜像。6.生态丰富：Docker Hub有大量镜像。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工具框架</source><hint>难度：中等 | 分类：工具框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工具框架</tag><difficulty>medium</difficulty></item><item><title>[工具框架] Dockerfile的常用指令有哪些</title><description>## 题目
+Dockerfile的常用指令有哪些
+
+## 参考答案
+Dockerfile指令：1.FROM指定基础镜像。2.LABEL添加元数据。3.RUN执行命令。4.COPY复制文件。5.ADD复制和解压文件（自动解压远程URL）。6.WORKDIR设置工作目录。7.EXPOSE暴露端口。8.ENV设置环境变量。9.CMD/ENTRYPOINT容器启动命令。10.VOLUME声明数据卷。11.USER设置用户。12.ONBUILD延迟执行。构建优化：用多阶段构建、减少层数、顺序优化缓存、删除不必要的文件。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 工具框架</source><hint>难度：困难 | 分类：工具框架</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>工具框架</tag><difficulty>hard</difficulty></item></fps>

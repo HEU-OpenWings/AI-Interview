@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[微服务] 什么是微服务架构，它有哪些优缺点</title><description>## 题目
+什么是微服务架构，它有哪些优缺点
+
+## 参考答案
+微服务是将大型应用拆分为多个小型自治服务，每个服务独立部署和扩展。优点：1.独立部署，技术异构。2.容错性好，单服务故障不影响全局。3.易于扩展，按需扩展瓶颈服务。4.团队自治。缺点：1.运维复杂（服务数量多）。2.服务间通信开销。3.分布式事务难题。4.调试和追踪困难。适合复杂业务。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 微服务与单体架构的区别是什么</title><description>## 题目
+微服务与单体架构的区别是什么
+
+## 参考答案
+单体架构：所有功能在一个应用中，部署在单个服务器。优点：开发简单、测试容易、部署方便。缺点：代码耦合、扩展困难、技术栈受限、部署时间长、故障影响大。微服务架构：功能拆分为多个独立服务。优点：松耦合、独立部署、技术灵活、易扩展。缺点：运维复杂、分布式复杂性、数据一致性挑战。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 什么是服务降级</title><description>## 题目
+什么是服务降级
+
+## 参考答案
+服务降级：在系统压力过大或依赖服务不可用时，主动降低服务能力，保护核心功能。降级策略：1.关闭非核心功能。2.返回兜底数据/默认值。3.返回友好提示。4.限流拒绝。降级开关：配置中心动态控制。实现：Hystrix/Sentinel的降级规则、fallback方法。降级vs熔断：降级是主动降低功能，熔断是防止级联故障。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 什么是服务雪崩</title><description>## 题目
+什么是服务雪崩
+
+## 参考答案
+服务雪崩：服务调用链中，一个服务故障导致上游服务资源耗尽，形成级联故障。过程：A→B→C，C故障→B等待超时→B资源耗尽→A也故障。解决方案：1.限流。2.熔断。3.降级。4.隔离（线程池隔离）。5.超时设置。6.重试机制。核心思想：防止故障扩散。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 什么是服务注册</title><description>## 题目
+什么是服务注册
+
+## 参考答案
+服务注册：服务启动时向注册中心注册自己的地址（IP+端口）。方式：1.心跳续约：定时向注册中心发送心跳。2.主动注销：服务停止时通知。注册中心存储服务列表。客户端通过注册中心获取服务提供者地址，实现负载均衡。常用组件：Eureka、Nacos、Consul、Zookeeper。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 什么是Feign</title><description>## 题目
+什么是Feign
+
+## 参考答案
+Feign：声明式HTTP客户端。简化HTTP调用的RPC。通过@FeignClient注解定义接口，自动生成代理。功能：1.负载均衡（Ribbon）。2.熔断（Hystrix）。3.请求压缩。4.日志。5.超时配置。Spring Cloud使用Feign简化服务调用。自动解析JSON。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 什么是Ribbon</title><description>## 题目
+什么是Ribbon
+
+## 参考答案
+Ribbon是Netflix开源的负载均衡器。功能：1.轮询、随机、加权。2.重试机制。3.超时配置。4.区域感知。配合Eureka获取服务列表。@LoadBalanced注解开启。Ribbon 2020年停止维护，Spring Cloud LoadBalancer是其替代。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：简单 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>easy</difficulty></item><item><title>[微服务] 什么是服务注册与发现</title><description>## 题目
+什么是服务注册与发现
+
+## 参考答案
+服务注册：服务启动时将自身地址（IP+端口）注册到注册中心。服务发现：消费者从注册中心获取提供者地址列表。注册中心需高可用，支持心跳检测剔除故障服务。常用组件：Eureka（停止维护）、Nacos（阿里的，支持配置中心）、Consul、Zookeeper。服务发现方式：客户端发现（Ribbon）、服务端发现（Gateway/Nginx）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] 什么是API网关，它有什么作用</title><description>## 题目
+什么是API网关，它有什么作用
+
+## 参考答案
+API网关是微服务的统一入口，封装内部系统架构。作用：1.路由转发：根据URL将请求路由到对应服务。2.负载均衡。3.认证鉴权：JWT、OAuth2。4.限流熔断：防止雪崩。5.日志监控。6.协议转换。常用网关：Spring Cloud Gateway、Kong、Zuul、Nginx。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] Sentinel有哪些功能</title><description>## 题目
+Sentinel有哪些功能
+
+## 参考答案
+Sentinel（阿里）是流量控制、熔断降级的组件。核心功能：1.流量控制：QPS/并发数限流。2.熔断降级：RT/异常比例/异常数触发熔断。3.系统自适应保护：从整体维度控制请求。4.热点参数限流。5.网关限流。6.实时监控。优势：轻量级、控制面板、控制规则动态配置。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] 什么是配置中心</title><description>## 题目
+什么是配置中心
+
+## 参考答案
+配置中心：集中管理应用配置，支持动态更新。功能：1.配置存储和版本管理。2.动态刷新（不重启应用）。3.多环境配置隔离。4.权限管理。5.配置变更推送。常用：Apollo（携程）、Nacos（阿里）、Spring Cloud Config、Consul、etcd。核心：配置热发布、配置回滚、灰度发布。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] 什么是分布式锁</title><description>## 题目
+什么是分布式锁
+
+## 参考答案
+分布式锁：在分布式系统中实现跨进程的互斥访问。实现方式：1.Redis SETNX+过期时间。2.Redisson（看门狗自动续期）。3.Zookeeper临时顺序节点。4.数据库唯一索引。5.Chubby（Google）。要求：互斥、可重入、死锁避免、性能高。Redisson最常用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] 什么是Sentinel</title><description>## 题目
+什么是Sentinel
+
+## 参考答案
+Sentinel：流量控制、熔断降级组件。功能：1.流控：QPS/并发数限流。2.降级：RT、异常比例、异常数触发熔断。3.热点参数限流。4.系统自适应保护。5.实时监控。引入依赖+@SentinelResource注解配置。Sentinel控制台动态配置规则。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] 什么是Sentinel的流控效果</title><description>## 题目
+什么是Sentinel的流控效果
+
+## 参考答案
+Sentinel流控效果：1.直接拒绝（默认）：超过阈值直接拒绝。2.Warm Up（冷启动）：逐步提升到阈值。3.匀速排队：匀速通过，阈值/秒。4.关联限流：关联资源超过阈值时限流自己。冷启动适合突发流量，排队适合脉冲流量。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：中等 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>medium</difficulty></item><item><title>[微服务] 分布式事务如何处理</title><description>## 题目
+分布式事务如何处理
+
+## 参考答案
+分布式事务解决方案：1.两阶段提交（2PC）：协调者Prepare-Commit，全票通过才提交。问题：同步阻塞、单点故障、数据不一致。2.三阶段提交（3PC）：增加PreCommit阶段。3.TCC（Try-Confirm-Cancel）：业务层面补偿。4.本地消息表（可靠消息最终一致性）：实现简单。5.Seata/Apache ShardingSphere-ElasticJob等中间件。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item><item><title>[微服务] 什么是熔断降级，如何实现</title><description>## 题目
+什么是熔断降级，如何实现
+
+## 参考答案
+熔断：当某个服务故障率超过阈值时，打开熔断器，快速失败返回降级结果，避免级联故障。降级：服务不可用时返回兜底数据或逻辑。常用组件：Sentinel（阿里的）、Hystrix（Netflix，已停止维护）。熔断器三状态：Closed（正常）、Open（熔断）、HalfOpen（探测恢复）。参数：失败率阈值、熔断时长、探测时长。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item><item><title>[微服务] Nacos作为配置中心如何使用</title><description>## 题目
+Nacos作为配置中心如何使用
+
+## 参考答案
+Nacos配置中心使用：1.添加依赖：spring-cloud-starter-alibaba-nacos-config。2.配置bootstrap.yml：指定nacos地址、namespace、group、data-id。3.启动类@EnableDiscoveryClient。4.@RefreshScope自动刷新配置。5.使用@Value注解读取。6.配置发布在Nacos控制台。支持配置监听、动态更新、多环境配置、配置分组、共享配置。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item><item><title>[微服务] 什么是分布式链路追踪</title><description>## 题目
+什么是分布式链路追踪
+
+## 参考答案
+分布式链路追踪：追踪请求在各微服务间的调用路径。核心概念：Trace（完整调用链）、Span（单个服务调用）、Annotation（事件）。原理：请求携带TraceId，每个服务生成Span，Span组成Trace树。工具：SkyWalking、Jaeger、Zipkin、Pinpoint、Sleuth。OpenTracing/OpenTelemetry标准化API。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item><item><title>[微服务] 什么是Saga模式</title><description>## 题目
+什么是Saga模式
+
+## 参考答案
+Saga模式：分布式事务的补偿模式。将大事务拆分为多个本地事务，每个本地事务有对应的补偿操作。正向执行：A→B→C。补偿执行：C补偿→B补偿→A补偿。分类：1.Choreography（事件驱动，无中心协调）。2.Orchestration（有协调器）。优点：避免分布式事务。缺点：补偿逻辑复杂。适用于长事务。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item><item><title>[微服务] 什么是SkyWalking</title><description>## 题目
+什么是SkyWalking
+
+## 参考答案
+SkyWalking：分布式追踪系统。功能：1.链路追踪。2.性能指标。3.服务拓扑。4.告警。架构：OAP Server接收数据，UI展示。Agent：无侵入埋点，自动探针。协议：Trace Data Protocol。支持多种语言。存储：ES、H2、MySQL。告警规则可配置。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item><item><title>[微服务] 什么是Arthas</title><description>## 题目
+什么是Arthas
+
+## 参考答案
+Arthas是阿里开源的Java诊断工具。功能：1.dashboard实时系统状态。2.thread -b查看死锁。3.watch方法监控输入输出。4.jad反编译。5.redifdefine热更新。6.profiler性能分析。7.mc/SC使用WASM/Javassist创建类。attach到JVM无需重启。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 微服务</source><hint>难度：困难 | 分类：微服务</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>微服务</tag><difficulty>hard</difficulty></item></fps>

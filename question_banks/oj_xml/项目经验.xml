@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[项目经验] 遇到过最难的技术问题是什么，如何解决</title><description>## 题目
+遇到过最难的技术问题是什么，如何解决
+
+## 参考答案
+回答思路：1.选择有挑战但最终解决的问题。2.描述问题背景。3.分析问题原因。4.尝试的方案。5.最终解决方案。6.收获和反思。示例：线上OOM排查、Redis热点Key、MySQL死锁、高并发秒杀超卖等。关键是体现问题解决能力。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 项目经验</source><hint>难度：简单 | 分类：项目经验</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>项目经验</tag><difficulty>easy</difficulty></item><item><title>[项目经验] 如何保证代码质量</title><description>## 题目
+如何保证代码质量
+
+## 参考答案
+保证代码质量：1.代码规范：ESLint、Checkstyle、Prettier。2. Code Review：同事review。3.单元测试：Jest/JUnit。4.自动化测试：覆盖率要求。5.设计原则：SOLID、DRY、KISS。6.设计模式合理使用。7.重构：定期review。8.文档注释。9.持续集成CI/CD。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 项目经验</source><hint>难度：中等 | 分类：项目经验</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>项目经验</tag><difficulty>medium</difficulty></item><item><title>[项目经验] 如何进行技术选型</title><description>## 题目
+如何进行技术选型
+
+## 参考答案
+技术选型考虑：1.业务需求：功能是否满足。2.团队能力：学习成本。3.社区活跃度：文档、issue处理。4.稳定性：生产验证。5.性能：benchmark。6.扩展性：是否支持未来需求。7.运维成本：部署、监控、问题排查。8.license和成本。9.对比竞品。原则：合适优于先进。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 项目经验</source><hint>难度：困难 | 分类：项目经验</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>项目经验</tag><difficulty>hard</difficulty></item></fps>

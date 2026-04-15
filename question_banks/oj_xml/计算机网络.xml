@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[计算机网络] TCP和UDP有什么区别</title><description>## 题目
+TCP和UDP有什么区别
+
+## 参考答案
+TCP：面向连接、可靠传输、拥塞控制、流量控制、首部20字节、速度慢。UDP：无连接、不可靠、不控制拥塞、无流量控制、首部8字节、速度快。TCP适合：文件传输、邮件、Web。UDP适合：视频流、DNS、VoIP、实时游戏。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] 三次握手过程是什么</title><description>## 题目
+三次握手过程是什么
+
+## 参考答案
+TCP三次握手：1.客户端发送SYN包（SYN=1, seq=x），进入SYN_SENT状态。2.服务器返回SYN+ACK包（SYN=1, ACK=1, seq=y, ack=x+1），进入SYN_RCVD状态。3.客户端发送ACK包（ACK=1, seq=x+1, ack=y+1），双方进入ESTABLISHED状态。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] 四次挥手过程是什么</title><description>## 题目
+四次挥手过程是什么
+
+## 参考答案
+TCP四次挥手：1.主动方发送FIN包（FIN=1, seq=u），进入FIN_WAIT_1。2.被动方发送ACK确认（ACK=1, ack=u+1），进入CLOSE_WAIT，主动方收到后进入FIN_WAIT_2。3.被动方处理完数据后发送FIN包（FIN=1, seq=v），进入LAST_ACK。4.主动方发送ACK确认（ACK=1, ack=v+1），进入TIME_WAIT，等待2MSL后关闭。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] HTTP和HTTPS有什么区别</title><description>## 题目
+HTTP和HTTPS有什么区别
+
+## 参考答案
+HTTP是明文传输，端口80。HTTPS是HTTP+SSL/TLS加密传输，端口443。HTTPS需要CA证书，有TLS握手开销。HTTPS提供：1.身份验证（证书认证服务器身份）。2.数据加密。3.数据完整性保护（MAC校验）。对称加密+非对称加密+数字证书组合使用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] HTTP请求方法有哪些</title><description>## 题目
+HTTP请求方法有哪些
+
+## 参考答案
+HTTP请求方法：GET（获取资源）、POST（提交资源）、PUT（更新资源）、DELETE（删除资源）、HEAD（获取头部）、OPTIONS（跨域预检）、PATCH（部分更新）、TRACE（回显请求）、CONNECT（代理）。RESTful规范：GET查、POST增、PUT改、DELETE删。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] HTTP状态码有哪些</title><description>## 题目
+HTTP状态码有哪些
+
+## 参考答案
+HTTP状态码分类：1xx（信息）：100继续。2xx（成功）：200 OK、201创建、204无内容。3xx（重定向）：301永久、302临时、304缓存。4xx（客户端错误）：400参数错误、401未认证、403禁止、404未找到。5xx（服务端错误）：500服务器错误、502网关错误、503服务不可用、504超时。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] TCP如何保证可靠性</title><description>## 题目
+TCP如何保证可靠性
+
+## 参考答案
+TCP可靠性保证：1.序列号+确认应答（ACK）：每个字节编号，接收方确认。2.超时重传：发送后启动定时器，未收到ACK则重传。3.流量控制：滑动窗口，接收方通告窗口大小。4.拥塞控制：慢启动、拥塞避免、快重传、快恢复。5.校验和：检测数据损坏。6.首部和数据校验。7.丢弃重复数据。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] TCP粘包和拆包是什么</title><description>## 题目
+TCP粘包和拆包是什么
+
+## 参考答案
+TCP粘包/拆包：TCP是流式协议，不保留消息边界。粘包：多个小消息合并成一个TCP包。拆包：一个消息被分成多个TCP包。原因：应用程序write次数与底层send次数不同；MSS/MTU限制。解决：1.固定长度。2.分隔符。3. Length Field（消息头+长度）。4.应用层协议自定义。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] 什么是网关</title><description>## 题目
+什么是网关
+
+## 参考答案
+网关（Gateway）在网络层连接不同协议的网络。工作在OSI七层：网络层/传输层。类型：1.协议网关：转换不同协议。2.应用网关：应用层协议转换。3.安全网关：防火墙。4.API网关：微服务统一入口（路由、认证、限流）。网关与路由器区别：路由器在局域网内部，网关连接外部网络。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] 什么是子网掩码</title><description>## 题目
+什么是子网掩码
+
+## 参考答案
+子网掩码：区分IP地址的网络位和主机位。表示：255.255.255.0或/24。C类：255.255.255.0，网络位24位。计算：IP AND 子网掩码 = 网络地址。划分子网：主机位借给网络位。VLSM变长子网掩码：不同长度子网。CIDR：无类别域间路由，聚合路由。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] HTTP请求头有哪些重要字段</title><description>## 题目
+HTTP请求头有哪些重要字段
+
+## 参考答案
+HTTP请求头重要字段：Host（目标主机）、User-Agent（客户端信息）、Accept（接受内容类型）、Accept-Encoding（压缩格式）、Accept-Language（语言）、Cookie（会话信息）、Authorization（认证）、Content-Type（请求体类型）、Content-Length（长度）、Cache-Control（缓存控制）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：简单 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>easy</difficulty></item><item><title>[计算机网络] TCP为什么是三次握手而不是两次</title><description>## 题目
+TCP为什么是三次握手而不是两次
+
+## 参考答案
+三次握手目的：1.确认双方发送和接收能力正常。2.协商初始序列号（ISN）。两次握手问题：服务器无法确认客户端的接收能力和自己的发送能力是否正常。第二次握手后服务器就建立连接，如果ACK丢失客户端不响应，服务器会空等。TCP全双工通信需要确认双方状态。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] TCP为什么是四次挥手而不是三次</title><description>## 题目
+TCP为什么是四次挥手而不是三次
+
+## 参考答案
+四次挥手原因：TCP是全双工通信，客户端和服务端都需要关闭各自到对方的连接。主动方发送FIN表示不再发送数据，但还能接收数据。被动方收到FIN后先回复ACK确认，但可能还有数据要发送，所以先关闭发送通道（发送自己的FIN），再关闭接收通道。需要额外时间处理剩余数据。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] HTTP 1.0、1.1、2.0有什么区别</title><description>## 题目
+HTTP 1.0、1.1、2.0有什么区别
+
+## 参考答案
+HTTP1.0：无连接（每次请求新建TCP）、无状态。HTTP1.1：长连接（Connection:keep-alive）、支持管道化（同一连接可并发请求但按序返回）、支持断点续传、新增PUT/DELETE/OPTIONS等。HTTP2.0：二进制分帧（帧代替字节流）、多路复用（一个连接并行传输多个请求）、头部HPACK压缩、Server Push推送、流量控制。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] Cookie和Session有什么区别</title><description>## 题目
+Cookie和Session有什么区别
+
+## 参考答案
+Cookie和Session区别：1.存储位置：Cookie存储在客户端，Session存储在服务端。2.安全性：Session更安全（数据不暴露）。3.生命周期：Cookie可长期保存，Session一般30分钟过期。4.存储容量：Cookie有限（4KB），Session无限。5.性能：Session需查询，有一定开销。6.分布式：Session需考虑共享问题。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] 什么是WebSocket，它和HTTP的区别是什么</title><description>## 题目
+什么是WebSocket，它和HTTP的区别是什么
+
+## 参考答案
+WebSocket是双向通信协议，建立在TCP之上，支持全双工通信。握手：HTTP Upgrade请求→101 Switching Protocols→WebSocket连接。特点：服务端可主动推送、一次握手持久连接、开销小。HTTP：请求-响应模式、无状态、单向通信。应用：实时聊天、推送、在线游戏。Socket.IO封装了WebSocket降级。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] TCP滑动窗口是什么</title><description>## 题目
+TCP滑动窗口是什么
+
+## 参考答案
+TCP滑动窗口是流量控制机制。发送方维护发送窗口，窗口内数据可发送但未收到ACK。接收方维护接收窗口，通知发送方窗口大小。流程：发送窗口滑动（收到ACK后右移），接收窗口滑动（收到数据后右移）。窗口大小为0时发送方停止发送，直到收到非零窗口通告。优化性能：窗口越大，吞吐量越高。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] 什么是长连接和短连接</title><description>## 题目
+什么是长连接和短连接
+
+## 参考答案
+短连接：每次请求建立TCP连接，完成后关闭。频繁建立连接开销大，适合偶尔请求。长连接：TCP连接建立后保持，可多次发送请求，减少连接建立开销，适合频繁通信。HTTP/1.1默认长连接。WebSocket是长连接。连接池复用连接。实际根据业务场景选择。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] 什么是TTL</title><description>## 题目
+什么是TTL
+
+## 参考答案
+TTL（Time To Live）：IP报文生存时间，每经过一个路由减1，为0时丢弃防止环路。初始值：64/128/255。Traceroute利用TTL递增探测路由节点。DNS记录TTL：缓存生存时间，到期前使用缓存。MySQL连接TTL：连接最大生命周期。Redis TTL：key剩余生存时间秒数。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] 什么是ARP协议</title><description>## 题目
+什么是ARP协议
+
+## 参考答案
+ARP（地址解析协议）：IP转MAC地址。过程：主机查询ARP缓存，未命中则广播ARP请求，目标主机响应ARP应答。ARP缓存：动态（自动学习删除）、静态（手动添加）。ARP欺骗：攻击手段，交换机能防护。Gratuitous ARP：免费ARP，IP冲突检测、通告MAC变化。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] 什么是CDN的缓存策略</title><description>## 题目
+什么是CDN的缓存策略
+
+## 参考答案
+CDN缓存策略：1.Cache-Control max-age设置缓存时间。2.Expires过期时间。3.源站验证：If-Modified-Since/If-None-Match。4.Cache-Control优先级高于Expires。5.private/public区别。6.no-cache每次验证。7.按文件类型设置不同TTL。8.强制刷新绕过缓存。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：中等 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>medium</difficulty></item><item><title>[计算机网络] 什么是CDN，它的工作原理是什么</title><description>## 题目
+什么是CDN，它的工作原理是什么
+
+## 参考答案
+CDN（Content Delivery Network）内容分发网络。工作原理：1.用户请求资源，DNS解析到CDN专用DNS。2.CDN DNS根据用户IP返回最近CDN节点IP。3.用户到CDN节点获取资源。4.节点有缓存则直接返回，无缓存则回源站获取并存入缓存。优势：加速访问、减轻源站压力、抵御DDoS攻击、节省带宽。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] DNS解析过程是什么</title><description>## 题目
+DNS解析过程是什么
+
+## 参考答案
+DNS解析顺序：1.浏览器缓存。2.系统缓存（hosts文件）。3.本地域名服务器（LDNS）。4.LDNS依次查询：根域名服务器（全球13组）→顶级域名服务器（.com等）→权威域名服务器。5.获取IP后缓存并返回。DNS记录类型：A记录（域名→IPv4）、AAAA（→IPv6）、CNAME（别名）、MX（邮件）、TXT等。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] HTTPS的TLS握手过程是什么</title><description>## 题目
+HTTPS的TLS握手过程是什么
+
+## 参考答案
+TLS握手过程：1.Client Hello：发送支持的TLS版本、加密套件、随机数。2.Server Hello：选择版本+套件+随机数+证书。3.客户端验证证书。4.客户端发送Premaster Secret（用公钥加密）。5.双方生成会话密钥。6.握手完成，后续通信使用对称加密。RSA握手：4次RTT。TLS1.3：1-RTT。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] 什么是正向代理和反向代理</title><description>## 题目
+什么是正向代理和反向代理
+
+## 参考答案
+正向代理：代理客户端向服务端请求，客户端知道目标服务器，服务器不知道真实客户端（VPN、翻墙）。反向代理：代理服务端接受请求，客户端不知道真实服务器（Nginx、网关）。区别：代理对象不同、目的不同（正向为客户端隐藏，反向为服务端隐藏）。常用：Nginx（反向代理+负载均衡）、CDN。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] 什么是SYN洪泛攻击，如何防范</title><description>## 题目
+什么是SYN洪泛攻击，如何防范
+
+## 参考答案
+SYN Flooding攻击：攻击者发送大量SYN请求，不完成三次握手，服务器资源耗尽。防范：1.SYN Cookies：服务端不分配资源，用Cookie验证后续ACK。2.减少SYN+ACK重试次数。3.使用防火墙。4.增大连接队列。5.及时检测异常。Linux内核参数：tcp_syncookies、tcp_syn_retries、tcp_max_syn_backlog。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] 什么是QUIC协议</title><description>## 题目
+什么是QUIC协议
+
+## 参考答案
+QUIC是基于UDP的传输协议，HTTP/3底层协议。特点：1.0-RTT握手，减少延迟。2.多路复用，无TCP队头阻塞。3.连接迁移，用Connection ID替代IP+端口。4.前向纠错，丢失数据包可恢复。5.连接建立快，减少握手时间。Google Chrome已支持。Netflix、Facebook等在生产环境使用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] 什么是HTTP/3</title><description>## 题目
+什么是HTTP/3
+
+## 参考答案
+HTTP/3基于QUIC协议（UDP）。核心改进：1.0-RTT快速建立连接。2.多路复用无TCP队头阻塞。3.连接迁移用Connection ID。4.前向纠错容错。5.改进拥塞控制。部署：Nginx 1.25+支持HTTP/3。浏览器支持：Chrome、Firefox。CDN支持：Cloudflare、Fastly。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] 什么是SDN</title><description>## 题目
+什么是SDN
+
+## 参考答案
+SDN（软件定义网络）：控制平面和数据平面分离。架构：应用层-控制层-基础设施层。OpenFlow协议：控制器和交换机通信。特点：集中控制、可编程、灵活。优势：简化管理、快速创新。网络功能虚拟化NFV。应用：数据中心、云网络。SD-WAN是SDN在WAN的应用。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item><item><title>[计算机网络] 什么是WireShark过滤器语法</title><description>## 题目
+什么是WireShark过滤器语法
+
+## 参考答案
+WireShark过滤器：1.捕获过滤器：tcp port 80、host 192.168.1.1、src host xxx。2.显示过滤器：ip.addr==192.168.1.1、tcp.port==80、http.request.method=="GET"。逻辑：and/or/not。比较：==、!=、contains、matches。正则：~。显示过滤器比捕获过滤器更强大。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 计算机网络</source><hint>难度：困难 | 分类：计算机网络</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>计算机网络</tag><difficulty>hard</difficulty></item></fps>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[消息队列] 什么是消息队列，它有什么作用</title><description>## 题目
+什么是消息队列，它有什么作用
+
+## 参考答案
+消息队列是进程间通信的一种方式，异步解耦削峰填谷。作用：1.异步处理：提高系统吞吐量。2.解耦：生产者和消费者松耦合。3.削峰：处理突发的请求压力。4.日志处理：日志收集系统。常用消息队列：RabbitMQ、Kafka、RocketMQ、ActiveMQ。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 消息队列</source><hint>难度：简单 | 分类：消息队列</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>消息队列</tag><difficulty>easy</difficulty></item><item><title>[消息队列] Kafka为什么吞吐量高</title><description>## 题目
+Kafka为什么吞吐量高
+
+## 参考答案
+Kafka高吞吐量原因：1.顺序写入磁盘：利用顺序IO，追加写性能接近内存。2.零拷贝：sendfile系统调用，DMA直接传输，避免用户态内核态切换。3.分区分片并行消费。4.批量处理：消息压缩。5.稀疏索引：稀疏索引文件定位。6.无锁队列：Disruptor等。无GC，性能稳定。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 消息队列</source><hint>难度：中等 | 分类：消息队列</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>消息队列</tag><difficulty>medium</difficulty></item><item><title>[消息队列] RabbitMQ有哪些消息模型</title><description>## 题目
+RabbitMQ有哪些消息模型
+
+## 参考答案
+RabbitMQ消息模型：1.简单模型：生产者→队列→消费者。2.工作队列：一个生产者，多个消费者竞争消息。3.发布订阅：fanout交换机，所有绑定队列都收到消息。4.路由模式：direct交换机，根据routing key精确匹配。5.主题模式：topic交换机，支持通配符（* #）。6.RPC：同步请求响应模式。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 消息队列</source><hint>难度：中等 | 分类：消息队列</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>消息队列</tag><difficulty>medium</difficulty></item><item><title>[消息队列] 如何保证消息不丢失</title><description>## 题目
+如何保证消息不丢失
+
+## 参考答案
+保证消息不丢失：1.生产者确认：开启publisher confirm，消息持久化确认。2.Broker持久化：消息落盘（durable）+ 交换机队列持久化。3.消费确认：手动ACK，消息处理完成再确认。4.高可用集群：镜像队列或副本。5.消息补偿：定时任务+数据库+消息表。6.死信队列：处理失败消息。最终一致性方案。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 消息队列</source><hint>难度：困难 | 分类：消息队列</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>消息队列</tag><difficulty>hard</difficulty></item><item><title>[消息队列] 如何实现消息顺序消费</title><description>## 题目
+如何实现消息顺序消费
+
+## 参考答案
+消息顺序消费：1.全局顺序：一个topic一个partition，一个consumer。2.分区内有序：相同key（如用户ID）发送到同一partition。3.消费者端：按顺序处理，单线程消费或加锁。4.业务层面：幂等处理重复消息。问题：并发消费可能乱序，解决：顺序消费必须单线程或加锁。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 消息队列</source><hint>难度：困难 | 分类：消息队列</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>消息队列</tag><difficulty>hard</difficulty></item></fps>

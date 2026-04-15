@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[图算法] 什么是并查集，如何实现</title><description>## 题目
+什么是并查集，如何实现
+
+## 参考答案
+并查集（Union-Find）是处理不相交集合合并和查询的数据结构。操作：makeSet(x)初始化、find(x)查找根节点、union(x,y)合并集合。优化：路径压缩（find时指向根）、按秩合并（小的合并到大的）。时间复杂度：接近O(1)。应用：岛屿数量、朋友圈、连通分量、最小生成树。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 图算法</source><hint>难度：中等 | 分类：图算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>图算法</tag><difficulty>medium</difficulty></item><item><title>[图算法] 什么是拓扑排序，如何实现</title><description>## 题目
+什么是拓扑排序，如何实现
+
+## 参考答案
+拓扑排序是有向无环图（DAG）的顶点线性排序。方法：1.Kahn算法：队列+入度数组。BFS：入度为0入队，删除边，更新入度。2.DFS：递归+后序遍历逆序。特点：若图有环则无法完成排序。时间复杂度O(V+E)。应用：任务调度、课程表、依赖解析。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 图算法</source><hint>难度：困难 | 分类：图算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>图算法</tag><difficulty>hard</difficulty></item><item><title>[图算法] 什么是Dijkstra算法和Bellman-Ford算法</title><description>## 题目
+什么是Dijkstra算法和Bellman-Ford算法
+
+## 参考答案
+Dijkstra：单源最短路径，贪心+优先队列。适用于无负权边。时间复杂度O((V+E)logV)。思想：dist[v]=dist[u]+w(u,v)。Bellman-Ford：可处理负权边，可检测负环。时间复杂度O(VE)。思想：遍历V-1次所有边松弛操作。SPFA是Bellman-Ford队列优化。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 图算法</source><hint>难度：困难 | 分类：图算法</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>图算法</tag><difficulty>hard</difficulty></item></fps>

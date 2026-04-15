@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[数组] 如何找到数组中的重复元素</title><description>## 题目
+如何找到数组中的重复元素
+
+## 参考答案
+找重复元素方法：1.哈希集合：遍历存入Set，已存在则重复。时间O(n)空间O(n)。2.排序后遍历：时间O(nlogn)空间O(1)（不计排序空间）。3.标记数组：值对应索引。4.二进制统计位。变体：1到n数组找重复（不能用额外空间）：类似Floyd环检测。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：简单 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>easy</difficulty></item><item><title>[数组] 如何找数组第二大数</title><description>## 题目
+如何找数组第二大数
+
+## 参考答案
+找第二大数：1.遍历：维护最大和第二大O(n)。2.排序后取第二个O(nlogn)。3.一次遍历O(n)：遍历数组，比较更新最大第二大。进阶：找第K大的数用快速选择/堆。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：简单 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>easy</difficulty></item><item><title>[数组] 如何移除数组中的元素</title><description>## 题目
+如何移除数组中的元素
+
+## 参考答案
+移除元素方法：1.双指针：left从0，遍历right，不等于val则nums[left++]=nums[right]。2.filter：arr.filter(x=&gt;x!==val)。3.splice：遍历删除（不推荐，O(n²)）。4.set集合：配合filter或forEach。推荐双指针，时间O(n)，空间O(1)。注意in-place修改。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：简单 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>easy</difficulty></item><item><title>[数组] 如何合并多个有序数组</title><description>## 题目
+如何合并多个有序数组
+
+## 参考答案
+合并K个有序数组：1.最小堆：建K元素堆，弹最小加下一个。2.分治：两两合并。3.归并思想：多路归并。堆方法：PriorityQueue维护每个数组当前元素。维护索引数组。O(NlogK)，N总元素数。Python：heapq.merge(*arrays)。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：简单 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>easy</difficulty></item><item><title>[数组] 如何求最大子数组和</title><description>## 题目
+如何求最大子数组和
+
+## 参考答案
+最大子数组和（LeetCode 53）：1.动态规划：dp[i]表示以i结尾的最大子数组和，dp[i]=max(dp[i-1]+nums[i], nums[i])，答案=max(dp)。时间O(n)空间O(1)。2.分治：最大子数组在左/右/跨中三种情况。时间O(nlogn)。3.前缀和+最小前缀。扩展：乘积最大子数组（有负数需同时记录最大和最小）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：中等 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>medium</difficulty></item><item><title>[数组] 如何合并两个有序数组</title><description>## 题目
+如何合并两个有序数组
+
+## 参考答案
+合并两个有序数组：1.双指针：从前往后，结果存新数组。2.双指针从后往前：避免额外空间。3.直接合并后排序（简单但不高效）。4.Python：list1.extend(list2); list1.sort()。LeetCode 88。原地合并：从后往前放入nums1的尾部。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：中等 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>medium</difficulty></item><item><title>[数组] 如何求两个数组的交集</title><description>## 题目
+如何求两个数组的交集
+
+## 参考答案
+求交集：1.双set：set1取交集set2。2.排序+双指针：两指针从前往后，相等加入。3.hash表：遍历一个数组存计数，另一个遍历检查。set方法代码简洁，时间O(m+n)。去重用Set，计数用Map。进阶：保留重复次数用Map。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：中等 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>medium</difficulty></item><item><title>[数组] 如何求三数之和</title><description>## 题目
+如何求三数之和
+
+## 参考答案
+LeetCode 15：三数之和。解法：排序+双指针。枚举i，双指针left=i+1,right=n-1。while left&lt;right：计算三数之和。为0加入结果，left++ right--。去重：跳过相同i、left、right。注意剪枝优化。O(n²)。注意结果去重。扩展：四数之和类似。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：中等 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>medium</difficulty></item><item><title>[数组] 如何求第K大的元素</title><description>## 题目
+如何求第K大的元素
+
+## 参考答案
+找第K大的元素：1.排序：O(nlogn)。2.快速选择：类似快排，每次partition划分位置判断。时间平均O(n)最坏O(n²)。3.堆排序：建大顶堆取K个或维护小顶堆。4.BFPTR算法：n个元素分组求中位数再递归。时间O(n)。实际常用快速选择或堆。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：困难 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>hard</difficulty></item><item><title>[数组] 如何求缺失的第一个正数</title><description>## 题目
+如何求缺失的第一个正数
+
+## 参考答案
+LeetCode 41：O(n)时间O(1)空间。思路：将每个正数放到对应位置（原地哈希）。遍历：把x放在index x-1处。遍历结束，第一个不满足i+1的就是答案。注意：1&lt;=x&lt;=n才交换，避免越界和重复。关键：利用数组做哈希表。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：困难 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>hard</difficulty></item><item><title>[数组] 如何求第K个最大的元素</title><description>## 题目
+如何求第K个最大的元素
+
+## 参考答案
+求第K大：1.排序：O(nlogn)。2.快速选择：O(n)平均，类似快排partition。3.堆：建大顶堆取K个，或维护小顶堆只存K个。4.BFPTR：精确线性选择O(n)。快速选择最常用，均摊O(n)。topK问题通常用堆。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：困难 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>hard</difficulty></item><item><title>[数组] 如何求接雨水问题</title><description>## 题目
+如何求接雨水问题
+
+## 参考答案
+LeetCode 42：接雨水。解法：1.动态规划：leftMax[]从左往右，rightMax[]从右往左，ans+=min(leftMax[i],rightMax[i])-height[i]。2.双指针：两指针从两端向中间。3.单调栈：维护递减栈。O(n)时间O(1)空间。核心：每个位置能接雨水由左右最高决定。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 数组</source><hint>难度：困难 | 分类：数组</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>数组</tag><difficulty>hard</difficulty></item></fps>

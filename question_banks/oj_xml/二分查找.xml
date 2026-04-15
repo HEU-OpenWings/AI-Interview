@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[二分查找] 二分查找的基本原理是什么</title><description>## 题目
+二分查找的基本原理是什么
+
+## 参考答案
+二分查找：有序数组中查找目标值。每次取中点比较：相等找到，小于目标在左半部分找，大于在右半部分找。时间复杂度O(logn)空间O(1)。关键：计算中点用mid=(left+right)//2或left+(right-left)//2防溢出。循环条件left&lt;=right。边界处理注意。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 二分查找</source><hint>难度：简单 | 分类：二分查找</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>二分查找</tag><difficulty>easy</difficulty></item><item><title>[二分查找] 二分查找有哪些变体</title><description>## 题目
+二分查找有哪些变体
+
+## 参考答案
+二分查找变体：1.查找左边界：mid命中后继续向左找。2.查找右边界：mid命中后继续向右找。3.旋转数组查找：判断哪半有序，在有序半中二分。4.平方根：二分逼近。5.寻找峰值。关键点：mid计算防溢出、循环条件、边界更新（left=mid+1还是mid）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 二分查找</source><hint>难度：中等 | 分类：二分查找</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>二分查找</tag><difficulty>medium</difficulty></item><item><title>[二分查找] 如何在有序数组中找第一个和最后一个位置</title><description>## 题目
+如何在有序数组中找第一个和最后一个位置
+
+## 参考答案
+在有序数组中找目标值的开始和结束位置：二分查找找左边界和右边界。左边界：找到target后继续向左找。右边界：找到target后继续向右找。时间O(logn)。代码：left_bound用&lt;，更新right=mid-1。right_bound用&lt;=，更新left=mid+1。返回[left,right]或[-1,-1]。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 二分查找</source><hint>难度：困难 | 分类：二分查找</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>二分查找</tag><difficulty>hard</difficulty></item></fps>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[性能优化] 如何优化首屏加载速度</title><description>## 题目
+如何优化首屏加载速度
+
+## 参考答案
+首屏加载优化：1.代码分割：路由懒加载、组件懒加载。2.预加载：preload/prefetch。3.压缩：Gzip、Brotli。4.Tree Shaking。5.图片优化：压缩、WebP、CDN。6.CSS放头部。7.JS放底部或defer。8.DNS预解析：dns-prefetch。9.减少请求：合并资源、内联关键CSS。10.HTTP/2多路复用。11.服务端渲染/预渲染。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 性能优化</source><hint>难度：简单 | 分类：性能优化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>性能优化</tag><difficulty>easy</difficulty></item><item><title>[性能优化] 什么是防抖和节流，如何实现</title><description>## 题目
+什么是防抖和节流，如何实现
+
+## 参考答案
+防抖（debounce）：事件触发n秒后执行，n秒内再次触发则重新计时。适用：搜索框输入、窗口resize。实现：setTimeout延迟。节流（throttle）：n秒内只执行一次，稀释执行频率。适用：滚动事件、按钮点击。实现：时间戳或setTimeout。lodash提供debounce/throttle。Vue/React中使用建议用库或useDebouncedFn。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 性能优化</source><hint>难度：中等 | 分类：性能优化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>性能优化</tag><difficulty>medium</difficulty></item><item><title>[性能优化] 如何进行性能监控和优化</title><description>## 题目
+如何进行性能监控和优化
+
+## 参考答案
+性能监控指标：1.加载性能：FP、FCP、LCP。2.交互性能：FID、INP。3.视觉稳定性：CLS。4.业务指标：转化率、留存。工具：Lighthouse、Web Vitals、Performance API、Chrome DevTools、SpeedCurve。优化方向：1.资源优化。2.渲染优化。3.缓存策略。4.代码优化。5.服务器优化。持续监控+告警。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: 性能优化</source><hint>难度：困难 | 分类：性能优化</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>性能优化</tag><difficulty>hard</difficulty></item></fps>

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fps version="1.2"><item><title>[Java基础] Java是什么类型的语言</title><description>## 题目
+Java是什么类型的语言
+
+## 参考答案
+Java是编译型语言（编译成字节码）+解释型语言（JVM解释执行）的混合。Java源代码先被编译成字节码（.class文件），然后由JVM在不同平台上解释执行，实现了一次编写、到处运行。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] JDK、JRE、JVM三者的区别和关系是什么</title><description>## 题目
+JDK、JRE、JVM三者的区别和关系是什么
+
+## 参考答案
+JDK（Java Development Kit）是Java开发工具包，包含JRE和开发工具（javac、javadoc等）。JRE（Java Runtime Environment）是Java运行环境，包含JVM和类库。JVM（Java Virtual Machine）是Java虚拟机，负责运行字节码。关系：JDK = JRE + 开发工具，JRE = JVM + 类库。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中==和equals()有什么区别</title><description>## 题目
+Java中==和equals()有什么区别
+
+## 参考答案
+==是运算符，比较基本类型时比较值，比较引用类型时比较内存地址。equals()是Object类的方法，默认行为与==相同（比较地址），但String、Integer等类重写了equals()方法，比较对象内容而非地址。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] String为什么是不可变的</title><description>## 题目
+String为什么是不可变的
+
+## 参考答案
+String不可变的好处：1.保证线程安全。2.实现字符串常量池，节省内存。3.安全考量（反射、类加载器、并发等）。4.hashCode缓存。实现方式：String类用final修饰byte[]数组，数组私有，无公开setter，保证不可变。Java9后改为byte[]+coder标记编码。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] String、StringBuilder、StringBuffer有什么区别</title><description>## 题目
+String、StringBuilder、StringBuffer有什么区别
+
+## 参考答案
+String是不可变字符串，每次操作创建新对象。StringBuilder是可变字符串，线程不安全，效率最高。StringBuffer是可变字符串，线程安全（方法用synchronized修饰），效率较低。性能：StringBuilder &gt; StringBuffer &gt; String。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] final关键字有哪些用法</title><description>## 题目
+final关键字有哪些用法
+
+## 参考答案
+final修饰变量：变量变成常量，赋值后不可修改。final修饰方法：方法不能被子类重写。final修饰类：类不能被继承，如String、Math。final修饰参数：参数在方法内不能被修改。final修饰成员变量必须在构造器或初始化块中赋值。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] static关键字有哪些用法</title><description>## 题目
+static关键字有哪些用法
+
+## 参考答案
+static修饰成员变量：类变量，所有对象共享一份。static修饰方法：类方法，可直接类名调用，不能使用this/super，不能被子类重写（可被隐藏）。static修饰代码块：静态代码块，类加载时执行一次。static修饰内部类：静态内部类，不需要外部类实例。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] 什么是自动拆箱和装箱</title><description>## 题目
+什么是自动拆箱和装箱
+
+## 参考答案
+装箱是将基本数据类型转换为包装类对象（如int→Integer），拆箱是将包装类对象转换为基本数据类型（如Integer→int）。JDK5引入自动装箱拆箱，简化了代码。注意事项：Integer缓存-128到127，==比较可能为true或false。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] 重载和重写的区别是什么</title><description>## 题目
+重载和重写的区别是什么
+
+## 参考答案
+重载（Overload）发生在同一类中，方法名相同但参数列表不同（个数、类型、顺序），与返回类型无关。重写（Override）发生在父子类中，方法签名完全相同，子类方法不能比父类更严格（访问修饰符可以扩大，如protected→public）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] 接口和抽象类有什么区别</title><description>## 题目
+接口和抽象类有什么区别
+
+## 参考答案
+接口（Java8前）完全抽象，只有抽象方法；抽象类可以有抽象方法和具体方法。接口只能有public修饰符，抽象类可以有各种访问修饰符。接口只能继承接口，抽象类只能继承一个类。类可以实现多个接口，但只能继承一个抽象类。Java8后接口可以有default和static方法。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java的基本数据类型有哪些</title><description>## 题目
+Java的基本数据类型有哪些
+
+## 参考答案
+Java的基本数据类型（8种）：byte(1字节)、short(2字节)、int(4字节)、long(8字节)、float(4字节)、double(8字节)、char(2字节)、boolean(1位)。注意：String是引用类型。整数默认int，浮点默认double。char使用Unicode编码。boolean在JVM实现为int或byte。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中的访问修饰符有哪些</title><description>## 题目
+Java中的访问修饰符有哪些
+
+## 参考答案
+Java访问修饰符（从宽到严）：public（所有类可见）、protected（同包及子类可见）、default/package-private（同包可见）、private（仅本类可见）。修饰成员变量、方法、内部类、接口（只能是public或default）。封装原则：属性private，方法public。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中如何遍历Map</title><description>## 题目
+Java中如何遍历Map
+
+## 参考答案
+遍历Map方式：1.keySet遍历键：for(key : map.keySet())。2.values遍历值：for(v : map.values())。3.entrySet遍历键值：for(entry : map.entrySet())，推荐效率最高。4.迭代器：Iterator&lt;Map.Entry&gt; it = map.entrySet().iterator()。Java8+可用map.forEach((k,v)-&gt;{})。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] ArrayList和LinkedList有什么区别</title><description>## 题目
+ArrayList和LinkedList有什么区别
+
+## 参考答案
+ArrayList：动态数组，底层Object[]，随机访问O(1)，中间插入删除O(n)（需移动元素）。LinkedList：双向链表，Node节点有prev/next，插入删除O(1)（已知位置），随机访问O(n)。内存：ArrayList连续，LinkedList节点分散。线程安全：都不安全，需Collections.synchronizedList或CopyOnWriteArrayList。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中的finalize方法是什么</title><description>## 题目
+Java中的finalize方法是什么
+
+## 参考答案
+finalize是Object的方法，在对象被垃圾回收前调用。用于释放资源，但已被废弃，不推荐使用。原因：1.不确定何时调用。2.性能开销大。3.GC时不保证一定执行。替代方案：1.try-with-resources自动关闭资源。2.手动调用close()方法。3.使用Cleaner（Java9+）替代。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中的自动类型转换和强制类型转换是什么</title><description>## 题目
+Java中的自动类型转换和强制类型转换是什么
+
+## 参考答案
+自动类型转换：byte→short→int→long→float→double，char→int。隐式发生，需满足范围要求。强制类型转换：显式用(type)转换，可能丢失精度。小范围到大范围自动，大范围到小范围需强制。高精度到低精度可能溢出。浮点到整数直接截断。字符和整数自动转换（ASCII码）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中的Integer缓存是什么</title><description>## 题目
+Java中的Integer缓存是什么
+
+## 参考答案
+Integer缓存：-128到127的Integer对象会被缓存。自动装箱时使用缓存对象。Integer.valueOf()和自动装箱使用缓存。超出范围会创建新对象。面试陷阱：==比较Integer可能返回false或true取决于值。Long、Short、Character也有缓存。Byte完全缓存。Boolean完全缓存。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] Java中的移位运算符有哪些</title><description>## 题目
+Java中的移位运算符有哪些
+
+## 参考答案
+移位运算符：&lt;&lt;左移（低位补0）、&gt;&gt;右移（高位补符号位）、&gt;&gt;&gt;无符号右移（高位补0）。负数右移：-8&gt;&gt;2=-2，-8&gt;&gt;&gt;2=1073741822。左移n位相当于乘2^n，右移n位相当于除2^n。移动超过类型位数取模。byte/short自动转int后移位。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：简单 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>easy</difficulty></item><item><title>[Java基础] 什么是泛型，泛型有哪些分类</title><description>## 题目
+什么是泛型，泛型有哪些分类
+
+## 参考答案
+泛型即参数化类型，在编译时提供类型安全。分类：1.泛型类：如ArrayList&lt;T&gt;。2.泛型接口：如List&lt;T&gt;。3.泛型方法：如&lt;T&gt; void method(T t)。4.泛型限定：如&lt;T extends Number&gt;限定上界，&lt;? super T&gt;限定下界。多限定：&lt;T extends A &amp; B&gt;。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] 什么是类型擦除，泛型有哪些限制</title><description>## 题目
+什么是类型擦除，泛型有哪些限制
+
+## 参考答案
+类型擦除是编译器在编译时移除泛型信息，用上限类型或Object替换，保留必要类型信息（桥接方法）。限制：1.不能new泛型实例 T t = new T()。2.不能new泛型数组 T[] arr = new T[10]。3.不能用基本类型 &lt;int&gt;。4.不能创建泛型类数组。5.不能实例化泛型类对象。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] Java中如何实现浅拷贝和深拷贝</title><description>## 题目
+Java中如何实现浅拷贝和深拷贝
+
+## 参考答案
+浅拷贝：对象.clone()，只复制对象本身，引用类型共享内存。实现条件：类实现Cloneable接口，重写clone()方法（可选择调用super.clone()）。深拷贝：1.重写clone()方法，深拷贝所有引用对象。2.序列化：实现Serializable，通过对象流读写实现深拷贝。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] Object类有哪些方法</title><description>## 题目
+Object类有哪些方法
+
+## 参考答案
+Object类方法：1.getClass()返回类对象。2.hashCode()返回哈希值。3.equals(Object obj)判断相等。4.clone()创建并返回对象副本。5.toString()返回字符串表示。6.notify()/notifyAll()/wait()用于线程通信。7.finalize()垃圾回收前调用（已废弃）。8.reflect相关方法。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] hashCode()和equals()的关系是什么</title><description>## 题目
+hashCode()和equals()的关系是什么
+
+## 参考答案
+hashCode()返回哈希值，用于HashMap等哈希结构快速定位。equals()判断对象真正相等。关系：1.相等的对象必须有相同的hashCode。2.hashCode相同的对象不一定equals。3.重写equals()必须重写hashCode()，保持一致性。4.HashMap先比较hashCode再比较equals。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] BigDecimal为什么不能用equals比较</title><description>## 题目
+BigDecimal为什么不能用equals比较
+
+## 参考答案
+BigDecimal的equals()不仅比较值，还比较精度。例如：new BigDecimal("1.0")和new BigDecimal("1.00")的equals()返回false，但compareTo()返回0（相等）。正确做法是用compareTo()比较BigDecimal值的大小，或者使用stripTrailingZeros()去掉尾随零后再用equals()。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] Java的异常体系是什么</title><description>## 题目
+Java的异常体系是什么
+
+## 参考答案
+Java异常体系：Throwable分为Error和Exception。Error：程序无法处理的严重问题，如OutOfMemoryError、StackOverflowError。Exception分为RuntimeException（非受检异常，如空指针、数组越界）和IOException等（受检异常，必须处理）。throw抛出异常，throws声明异常。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] try-catch-finally的执行顺序是什么</title><description>## 题目
+try-catch-finally的执行顺序是什么
+
+## 参考答案
+try-catch-finally执行顺序：1.try中的代码执行。2.若有异常，匹配catch执行，未匹配则异常上抛。3.finally总是执行（即使return或异常）。注意：finally中return会覆盖try/catch的返回值。若finally中抛异常，会覆盖原异常。finally不执行情况：System.exit()、JVM崩溃。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] 什么是反射，它有什么用途</title><description>## 题目
+什么是反射，它有什么用途
+
+## 参考答案
+反射是Java运行时刻动态获取类信息和调用方法的能力。Class类提供getClass()、forName()、class字面量获取Class对象。用途：1.框架（Spring、Hibernate）通过反射创建Bean。2.注解处理器。3.IDE智能提示。4.动态代理（JDK/CGLIB）。缺点：性能开销、安全问题。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] HashMap的put过程是什么</title><description>## 题目
+HashMap的put过程是什么
+
+## 参考答案
+HashMap.put(key,value)：1.计算hash扰动（高低位异或）。2.计算数组索引i=(n-1)&amp;hash。3.若table[i]==null，直接new Node。4.若不为空，遍历链表/红黑树。5.若key已存在，更新value。6.若链表长度&gt;8且数组&gt;64转红黑树。7.最后判断是否需要扩容。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] HashMap为什么线程不安全</title><description>## 题目
+HashMap为什么线程不安全
+
+## 参考答案
+HashMap线程不安全原因：1.并发put可能导致数据覆盖。2.resize时可能导致环形链表，死循环（JDK1.7头插法）。3.计数不准确。JDK1.8使用尾插法，但仍存在覆盖问题。替代方案：ConcurrentHashMap（分段锁/JDK8+CAS+synchronized）、Hashtable（全局锁）、Collections.synchronizedMap（全局锁）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] Java的编译时和运行时有什么区别</title><description>## 题目
+Java的编译时和运行时有什么区别
+
+## 参考答案
+编译时（Compile Time）：源代码转换为字节码，检查语法、类型、方法存在。不检查逻辑。运行时（Runtime）：字节码被JVM执行。运行时检查：类型转换、空指针、数组越界等。泛型是编译时擦除。反射是运行时操作。编译时错误在编译阶段发现，运行时错误在执行时发现。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] Java的序列化是什么，有什么作用</title><description>## 题目
+Java的序列化是什么，有什么作用
+
+## 参考答案
+Java序列化将对象转为字节流，用于存储或网络传输。实现：实现Serializable接口，定义serialVersionUID。反序列化：ObjectInputStream。反序列化不调用构造函数。注意：静态字段不序列化，transient字段不序列化。作用：分布式对象（RMI）、Session存储、缓存序列化对象。替代：JSON、Protobuf、Kryo。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] 什么是类的加载时机</title><description>## 题目
+什么是类的加载时机
+
+## 参考答案
+类加载时机（主动引用）：1.new、读取/设置静态字段（final除外）、调用静态方法。2.reflect。3.初始化子类父类未初始化。4.虚拟机启动主类。5.动态语言绑定。不加载（被动引用）：子类引用父类静态字段、数组引用、常量（编译时常量不触发）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：中等 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>medium</difficulty></item><item><title>[Java基础] 解释Java的双亲委派模型及其作用</title><description>## 题目
+解释Java的双亲委派模型及其作用
+
+## 参考答案
+双亲委派模型：类加载器收到加载请求时，先委派给父类加载器处理，父类无法完成时自己才加载。层次：启动类加载器→扩展类加载器→应用类加载器→自定义类加载器。作用：1.保证类加载安全，避免核心API被篡改。2.避免类的重复加载。3.保证类加载的统一性。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] Java有哪四种引用类型</title><description>## 题目
+Java有哪四种引用类型
+
+## 参考答案
+1.强引用（StrongReference）：最常用，GC时不回收。2.软引用（SoftReference）：内存不足时回收，可用于缓存。3.弱引用（WeakReference）：GC时发现就回收，适用于WeakHashMap。4.虚引用（PhantomReference）：完全不影响GC，随时可被回收，用于跟踪对象被GC的时机。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] 什么是注解，注解有哪些分类</title><description>## 题目
+什么是注解，注解有哪些分类
+
+## 参考答案
+注解是代码的元数据，提供额外信息。分类：1.按来源：JDK注解（@Override/@Deprecated）、第三方注解、自定义注解。2.按生命周期：SOURCE（源码保留）、CLASS（编译时保留）、RUNTIME（运行时保留）。3.按用途：标记注解、元注解（@Target/@Retention/@Documented）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] Java 8有哪些新特性</title><description>## 题目
+Java 8有哪些新特性
+
+## 参考答案
+Java 8主要新特性：1.Lambda表达式和函数式接口。2.Stream API。3.接口默认方法和静态方法。4.新的日期时间API（java.time）。5.Optional类。6.方法引用（::）。7.重复注解@Repeatable。8.Base64编码。9.并行数组操作。10.元空间替代永久代。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] 什么是Java 9的模块化系统</title><description>## 题目
+什么是Java 9的模块化系统
+
+## 参考答案
+Java 9引入模块化系统（Project Jigsaw）。核心概念：module-info.java定义模块，包含name、requires、exports、uses、provides。exports控制包导出，opens控制反射访问。优势：1.强封装。2.明确依赖。3.自定义JDK子集。4.应用更小。启动器：java --module-path。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] HashMap的容量为什么是2的幂次</title><description>## 题目
+HashMap的容量为什么是2的幂次
+
+## 参考答案
+HashMap用(n-1)&amp;hash计算索引，n是数组长度。若n是2的幂次，n-1二进制全是1，&amp;运算等价于取模（hash%n），但效率更高。扩容时rehash：(oldCap-1)&amp;hash分布均匀。若用非2幂次，n-1二进制有0，&amp;运算会导致分布不均，增加碰撞。HashMap构造函数可传入initialCapacity，tableSizeFor()会找到&gt;=cap的最小2幂次。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] 什么是SPI机制</title><description>## 题目
+什么是SPI机制
+
+## 参考答案
+SPI（Service Provider Interface）是JDK内置的插件化机制。核心思想：接口+实现类，通过配置文件注册实现，运行时动态加载。实现：1.定义接口。2.实现接口创建实现类。3.META-INF/services/文件配置。4.ServiceLoader.load加载。应用：JDBC驱动、Dubbo、Spring Boot自动配置、SLF4J日志。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] 什么是Java Agent</title><description>## 题目
+什么是Java Agent
+
+## 参考答案
+Java Agent是JVM TI（JVM Tool Interface）的实现，在JVM运行时注入字节码。应用：1. APM工具（SkyWalking、Pinpoint）2. 热更新（Arthas）3. 性能监控 4. 动态增强。实现方式：1. 静态Instrument：premain方法，JVM启动时加载 2. 动态Instrument：AgentMain方法，运行时attach。字节码增强工具：ASM、Javassist、ByteBuddy。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] 什么是Java类加载器的双亲委派模型</title><description>## 题目
+什么是Java类加载器的双亲委派模型
+
+## 参考答案
+双亲委派：类加载请求先委派给父类加载器处理，只有父类无法完成时才自己加载。好处：保证类加载安全（核心API不被篡改）、避免重复加载。实现：ClassLoader.loadClass()先检查是否已加载，调用parent.loadClass()。打破双亲：自定义类加载器、重写loadClass()、线程上下文类加载器（JDBC驱动加载）。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item><item><title>[Java基础] 什么是Java字节码增强</title><description>## 题目
+什么是Java字节码增强
+
+## 参考答案
+字节码增强：程序运行时修改字节码。工具：ASM（树形结构）、Javassist（源码级API）、ByteBuddy（流式API）。应用：热更新、AOP、性能监控、测试工具。Java Agent附加到JVM后可在类加载前修改字节码。ASM示例：ClassReader读、ClassVisitor访问、ClassWriter写。</description><input>无（面试问答题目）</input><output>无（面试问答题目）</output><sample_input>N/A</sample_input><sample_output>N/A</sample_output><source>AI-Interview: Java基础</source><hint>难度：困难 | 分类：Java基础</hint><time_limit unit="ms">1000</time_limit><memory_limit unit="MB">128</memory_limit><tag>Java基础</tag><difficulty>hard</difficulty></item></fps>
