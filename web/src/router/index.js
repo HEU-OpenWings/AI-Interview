@@ -93,6 +93,56 @@ const router = createRouter({
       ]
     },
     {
+      path: '/learn',
+      name: 'learn',
+      component: AppLayout,
+      children: [
+        {
+          path: '',
+          name: 'LearnHomePage',
+          component: () => import('../views/LearnHomeView.vue'),
+          meta: { keepAlive: false, requiresAuth: true }
+        },
+        {
+          path: ':db_id',
+          name: 'LearnDatabasePage',
+          component: () => import('../views/LearnDatabaseView.vue'),
+          meta: { keepAlive: false, requiresAuth: true }
+        },
+        {
+          path: ':db_id/doc/:file_id',
+          name: 'LearnDocumentPage',
+          component: () => import('../views/LearnDocumentView.vue'),
+          meta: { keepAlive: false, requiresAuth: true }
+        }
+      ]
+    },
+    {
+      path: '/practice',
+      name: 'practice',
+      component: AppLayout,
+      children: [
+        {
+          path: '',
+          name: 'PracticeHomePage',
+          component: () => import('../views/PracticeHomeView.vue'),
+          meta: { keepAlive: false, requiresAuth: true }
+        },
+        {
+          path: 'problem/:problem_ref',
+          name: 'PracticeProblemPage',
+          component: () => import('../views/PracticeProblemView.vue'),
+          meta: { keepAlive: false, requiresAuth: true }
+        },
+        {
+          path: ':topic_key',
+          name: 'PracticeTopicPage',
+          component: () => import('../views/PracticeHomeView.vue'),
+          meta: { keepAlive: false, requiresAuth: true }
+        }
+      ]
+    },
+    {
       path: '/oj',
       name: 'oj',
       component: AppLayout,

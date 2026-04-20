@@ -16,35 +16,6 @@
       width="800px"
       destroyOnClose
     >
-      <!-- 知识库类型选择 -->
-      <h3>知识库类型<span style="color: var(--color-error-500)">*</span></h3>
-      <div class="kb-type-cards">
-        <div
-          v-for="(typeInfo, typeKey) in orderedKbTypes"
-          :key="typeKey"
-          class="kb-type-card"
-          :class="{ active: newDatabase.kb_type === typeKey }"
-          :data-type="typeKey"
-          @click="handleKbTypeChange(typeKey)"
-        >
-          <div class="card-header">
-            <component :is="getKbTypeIcon(typeKey)" class="type-icon" />
-            <span class="type-title">{{ getKbTypeLabel(typeKey) }}</span>
-          </div>
-          <div class="card-description">{{ typeInfo.description }}</div>
-        </div>
-      </div>
-
-      <!-- 类型说明 -->
-      <!-- <div class="kb-type-guide" v-if="newDatabase.kb_type">
-        <a-alert
-          :message="getKbTypeDescription(newDatabase.kb_type)"
-          :type="getKbTypeAlertType(newDatabase.kb_type)"
-          show-icon
-          style="margin: 12px 0;"
-        />
-      </div> -->
-
       <h3>知识库名称<span style="color: var(--color-error-500)">*</span></h3>
       <a-input v-model:value="newDatabase.name" placeholder="新建知识库名称" size="large" />
 
@@ -155,61 +126,46 @@
     </div>
 
     <!-- 数据库列表 -->
-    <div v-else class="database-groups">
-      <section v-for="group in databaseGroups" :key="group.key" class="database-group">
-        <div class="database-group-header">
-          <h3 class="database-group-title">{{ group.label }}</h3>
-          <span class="database-group-count">{{ group.items.length }} 个知识库</span>
-        </div>
-        <div class="databases">
-          <div
-            v-for="database in group.items"
-            :key="database.db_id"
-            class="database dbcard"
-            @click="navigateToDatabase(database.db_id)"
-          >
-            <LockOutlined
-              v-if="database.metadata?.is_private"
-              class="private-lock-icon"
-              title="私有知识库"
-            />
-            <div class="top">
-              <div class="icon">
-                <component :is="getKbTypeIcon(database.kb_type || 'openviking')" />
-              </div>
-              <div class="info">
-                <h3>{{ database.name }}</h3>
-                <p>
-                  <span>{{ database.files ? Object.keys(database.files).length : 0 }} 文件</span>
-                  <span class="created-time-inline" v-if="database.created_at">
-                    {{ formatCreatedTime(database.created_at) }}
-                  </span>
-                </p>
-              </div>
-            </div>
-            <p class="description">{{ database.description || '暂无描述' }}</p>
-            <div class="tags">
-              <a-tag color="blue" v-if="database.embed_info?.name">{{
-                database.embed_info.name
-              }}</a-tag>
-              <a-tag color="geekblue">岗位：{{ getDatabasePositionLabel(database) }}</a-tag>
-              <a-tag color="purple" v-if="getDatabaseVlmModel(database)">
-                VLM：{{ getDatabaseVlmModel(database) }}
-              </a-tag>
-              <a-tag color="cyan" class="chunk-tag">
-                分块：{{ chunkPresetLabelMap[database.additional_params?.chunk_preset_id || 'general'] || 'General' }}
-              </a-tag>
-              <a-tag
-                :color="getKbTypeColor(database.kb_type || 'openviking')"
-                class="kb-type-tag"
-                size="small"
-              >
-                {{ getKbTypeLabel(database.kb_type || 'openviking') }}
-              </a-tag>
-            </div>
+    <div v-else class="databases">
+      <div
+        v-for="database in sortedDatabases"
+        :key="database.db_id"
+        class="database dbcard"
+        @click="navigateToDatabase(database.db_id)"
+      >
+        <LockOutlined
+          v-if="database.metadata?.is_private"
+          class="private-lock-icon"
+          title="私有知识库"
+        />
+        <div class="top">
+          <div class="icon">
+            <component :is="getKbTypeIcon(database.kb_type || 'openviking')" />
+          </div>
+          <div class="info">
+            <h3>{{ database.name }}</h3>
+            <p>
+              <span>{{ database.files ? Object.keys(database.files).length : 0 }} 文件</span>
+              <span class="created-time-inline" v-if="database.created_at">
+                {{ formatCreatedTime(database.created_at) }}
+              </span>
+            </p>
           </div>
         </div>
-      </section>
+        <p class="description">{{ database.description || '暂无描述' }}</p>
+        <div class="tags">
+          <a-tag color="blue" v-if="database.embed_info?.name">{{
+            database.embed_info.name
+          }}</a-tag>
+          <a-tag color="geekblue">岗位：{{ getDatabasePositionLabel(database) }}</a-tag>
+          <a-tag color="purple" v-if="getDatabaseVlmModel(database)">
+            VLM：{{ getDatabaseVlmModel(database) }}
+          </a-tag>
+          <a-tag color="cyan" class="chunk-tag">
+            分块：{{ chunkPresetLabelMap[database.additional_params?.chunk_preset_id || 'general'] || 'General' }}
+          </a-tag>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -222,14 +178,21 @@ import { useConfigStore } from '@/stores/config'
 import { useDatabaseStore } from '@/stores/database'
 import { LockOutlined, PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import { typeApi } from '@/apis/knowledge_api'
 import HeaderComponent from '@/components/HeaderComponent.vue'
 import ModelSelectorComponent from '@/components/ModelSelectorComponent.vue'
 import EmbeddingModelSelector from '@/components/EmbeddingModelSelector.vue'
 import ShareConfigForm from '@/components/ShareConfigForm.vue'
+import { usePositionTypes } from '@/composables/usePositionTypes'
 import dayjs, { parseToShanghai } from '@/utils/time'
 import AiTextarea from '@/components/AiTextarea.vue'
-import { getKbTypeLabel, getKbTypeIcon, getKbTypeColor } from '@/utils/kb_utils'
+import { getKbTypeIcon } from '@/utils/kb_utils'
+import {
+  getDefaultPositionType,
+  getSelectablePositionTypes,
+  getUnclassifiedPositionType,
+  inferPositionType,
+  normalizePositionType
+} from '@/utils/position_utils'
 import {
   CHUNK_PRESET_OPTIONS,
   CHUNK_PRESET_LABEL_MAP,
@@ -240,6 +203,7 @@ const route = useRoute()
 const router = useRouter()
 const configStore = useConfigStore()
 const databaseStore = useDatabaseStore()
+const { positionTypes, loadPositionTypes } = usePositionTypes()
 
 // 使用 store 的状态
 const { databases, state: dbState } = storeToRefs(databaseStore)
@@ -257,20 +221,22 @@ const shareConfig = ref({
 const chunkPresetOptions = CHUNK_PRESET_OPTIONS.map(({ label, value }) => ({ label, value }))
 const chunkPresetLabelMap = CHUNK_PRESET_LABEL_MAP
 
-const POSITION_OPTIONS = [
-  { label: '后端工程师', value: '后端工程师' },
-  { label: '前端工程师', value: '前端工程师' }
-]
-
-const POSITION_ORDER = [...POSITION_OPTIONS.map((item) => item.value), '未分类']
-
 const LEGACY_POSITION_MAP = {
   'React Interview Questions': '前端工程师',
   'Waking-Up': '后端工程师',
-  JavaGuide: '后端工程师'
+  JavaGuide: '后端工程师',
+  'SQL 面试题库': '后端工程师',
+  'DSA 面试手册': '算法工程师',
+  '系统设计面试题库': '系统架构师',
+  'AI 应用开发面试': 'AI 应用开发'
 }
 
-const positionOptions = POSITION_OPTIONS
+const positionOptions = computed(() =>
+  getSelectablePositionTypes(positionTypes.value).map((item) => ({
+    label: item.label,
+    value: item.label
+  }))
+)
 
 const parseModelSpec = (spec = '') => {
   if (typeof spec !== 'string' || !spec) {
@@ -297,7 +263,7 @@ const parseModelSpec = (spec = '') => {
 const createEmptyDatabaseForm = () => ({
   name: '',
   description: '',
-  position: POSITION_OPTIONS[0].value,
+  position: getDefaultPositionType(positionTypes.value).label,
   embed_model_name: configStore.config?.embed_model,
   kb_type: 'openviking',
   llm_info: parseModelSpec(configStore.config?.default_model || ''),
@@ -325,7 +291,7 @@ const inferDatabasePosition = (database) => {
   const explicitPosition =
     database?.additional_params?.position || database?.metadata?.position || ''
   if (explicitPosition) {
-    return explicitPosition
+    return normalizePositionType(explicitPosition, positionTypes.value).label
   }
 
   const name = String(database?.name || '').trim()
@@ -333,20 +299,9 @@ const inferDatabasePosition = (database) => {
     return LEGACY_POSITION_MAP[name]
   }
 
-  const hint = `${name} ${database?.description || ''}`.toLowerCase()
-  if (hint.includes('react') || hint.includes('vue') || hint.includes('前端')) {
-    return '前端工程师'
-  }
-  if (
-    hint.includes('java') ||
-    hint.includes('spring') ||
-    hint.includes('backend') ||
-    hint.includes('后端')
-  ) {
-    return '后端工程师'
-  }
-
-  return '未分类'
+  return inferPositionType(name, database?.description || '', positionTypes.value, {
+    fallbackToDefault: false
+  }).label
 }
 
 const getDatabasePositionLabel = (database) => inferDatabasePosition(database)
@@ -360,50 +315,33 @@ const getDatabaseVlmModel = (database) => {
   return ''
 }
 
-const databaseGroups = computed(() => {
-  const groups = new Map(POSITION_ORDER.map((key) => [key, []]))
+const positionOrder = computed(
+  () =>
+    new Map(
+      [
+        ...getSelectablePositionTypes(positionTypes.value).map((item) => item.label),
+        getUnclassifiedPositionType(positionTypes.value).label
+      ].map((label, index) => [label, index])
+    )
+)
 
-  for (const database of databases.value || []) {
-    const position = inferDatabasePosition(database)
-    if (!groups.has(position)) {
-      groups.set(position, [])
+const sortedDatabases = computed(() =>
+  [...(databases.value || [])].sort((left, right) => {
+    const leftOrder = positionOrder.value.get(inferDatabasePosition(left)) ?? Number.MAX_SAFE_INTEGER
+    const rightOrder = positionOrder.value.get(inferDatabasePosition(right)) ?? Number.MAX_SAFE_INTEGER
+    if (leftOrder !== rightOrder) {
+      return leftOrder - rightOrder
     }
-    groups.get(position).push(database)
-  }
 
-  return Array.from(groups.entries())
-    .filter(([, items]) => items.length > 0)
-    .map(([key, items]) => ({
-      key,
-      label: key,
-      items
-    }))
-})
-
-const supportedKbTypes = ref({})
-
-// 有序的知识库类型
-const orderedKbTypes = computed(() => supportedKbTypes.value)
-
-// 加载支持的知识库类型
-const loadSupportedKbTypes = async () => {
-  try {
-    const data = await typeApi.getKnowledgeBaseTypes()
-    supportedKbTypes.value = data.kb_types
-    console.log('支持的知识库类型:', supportedKbTypes.value)
-  } catch (error) {
-    console.error('加载知识库类型失败:', error)
-    // 如果加载失败，设置默认类型
-    supportedKbTypes.value = {
-      openviking: {
-        description: '基于 OpenViking 的生产级向量知识库，适合高性能部署',
-        class_name: 'OpenVikingKB'
-      }
+    const leftTime = dayjs(parseToShanghai(left?.created_at) || 0).valueOf()
+    const rightTime = dayjs(parseToShanghai(right?.created_at) || 0).valueOf()
+    if (leftTime !== rightTime) {
+      return rightTime - leftTime
     }
-  }
-}
 
-// 重排序模型信息现在直接从 configStore.config.reranker_names 获取，无需单独加载
+    return String(left?.name || '').localeCompare(String(right?.name || ''), 'zh-CN')
+  })
+)
 
 const resetNewDatabase = () => {
   Object.assign(newDatabase, createEmptyDatabaseForm())
@@ -447,13 +385,6 @@ const formatCreatedTime = (createdAt) => {
   }
   const years = Math.floor(diffInDays / 365)
   return `${years} 年前创建`
-}
-
-// 处理知识库类型改变
-const handleKbTypeChange = (type) => {
-  console.log('知识库类型改变:', type)
-  resetNewDatabase()
-  newDatabase.kb_type = type
 }
 
 // 处理LLM选择
@@ -538,7 +469,9 @@ watch(
 )
 
 onMounted(() => {
-  loadSupportedKbTypes()
+  loadPositionTypes().then(() => {
+    newDatabase.position = normalizePositionType(newDatabase.position, positionTypes.value).label
+  })
   databaseStore.loadDatabases()
 })
 </script>
@@ -559,96 +492,10 @@ onMounted(() => {
     font-size: 14px;
   }
 
-  .kb-type-guide {
-    margin: 12px 0;
-  }
-
   .privacy-config {
     display: flex;
     align-items: center;
     margin-bottom: 12px;
-  }
-
-  .kb-type-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin: 16px 0;
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .kb-type-card {
-      border: 2px solid var(--gray-150);
-      border-radius: 12px;
-      padding: 16px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: var(--gray-0);
-      position: relative;
-      overflow: hidden;
-
-      &:hover {
-        border-color: var(--main-color);
-      }
-
-      &.active {
-        border-color: var(--main-color);
-        background: var(--main-10);
-        .type-icon {
-          color: var(--main-color);
-        }
-      }
-
-      .card-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 12px;
-
-        .type-icon {
-          width: 24px;
-          height: 24px;
-          color: var(--main-color);
-          flex-shrink: 0;
-        }
-
-        .type-title {
-          font-size: 16px;
-          font-weight: 600;
-          color: var(--gray-800);
-        }
-      }
-
-      .card-description {
-        font-size: 13px;
-        color: var(--gray-600);
-        line-height: 1.5;
-        margin-bottom: 0;
-        // min-height: 40px;
-      }
-
-      .deprecated-badge {
-        background: var(--color-error-100);
-        color: var(--color-error-600);
-        font-size: 10px;
-        font-weight: 600;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-left: auto;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        cursor: help;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background: var(--color-error-200);
-          color: var(--color-error-700);
-        }
-      }
-    }
   }
 
   .chunk-config {
@@ -691,41 +538,7 @@ onMounted(() => {
 }
 
 .database-container {
-  .database-groups {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .database-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .database-group-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .database-group-title {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--gray-900);
-  }
-
-  .database-group-count {
-    font-size: 13px;
-    color: var(--gray-600);
-  }
-
   .databases {
-    padding: 0;
-
     .database {
       .top {
         .info {

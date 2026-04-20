@@ -13,21 +13,32 @@ from src.services.voice_interview_service import (
 from src.storage.postgres.models_business import User
 from src.services.interview_coding_service import (
     find_coding_session,
+    get_practice_plan,
+    get_practice_problem_detail,
+    get_practice_session,
+    get_practice_submission_result,
     get_problem_package_detail,
     get_submission_result,
     list_imported_problem_packages,
     request_coding_hint,
+    run_sample_practice_session,
     run_sample_coding_session,
+    start_practice_session,
     start_coding_session,
+    submit_practice_session,
     submit_coding_session,
+    update_practice_draft,
     update_coding_draft,
 )
 from src.services.interview_result_service import (
     finalize_interview_result,
+    get_learning_database_detail,
     get_interview_learning_document,
     get_interview_history,
     get_interview_improvement_plan,
     get_interview_result,
+    get_personalized_interview_path,
+    list_learning_databases,
 )
 
 interview = APIRouter(prefix="/interview", tags=["interview"])
@@ -52,6 +63,10 @@ class SubmitCodingSessionRequest(BaseModel):
 class CodingHintRequest(BaseModel):
     question: str
     draft_code: str = ""
+
+
+class StartPracticeSessionRequest(BaseModel):
+    pass
 
 
 class FinalizeInterviewResultRequest(BaseModel):
@@ -79,6 +94,122 @@ async def get_problemsets(current_user: User = Depends(get_required_user)):
 async def get_problemset_detail(package_path: str, current_user: User = Depends(get_required_user)):
     _ = current_user
     return get_problem_package_detail(package_path)
+
+
+@interview.get("/practice/plans/default")
+async def get_default_practice_plan(current_user: User = Depends(get_required_user)):
+    _ = current_user
+    return get_practice_plan()
+
+
+@interview.get("/practice/problems/{problem_ref}")
+async def get_practice_problem(
+    problem_ref: str,
+    current_user: User = Depends(get_required_user),
+):
+    _ = current_user
+    return get_practice_problem_detail(problem_ref)
+
+
+@interview.post("/practice/problems/{problem_ref}/session")
+async def create_practice_session(
+    problem_ref: str,
+    payload: StartPracticeSessionRequest = Body(default_factory=StartPracticeSessionRequest),
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    _ = payload
+    return {
+        "practice_session": await start_practice_session(
+            db,
+            problem_ref=problem_ref,
+            current_user_id=str(current_user.id),
+        )
+    }
+
+
+@interview.get("/practice/sessions/{session_id}")
+async def get_user_practice_session(
+    session_id: str,
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    return {
+        "practice_session": await get_practice_session(
+            db,
+            session_id=session_id,
+            current_user_id=str(current_user.id),
+        )
+    }
+
+
+@interview.put("/practice/sessions/{session_id}/draft")
+async def update_user_practice_draft(
+    session_id: str,
+    payload: UpdateCodingDraftRequest,
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    return {
+        "practice_session": await update_practice_draft(
+            db,
+            session_id=session_id,
+            current_user_id=str(current_user.id),
+            language=payload.language,
+            draft_code=payload.draft_code,
+        )
+    }
+
+
+@interview.post("/practice/sessions/{session_id}/run-sample")
+async def run_user_practice_sample(
+    session_id: str,
+    payload: SubmitCodingSessionRequest,
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    return {
+        "practice_session": await run_sample_practice_session(
+            db,
+            session_id=session_id,
+            current_user_id=str(current_user.id),
+            language=payload.language,
+            code=payload.code,
+        )
+    }
+
+
+@interview.post("/practice/sessions/{session_id}/submit")
+async def submit_user_practice_session(
+    session_id: str,
+    payload: SubmitCodingSessionRequest,
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    return {
+        "practice_session": await submit_practice_session(
+            db,
+            session_id=session_id,
+            current_user_id=str(current_user.id),
+            language=payload.language,
+            code=payload.code,
+        )
+    }
+
+
+@interview.get("/practice/sessions/{session_id}/submissions/{submission_id}")
+async def get_user_practice_submission(
+    session_id: str,
+    submission_id: str,
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    return await get_practice_submission_result(
+        db,
+        session_id=session_id,
+        current_user_id=str(current_user.id),
+        submission_id=submission_id,
+    )
 
 
 @interview.get("/{thread_id}/coding-session")
@@ -113,6 +244,7 @@ async def start_thread_coding_session(
             difficulty_level=payload.difficulty_level,
         )
     }
+
 
 @interview.post("/{thread_id}/coding-session")
 async def start_thread_coding_session_legacy(
@@ -240,6 +372,19 @@ async def get_thread_interview_improvement_plan(
     )
 
 
+@interview.get("/knowledge/databases")
+async def get_user_learning_databases(current_user: User = Depends(get_required_user)):
+    return await list_learning_databases(current_user=current_user)
+
+
+@interview.get("/knowledge/databases/{db_id}")
+async def get_user_learning_database_detail(
+    db_id: str,
+    current_user: User = Depends(get_required_user),
+):
+    return await get_learning_database_detail(db_id=db_id, current_user=current_user)
+
+
 @interview.get("/knowledge/{db_id}/documents/{file_id}")
 async def get_learning_document(
     db_id: str,
@@ -268,6 +413,19 @@ async def get_user_interview_history(
     db: AsyncSession = Depends(get_db),
 ):
     return await get_interview_history(
+        db,
+        current_user=current_user,
+        user_id=user_id,
+    )
+
+
+@interview.get("/personalized-path")
+async def get_user_personalized_path(
+    user_id: int | None = Query(default=None),
+    current_user: User = Depends(get_required_user),
+    db: AsyncSession = Depends(get_db),
+):
+    return await get_personalized_interview_path(
         db,
         current_user=current_user,
         user_id=user_id,
