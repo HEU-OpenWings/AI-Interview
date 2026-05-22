@@ -59,7 +59,9 @@ test/artifacts/
 
 
 *.pdf
-src/data
+src/data/**
+!src/data/question_banks/
+!src/data/question_banks/**
 */package-lock.json
 web/package-lock.json
 saves
