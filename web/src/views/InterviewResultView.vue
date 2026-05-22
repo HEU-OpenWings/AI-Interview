@@ -170,6 +170,22 @@
           </article>
         </div>
 
+        <!-- SEP: Adaptive difficulty trajectory -->
+        <div v-if="sepThetaTrajectory.length > 1" class="evidence-subsection">
+          <div class="subsection-title">自适应难度轨迹</div>
+          <AdaptiveTrajectory
+            :trajectory="sepThetaTrajectory"
+            :questions="sepQuestions"
+          />
+        </div>
+
+        <!-- SEP: Evidence chain -->
+        <div v-if="sepEvidenceChain.length" class="evidence-subsection">
+          <div class="subsection-title">评分证据链</div>
+          <div class="subsection-subtitle">每一分的来源都有迹可查</div>
+          <EvidenceChain :items="sepEvidenceChain" />
+        </div>
+
         <div v-if="expressionMetrics.length" class="evidence-subsection">
           <div class="subsection-title">表达分析</div>
           <div class="expression-grid">
@@ -519,6 +535,8 @@ import { interviewCodeApi } from '@/apis/interview_code'
 import { useThemeStore } from '@/stores/theme'
 import { formatDateTime } from '@/utils/time'
 import { getDefaultPositionType, getFallbackPositionTypes } from '@/utils/position_utils'
+import EvidenceChain from '@/components/sep/EvidenceChain.vue'
+import AdaptiveTrajectory from '@/components/sep/AdaptiveTrajectory.vue'
 
 const DEFAULT_POSITION = getDefaultPositionType(getFallbackPositionTypes()).label
 const initialQuestionReviewCount = 2
@@ -740,6 +758,24 @@ const dimensionScoreCards = computed(() => {
     .filter(Boolean)
     .sort((a, b) => a.score - b.score)
 })
+
+const sepEvidenceChain = computed(() =>
+  Array.isArray(scorecard.value?.sep_evidence_chain)
+    ? scorecard.value.sep_evidence_chain
+    : []
+)
+
+const sepThetaTrajectory = computed(() =>
+  Array.isArray(scorecard.value?.sep_theta_trajectory)
+    ? scorecard.value.sep_theta_trajectory
+    : []
+)
+
+const sepQuestions = computed(() =>
+  sepEvidenceChain.value
+    .filter((item, idx, arr) => arr.findIndex(i => i.question === item.question) === idx)
+    .map(item => ({ concept: item.concept, difficulty: null }))
+)
 
 const expressionMetrics = computed(() => {
   const analysis = expressionAnalysis.value
@@ -1567,6 +1603,13 @@ onMounted(async () => {
   font-size: 16px;
   font-weight: 700;
   color: var(--gray-1000);
+}
+
+.subsection-subtitle {
+  font-size: 12px;
+  color: var(--color-text-tertiary, #999);
+  margin-bottom: 10px;
+  margin-top: -4px;
 }
 
 .expression-grid {
