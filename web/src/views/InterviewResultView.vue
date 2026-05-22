@@ -464,7 +464,7 @@
               </div>
             </div>
 
-            <div v-if="scorecard?.strengths?.length" class="report-panel report-side-card">
+            <div v-if="scorecard?.strengths?.length && !reportHighlights.length" class="report-panel report-side-card">
               <div class="subsection-title">亮点</div>
               <ul class="report-list">
                 <li v-for="item in scorecard.strengths" :key="`strength-${item}`">{{ item }}</li>
