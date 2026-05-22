@@ -1518,6 +1518,35 @@ def _parse_thread_context(title: str | None) -> tuple[str, str]:
     return normalized_title, ""
 
 
+def _scorecard_from_sep_report(sep_report: "EvaluationReport") -> dict[str, Any]:
+    """Convert a SEP EvaluationReport into the scorecard dict expected by the frontend."""
+    from src.services.sep.evidence_builder import EvaluationReport  # noqa: F401  # local import avoids circular
+    dimensions = [
+        {"key": k, "name": DIMENSION_LABELS.get(k, k), "score": v}
+        for k, v in sep_report.dimensions.items()
+    ]
+    return {
+        "overall": sep_report.overall,
+        "dimensions": dimensions,
+        "strengths": [],
+        "risks": [],
+        "suggestions": [],
+        "summary": "",
+        "sep_evidence_chain": [
+            {
+                "dimension": item.dimension,
+                "question": item.question,
+                "concept": item.concept,
+                "score_delta": item.score_delta,
+                "evidence_text": item.evidence_text,
+                "evidence_type": item.evidence_type,
+            }
+            for item in sep_report.evidence_chain
+        ],
+        "sep_theta_trajectory": sep_report.theta_trajectory,
+    }
+
+
 def _build_result_from_message(message, conversation, coding_session: dict[str, Any] | None) -> dict[str, Any] | None:
     scorecard = _extract_scorecard(getattr(message, "content", "") or "")
     if not scorecard:
@@ -1575,6 +1604,16 @@ def _normalize_result_payload(
         "improvement_plan": _normalize_improvement_plan(value.get("improvement_plan")),
         "technical_question_reviews": _normalize_technical_question_reviews(value.get("technical_question_reviews")),
     }
+
+    # Attach SEP data if present in the conversation metadata
+    sep_evidence = value.get("sep_evidence_chain") if isinstance(value, dict) else None
+    sep_trajectory = value.get("sep_theta_trajectory") if isinstance(value, dict) else None
+    if sep_evidence is not None:
+        payload.setdefault("scorecard", {})
+        if payload["scorecard"] is None:
+            payload["scorecard"] = {}
+        payload["scorecard"]["sep_evidence_chain"] = sep_evidence
+        payload["scorecard"]["sep_theta_trajectory"] = sep_trajectory or []
 
     if payload["status"] == "completed" and payload["scorecard"]:
         return payload
