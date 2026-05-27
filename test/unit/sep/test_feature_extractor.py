@@ -65,3 +65,18 @@ def test_answer_score_low_for_misconception():
     answer = "四次握手建立连接，可能是这样的。"
     feat = extract_features(answer, SAMPLE_RUBRIC)
     assert feat.to_answer_score() < 0.3
+
+
+def test_empty_rubric_yields_zero_required_hit_rate():
+    """Regression: prior default of 0.5 inflated off-topic freeform answers."""
+    answer = "ACID是指原子性、一致性、隔离性和持久性。"  # off-topic vs SAMPLE_RUBRIC
+    feat = extract_features(answer, {})
+    assert feat.required_hit_rate == 0.0
+
+
+def test_off_topic_answer_with_star_words_stays_low():
+    """An answer that hits STAR keywords but no rubric required keywords must NOT cross 0.5."""
+    answer = "在项目中我负责实现一个功能，最终上线了。"  # all STAR words, zero TCP coverage
+    feat = extract_features(answer, SAMPLE_RUBRIC)
+    score = feat.to_answer_score()
+    assert score <= 0.2, f"off-topic STAR-only answer must stay low, got {score}"

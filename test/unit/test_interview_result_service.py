@@ -243,7 +243,9 @@ def test_generate_improvement_plan_includes_filtered_external_resources(monkeypa
     assert video_resource["title"] == "B 站缓存一致性实战视频"
     assert article_resource["search_score"] > video_resource["search_score"] > service.EXTERNAL_RESOURCE_MIN_SCORE
     assert "延迟双删" in article_resource["reason"]
-    assert "当前维度得分约为 58 分" in article_resource["reason"]
+    # Reason should cite the actual low score (was: "当前维度得分约为 58 分");
+    # P1 wording change kept the score grounded but rephrased the sentence.
+    assert "58 分" in article_resource["reason"]
 
 
 def test_search_external_learning_resources_prioritizes_high_score_and_diverse_types(monkeypatch):

@@ -32,10 +32,26 @@ from src.utils.datetime_utils import format_utc_datetime
 from src.utils.logging_config import logger
 from src.utils.web_search import WebSearcher
 
+# Lazy SEP import — module may not be available if jieba is missing
+_SEP_AVAILABLE: bool | None = None
+
+
+def _is_sep_available() -> bool:
+    global _SEP_AVAILABLE
+    if _SEP_AVAILABLE is None:
+        try:
+            from src.services.sep import SEPSession  # noqa: F401
+
+            _SEP_AVAILABLE = True
+        except Exception:
+            _SEP_AVAILABLE = False
+    return _SEP_AVAILABLE
+
 INTERVIEW_RESULT_METADATA_KEY = "interview_result"
 INTERVIEW_AGENT_ID = "InterviewAgent"
+# Matches: ```interview_scorecard\n{...}\n``` OR ```json\ninterview_scorecard: {...}\n``` (LLM may output prefix inside code block)
 INTERVIEW_SCORECARD_PATTERN = re.compile(
-    r"```interview_scorecard\s*(\{[\s\S]*?\})\s*```",
+    r"```(?:interview_scorecard|json)\s*(?:interview_scorecard\s*)?(\{[\s\S]*?\})\s*```",
     re.IGNORECASE,
 )
 GENERIC_JSON_CODE_BLOCK_PATTERN = re.compile(
@@ -193,6 +209,35 @@ ENGLISH_TECHNICAL_QUESTION_STOPWORDS = {
     "the",
     "and",
     "for",
+    # Programming-specific terms that leak into Chinese reports
+    "are",
+    "does",
+    "event",
+    "loop",
+    "node",
+    "non",
+    "blocking",
+    "passport",
+    "digital",
+    "purpose",
+    "common",
+    "differences",
+    "between",
+    "discuss",
+    "approaches",
+    "handling",
+    "errors",
+    "asynchronous",
+    "code",
+    "scenarios",
+    "case",
+    "spawn",
+    "exec",
+    "fork",
+    "methods",
+    "strategies",
+    "callbacks",
+    "promises",
 }
 QUESTION_KEYWORD_NOISE_TERMS = (
     "感谢分享",
@@ -1100,7 +1145,8 @@ def _extract_question_keywords(question: str) -> list[str]:
     keywords: list[str] = []
     seen: set[str] = set()
     for token in QUESTION_KEYWORD_PATTERN.findall(str(question or "")):
-        normalized = token.strip().lower()
+        stripped = token.strip()
+        normalized = stripped.lower()
         if not normalized or normalized in TECHNICAL_QUESTION_STOPWORDS:
             continue
         if normalized in ENGLISH_TECHNICAL_QUESTION_STOPWORDS:
@@ -1114,7 +1160,7 @@ def _extract_question_keywords(question: str) -> list[str]:
         if normalized.isdigit() or normalized in seen:
             continue
         seen.add(normalized)
-        keywords.append(token.strip())
+        keywords.append(stripped)
     return keywords[:6]
 
 
@@ -1192,6 +1238,70 @@ def _build_technical_answer_effect(question: str, answer: str) -> dict[str, Any]
         "strengths": strengths[:3],
         "gaps": gaps[:3],
     }
+
+
+_CONVERSATIONAL_PREFIXES = (
+    "我们来一道技术题",
+    "我们来一道",
+    "下面来一道",
+    "接下来",
+    "下面这道题",
+    "下一题",
+    "请回答",
+    "那我问你",
+    "那么我们",
+    "那我们",
+    "那么",
+)
+
+
+def _strip_conversational_prefix(sentence: str) -> str:
+    """Remove conversational framing like '我们来一道技术题：' from a question."""
+    s = sentence.strip()
+    for _ in range(3):  # at most three layers of nested prefix
+        original = s
+        for prefix in _CONVERSATIONAL_PREFIXES:
+            if s.startswith(prefix):
+                rest = s[len(prefix):].lstrip(" :：，,、的—-")
+                if rest:
+                    s = rest
+                    break
+        if s == original:
+            break
+    return s.strip()
+
+
+def _extract_delivered_question(content: str, fallback: str) -> str | None:
+    """Extract the actual question text from the AI's delivery message.
+
+    The AI often prefixes the question with conversational framing
+    ("我们来一道技术题：…"). We pick the sentence with the highest overlap
+    with the original (tool-payload) question and then strip that framing.
+    """
+    cleaned = re.sub(r"```interview_scorecard[\s\S]*?```", "", content)
+    cleaned = re.sub(r"<think[\s\S]*?</think\s*>", "", cleaned).strip()
+    if not cleaned:
+        return None
+
+    sentences = re.split(r"[。！？\n]", cleaned)
+    normalized_fallback = _normalize_question_match_text(fallback)
+    best_match = None
+    best_score = 0.0
+    for sentence in sentences:
+        sentence = sentence.strip()
+        if not sentence or len(sentence) < 8:
+            continue
+        normalized_sentence = _normalize_question_match_text(sentence)
+        if normalized_fallback and normalized_fallback in normalized_sentence:
+            return _strip_conversational_prefix(sentence) or sentence
+        overlap = len(set(normalized_sentence) & set(normalized_fallback)) / max(len(set(normalized_fallback)), 1)
+        if overlap > best_score:
+            best_score = overlap
+            best_match = sentence
+
+    if best_match and best_score > 0.5:
+        return _strip_conversational_prefix(best_match) or best_match
+    return None
 
 
 def _find_question_delivery_message(
@@ -1300,6 +1410,15 @@ def _collect_technical_question_reviews(messages: list[Any] | None) -> list[dict
                 start_index=index,
                 question=question,
             )
+
+            # Use the actual question text delivered to the candidate
+            # when the AI rephrased the original tool payload question.
+            if asked_message:
+                asked_content = str(getattr(asked_message, "content", "") or "").strip()
+                if asked_content:
+                    delivered = _extract_delivered_question(asked_content, question)
+                    if delivered:
+                        question = delivered
             answer_messages = _collect_answer_messages(ordered_messages, question_index=asked_index)
             answer_text = "\n".join(
                 str(getattr(answer_message, "content", "") or "").strip()
@@ -1369,8 +1488,133 @@ def _build_expression_analysis(
     messages: list[Any] | None,
 ) -> dict[str, Any] | None:
     metadata = dict(getattr(conversation, "extra_metadata", None) or {})
-    if str(metadata.get("interview_mode") or "").strip() != "voice":
+    interview_mode = str(metadata.get("interview_mode") or "").strip()
+
+    if interview_mode == "voice":
+        return _build_voice_expression_analysis(conversation=conversation, scorecard=scorecard, messages=messages)
+
+    # Text interview: build text-based communication analysis
+    return _build_text_expression_analysis(conversation=conversation, scorecard=scorecard, messages=messages)
+
+
+def _collect_text_turns(messages: list[Any] | None) -> list[dict[str, Any]]:
+    """Collect user text replies (excluding voice and hidden messages)."""
+    turns: list[dict[str, Any]] = []
+    for message in messages or []:
+        role = str(getattr(message, "role", "") or "").strip()
+        msg_metadata = getattr(message, "extra_metadata", None)
+        msg_metadata = msg_metadata if isinstance(msg_metadata, dict) else {}
+        if role != "user" or msg_metadata.get("hidden_from_history"):
+            continue
+        if str(msg_metadata.get("voice_input_mode") or "").strip() == "speech":
+            continue
+        content = str(getattr(message, "content", "") or "").strip()
+        if not content:
+            continue
+        turns.append({"content": content, "char_count": len(content)})
+    return turns
+
+
+def _build_text_expression_analysis(
+    *,
+    conversation,
+    scorecard: dict[str, Any] | None,
+    messages: list[Any] | None,
+) -> dict[str, Any] | None:
+    text_turns = _collect_text_turns(messages)
+    if not text_turns:
         return None
+
+    total_chars = sum(turn["char_count"] for turn in text_turns)
+    hedge_count = sum(_count_terms(turn["content"], HEDGE_TERMS) for turn in text_turns)
+    assertive_count = sum(_count_terms(turn["content"], ASSERTIVE_TERMS) for turn in text_turns)
+    filler_count = sum(_count_terms(turn["content"], FILLER_TERMS) for turn in text_turns)
+    sentences = [
+        segment.strip()
+        for turn in text_turns
+        for segment in SENTENCE_SPLIT_PATTERN.split(turn["content"])
+        if segment.strip()
+    ]
+    sentence_count = max(len(sentences), 1)
+    avg_sentence_chars = round(total_chars / sentence_count, 1)
+    hedge_density = hedge_count / max(total_chars, 1) * 100
+    filler_density = filler_count / max(total_chars, 1) * 100
+
+    # Conciseness score: reward moderate reply length, penalize too short or too long
+    avg_reply_chars = total_chars / max(len(text_turns), 1)
+    conciseness_score = 82.0
+    if 30 <= avg_reply_chars <= 200:
+        conciseness_score += 8
+    elif avg_reply_chars < 15:
+        conciseness_score -= 12
+    elif avg_reply_chars > 400:
+        conciseness_score -= 6
+    if conciseness_score >= 85:
+        conciseness_level = "精炼"
+    elif conciseness_score >= 70:
+        conciseness_level = "适中"
+    else:
+        conciseness_level = "待优化"
+
+    # Clarity score: based on sentence length and structure
+    clarity_score = 78 - filler_density * 4
+    if 12 <= avg_sentence_chars <= 38:
+        clarity_score += 10
+    elif avg_sentence_chars > 50 or avg_sentence_chars < 8:
+        clarity_score -= 8
+    if clarity_score >= 85:
+        clarity_level = "清晰"
+    elif clarity_score >= 70:
+        clarity_level = "较清晰"
+    else:
+        clarity_level = "待优化"
+
+    # Confidence score: assertive language vs hedging
+    communication_score = _extract_dimension_scores(scorecard).get("communication")
+    confidence_score = 72 + assertive_count * 2.5 - hedge_density * 9 - filler_density * 3
+    confidence_score += (_clamp_score(clarity_score) - 75) * 0.12
+    if communication_score is not None:
+        confidence_score += (communication_score - 70) * 0.18
+    if confidence_score >= 85:
+        confidence_level = "自信"
+    elif confidence_score >= 70:
+        confidence_level = "稳健"
+    else:
+        confidence_level = "保守"
+
+    return {
+        "input_mode": "text",
+        "summary": (
+            f"本轮共分析 {len(text_turns)} 次文字回答，回答精炼度{conciseness_level}，"
+            f"表达清晰度为{clarity_level}，整体措辞偏{confidence_level}。"
+        ),
+        "conciseness": _build_expression_metric(
+            score=conciseness_score,
+            level=conciseness_level,
+            value=f"平均 {round(avg_reply_chars)} 字/回答",
+            detail=f"基于 {len(text_turns)} 次文字回答，平均每次回答约 {round(avg_reply_chars)} 字，回答精炼度{conciseness_level}。",
+        ),
+        "clarity": _build_expression_metric(
+            score=clarity_score,
+            level=clarity_level,
+            value=f"句均 {avg_sentence_chars} 字",
+            detail=f"句子平均长度约 {avg_sentence_chars} 字，表达结构{clarity_level}。",
+        ),
+        "confidence": _build_expression_metric(
+            score=confidence_score,
+            level=confidence_level,
+            value=f"肯定表达 {assertive_count} 次",
+            detail=f"结合措辞强度与文字表达推断，当前表达状态偏{confidence_level}。",
+        ),
+    }
+
+
+def _build_voice_expression_analysis(
+    *,
+    conversation,
+    scorecard: dict[str, Any] | None,
+    messages: list[Any] | None,
+) -> dict[str, Any] | None:
 
     speech_turns = _collect_speech_turns(messages)
     if not speech_turns:
@@ -1488,13 +1732,34 @@ def _extract_scorecard(content: str) -> dict[str, Any] | None:
     match = INTERVIEW_SCORECARD_PATTERN.search(content)
     if match:
         try:
-            return _normalize_scorecard(json.loads(match.group(1).strip()))
+            raw_json = json.loads(match.group(1).strip())
+            # The JSON might be a wrapper {"interview_scorecard": {...}} or a direct scorecard
+            if isinstance(raw_json, dict) and isinstance(raw_json.get("interview_scorecard"), dict):
+                return _normalize_scorecard(raw_json["interview_scorecard"])
+            result = _normalize_scorecard(raw_json)
+            if result:
+                return result
         except Exception:
-            return None
+            pass
 
+    # Try generic json code blocks — handle nested braces by balanced-bracket extraction
     for generic_match in GENERIC_JSON_CODE_BLOCK_PATTERN.finditer(content):
+        raw = generic_match.group(1).strip()
+        # If the naive match produced unbalanced braces, try to extend to balanced
+        start_pos = generic_match.start(1)
+        if raw.count("{") > raw.count("}"):
+            brace_start = content.index("{", start_pos)
+            depth = 0
+            for i in range(brace_start, len(content)):
+                if content[i] == "{":
+                    depth += 1
+                elif content[i] == "}":
+                    depth -= 1
+                    if depth == 0:
+                        raw = content[brace_start : i + 1]
+                        break
         try:
-            payload = json.loads(generic_match.group(1).strip())
+            payload = json.loads(raw)
         except Exception:
             continue
         if isinstance(payload, dict) and isinstance(payload.get("interview_scorecard"), dict):
@@ -1518,20 +1783,271 @@ def _parse_thread_context(title: str | None) -> tuple[str, str]:
     return normalized_title, ""
 
 
-def _scorecard_from_sep_report(sep_report: "EvaluationReport") -> dict[str, Any]:
-    """Convert a SEP EvaluationReport into the scorecard dict expected by the frontend."""
-    from src.services.sep.evidence_builder import EvaluationReport  # noqa: F401  # local import avoids circular
-    dimensions = [
-        {"key": k, "name": DIMENSION_LABELS.get(k, k), "score": v}
-        for k, v in sep_report.dimensions.items()
-    ]
+def _extract_qa_pairs(messages: list) -> list[tuple[str, str]]:
+    """Extract (question, answer) pairs from conversation messages."""
+    qa_pairs: list[tuple[str, str]] = []
+    pending_question: str | None = None
+
+    for msg in messages:
+        role = getattr(msg, "role", "")
+        content = str(getattr(msg, "content", "") or "").strip()
+        if not content or role not in ("user", "assistant"):
+            continue
+        # Skip very short messages (greetings, confirmations)
+        if role == "user":
+            if len(content) >= 8:
+                pending_question = content
+            continue
+        if role == "assistant" and pending_question and len(content) >= 20:
+            qa_pairs.append((pending_question, content))
+            pending_question = None
+
+    return qa_pairs
+
+
+_SEP_POSITIONS = ("backend", "frontend", "algorithm")
+_SEP_POSITION_KEYWORDS: tuple[tuple[str, str], ...] = (
+    ("frontend", "frontend"),
+    ("前端", "frontend"),
+    ("react", "frontend"),
+    ("vue", "frontend"),
+    ("angular", "frontend"),
+    ("web", "frontend"),
+    ("h5", "frontend"),
+    ("ui", "frontend"),
+    ("algorithm", "algorithm"),
+    ("算法", "algorithm"),
+    ("机器学习", "algorithm"),
+    ("ml", "algorithm"),
+    ("ai", "algorithm"),
+    ("backend", "backend"),
+    ("后端", "backend"),
+    ("server", "backend"),
+    ("java", "backend"),
+    ("python", "backend"),
+    ("golang", "backend"),
+    ("node", "backend"),
+    ("c++", "backend"),
+    ("c#", "backend"),
+    ("rust", "backend"),
+    ("php", "backend"),
+    ("ruby", "backend"),
+    ("全栈", "backend"),
+    ("fullstack", "backend"),
+)
+
+
+def _resolve_position_for_sep(conversation, coding_session: dict[str, Any] | None) -> str:
+    """Resolve the SEP question-bank slug from a raw position label.
+
+    Supports mixed Chinese/English position strings via substring matching
+    (e.g. "Node.js 后端工程师" → backend, "前端 React" → frontend).
+    """
+    title_position, _ = _parse_thread_context(getattr(conversation, "title", ""))
+    raw_position = str(
+        (coding_session or {}).get("target_position") or title_position or "backend"
+    ).strip().lower()
+    if raw_position in _SEP_POSITIONS:
+        return raw_position
+    for keyword, slug in _SEP_POSITION_KEYWORDS:
+        if keyword in raw_position:
+            return slug
+    return "backend"
+
+
+_SEP_MIN_BANK_COVERAGE = 0.5  # at least 50% of Q&A pairs must match a real rubric
+_SEP_MIN_MATCHED_PAIRS = 2  # need at least 2 grounded matches before trusting SEP
+
+_SEP_QUESTION_TOKENIZER = None
+
+
+def _sep_token_set(text: str) -> set[str]:
+    """Tokenize a question for matching: drop punctuation, length >= 2 (CJK-aware)."""
+    global _SEP_QUESTION_TOKENIZER  # noqa: PLW0603
+    if _SEP_QUESTION_TOKENIZER is None:
+        try:
+            import jieba
+
+            _SEP_QUESTION_TOKENIZER = jieba
+        except Exception:  # noqa: BLE001 - jieba missing → fall back to character set
+            _SEP_QUESTION_TOKENIZER = False
+    if not text:
+        return set()
+    if _SEP_QUESTION_TOKENIZER:
+        tokens = {tok.strip().lower() for tok in _SEP_QUESTION_TOKENIZER.cut(text) if len(tok.strip()) >= 2}
+    else:
+        tokens = set()
+    # Always include 2-char windows so we degrade gracefully when jieba is absent.
+    clean = "".join(ch for ch in text if ch.isalnum() or "一" <= ch <= "鿿")
+    tokens.update(clean[i : i + 2].lower() for i in range(len(clean) - 1))
+    return tokens
+
+
+def _sep_match_question(question_text: str, bank_questions: list[dict], used_ids: set[str]) -> dict | None:
+    """Match an LLM-asked question to a bank entry using Jaccard token overlap.
+
+    Returns None when no entry passes the similarity floor. This prevents the
+    pipeline from silently inventing scores for questions outside the bank.
+    """
+    q_tokens = _sep_token_set(question_text)
+    if len(q_tokens) < 3:
+        return None
+    best: tuple[float, dict | None] = (0.0, None)
+    for bq in bank_questions:
+        if bq["id"] in used_ids:
+            continue
+        b_tokens = _sep_token_set(bq.get("question_template", "") + " " + bq.get("concept", ""))
+        if not b_tokens:
+            continue
+        inter = len(q_tokens & b_tokens)
+        if inter == 0:
+            continue
+        union = len(q_tokens | b_tokens) or 1
+        jaccard = inter / union
+        # Require both a minimum Jaccard and a meaningful absolute overlap to
+        # avoid spurious matches between short questions.
+        if jaccard >= 0.18 and inter >= 3 and jaccard > best[0]:
+            best = (jaccard, bq)
+    return best[1]
+
+
+def _try_sep_scoring(
+    messages: list,
+    conversation,
+    coding_session: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Run SEP deterministic scoring on conversation Q&A pairs.
+
+    Returns a scorecard dict from SEP only when enough Q&A pairs were
+    confidently matched to the question bank. If matching coverage is too low
+    (the LLM asked questions outside the bank), returns None so the caller can
+    fall back to the LLM-generated scorecard rather than show inflated scores
+    for off-topic answers.
+    """
+    if not _is_sep_available():
+        return None
+
+    qa_pairs = _extract_qa_pairs(messages)
+    if len(qa_pairs) < 2:
+        return None
+
+    try:
+        from src.services.sep import SEPSession
+    except Exception as exc:  # noqa: BLE001 - import boundary; log instead of swallow
+        logger.warning("SEP import failed: %s", exc)
+        return None
+
+    position = _resolve_position_for_sep(conversation, coding_session)
+    try:
+        session = SEPSession(position=position)
+    except Exception as exc:  # noqa: BLE001 - SEPSession init boundary
+        logger.warning("SEPSession init failed for position=%s: %s", position, exc)
+        return None
+
+    bank_questions = list(session._question_bank)
+    if not bank_questions:
+        return None
+
+    matched_pairs = 0
+    for question_text, answer_text in qa_pairs:
+        best_match = _sep_match_question(question_text, bank_questions, session.asked_ids)
+        if best_match is None:
+            continue
+        try:
+            session.record_answer(best_match, answer_text)
+            matched_pairs += 1
+        except Exception as exc:  # noqa: BLE001 - per-question record boundary
+            logger.warning("SEP record_answer failed for q_id=%s: %s", best_match.get("id"), exc)
+            continue
+
+    coverage = matched_pairs / len(qa_pairs)
+    if matched_pairs < _SEP_MIN_MATCHED_PAIRS or coverage < _SEP_MIN_BANK_COVERAGE:
+        logger.info(
+            "SEP coverage too low (matched=%d/%d, ratio=%.2f) — falling back to LLM scorecard",
+            matched_pairs,
+            len(qa_pairs),
+            coverage,
+        )
+        return None
+
+    try:
+        report = session.build_report()
+    except Exception as exc:  # noqa: BLE001 - report build boundary
+        logger.warning("SEP build_report failed: %s", exc)
+        return None
+    return _scorecard_from_sep_report(report, coverage=coverage)
+
+
+def _sep_narrative_from_report(sep_report: "EvaluationReport") -> dict[str, list[str] | str]:  # noqa: F821, UP037
+    """Build deterministic strengths/risks/suggestions/summary text from a SEP report.
+
+    Walks the evidence chain and groups items by type and dimension. Each
+    bullet cites a concrete concept so the user can see *why* a score moved,
+    not just an opaque number.
+    """
+    strengths: list[str] = []
+    risks: list[str] = []
+    suggestions: list[str] = []
+
+    by_dimension: dict[str, list] = {}
+    for item in sep_report.evidence_chain:
+        by_dimension.setdefault(item.dimension, []).append(item)
+
+    for dim, items in by_dimension.items():
+        dim_label = DIMENSION_LABELS.get(dim, dim)
+        positives = [it for it in items if it.score_delta > 0 and it.evidence_type in {"keyword_hit", "bonus_keyword"}]
+        misconceptions = [it for it in items if it.evidence_type == "misconception"]
+        hedges = [it for it in items if it.evidence_type == "hedge"]
+
+        if positives:
+            top = max(positives, key=lambda it: it.score_delta)
+            concept = top.concept or "相关考点"
+            strengths.append(f"{dim_label}：在「{concept}」上覆盖了核心要点（{top.evidence_text}）。")
+
+        if misconceptions:
+            top = max(misconceptions, key=lambda it: -it.score_delta)
+            concept = top.concept or "相关考点"
+            risks.append(f"{dim_label}：「{concept}」存在概念误区——{top.evidence_text}。")
+            suggestions.append(f"重点复习「{concept}」的标准定义与边界条件，避免再次混淆。")
+
+        if hedges:
+            risks.append(f"{dim_label}：回答中模糊词较多，可信度被打折扣。")
+            suggestions.append(f"练习用「我做了 X，达到了 Y」这类陈述句来表达对{dim_label}的掌握。")
+
+    dims_summary = "、".join(
+        f"{DIMENSION_LABELS.get(k, k)} {v}" for k, v in sep_report.dimensions.items()
+    )
+    summary = (
+        f"基于 {len(sep_report.evidence_chain)} 条客观证据生成。综合 {sep_report.overall} 分，"
+        f"分项得分：{dims_summary}。"
+    )
+    return {
+        "summary": summary,
+        "strengths": strengths,
+        "risks": risks,
+        "suggestions": suggestions,
+    }
+
+
+def _scorecard_from_sep_report(  # noqa: F821, UP037
+    sep_report: "EvaluationReport",
+    *,
+    coverage: float = 1.0,
+) -> dict[str, Any]:
+    """Convert a SEP EvaluationReport into the scorecard dict expected by the frontend.
+
+    Coverage is the share of Q&A pairs that matched the bank; surfaced so the
+    UI can disclose how grounded the score is.
+    """
+    dimensions = [{"key": k, "name": DIMENSION_LABELS.get(k, k), "score": v} for k, v in sep_report.dimensions.items()]
+    narrative = _sep_narrative_from_report(sep_report)
     return {
         "overall": sep_report.overall,
         "dimensions": dimensions,
-        "strengths": [],
-        "risks": [],
-        "suggestions": [],
-        "summary": "",
+        "strengths": narrative["strengths"],
+        "risks": narrative["risks"],
+        "suggestions": narrative["suggestions"],
+        "summary": narrative["summary"],
         "sep_evidence_chain": [
             {
                 "dimension": item.dimension,
@@ -1540,10 +2056,13 @@ def _scorecard_from_sep_report(sep_report: "EvaluationReport") -> dict[str, Any]
                 "score_delta": item.score_delta,
                 "evidence_text": item.evidence_text,
                 "evidence_type": item.evidence_type,
+                "difficulty": item.difficulty,
             }
             for item in sep_report.evidence_chain
         ],
         "sep_theta_trajectory": sep_report.theta_trajectory,
+        "sep_coverage": round(coverage, 2),
+        "score_source": "sep" if coverage >= 0.99 else "sep_partial",
     }
 
 
@@ -1575,6 +2094,7 @@ def _normalize_result_payload(
     *,
     conversation,
     coding_session: dict[str, Any] | None,
+    messages: list | None = None,
 ) -> dict[str, Any] | None:
     if not isinstance(value, dict):
         return None
@@ -1591,6 +2111,34 @@ def _normalize_result_payload(
         if not scorecard.get("round"):
             scorecard["round"] = title_round
 
+    # If scorecard has no numerical scores, try SEP deterministic scoring
+    has_numerical_scores = (
+        scorecard is not None
+        and (
+            scorecard.get("overall") is not None
+            or any(
+                _normalize_score_value(d.get("score")) is not None
+                for d in (scorecard.get("dimensions") or [])
+            )
+        )
+    )
+    if not has_numerical_scores and messages:
+        sep_scorecard = _try_sep_scoring(messages, conversation, coding_session)
+        if sep_scorecard:
+            if scorecard:
+                # Merge: SEP provides scores, keep LLM text fields
+                if scorecard.get("overall") is None:
+                    scorecard["overall"] = sep_scorecard.get("overall")
+                if not any(
+                    _normalize_score_value(d.get("score")) is not None
+                    for d in (scorecard.get("dimensions") or [])
+                ):
+                    scorecard["dimensions"] = sep_scorecard.get("dimensions", [])
+                scorecard["sep_evidence_chain"] = sep_scorecard.get("sep_evidence_chain", [])
+                scorecard["sep_theta_trajectory"] = sep_scorecard.get("sep_theta_trajectory", [])
+            else:
+                scorecard = sep_scorecard
+
     status = str(value.get("status") or "").strip() or ("completed" if scorecard else "idle")
     payload = {
         "status": status,
@@ -1606,8 +2154,8 @@ def _normalize_result_payload(
     }
 
     # Attach SEP data if present in the conversation metadata
-    sep_evidence = value.get("sep_evidence_chain") if isinstance(value, dict) else None
-    sep_trajectory = value.get("sep_theta_trajectory") if isinstance(value, dict) else None
+    sep_evidence = value.get("sep_evidence_chain")
+    sep_trajectory = value.get("sep_theta_trajectory")
     if sep_evidence is not None:
         payload.setdefault("scorecard", {})
         if payload["scorecard"] is None:
@@ -1708,8 +2256,12 @@ def _build_weakness_reason(
             return f"代码考核当前判题结果为 {judge_status}，说明解题稳定性和实现完整度还有提升空间。"
         if judge_numeric is not None and judge_numeric < 80:
             return f"代码题得分为 {judge_numeric}，建议继续强化题目拆解、边界处理和实现细节。"
-    score_text = f"当前维度得分约为 {score} 分，" if score is not None else ""
-    return f"{score_text}在{config['label']}上的表现相对其他维度偏弱，建议优先安排专项练习。"
+    # P1: avoid the generic "建议优先安排专项练习" platitude. Be honest about
+    # what the system actually knows: only the relative score, no specific
+    # evidence was extracted for this dimension.
+    if score is not None:
+        return f"{config['label']}当前 {score} 分，是本轮所有维度中相对偏低的一项；本轮未提炼出具体的失分点证据，建议结合下方完整对话回顾。"
+    return f"{config['label']}本轮未生成可量化的评分证据。"
 
 
 async def _select_knowledge_resources(
@@ -2889,10 +3441,15 @@ def _build_history_record(*, conversation, result_payload: dict[str, Any] | None
 
     result_status = str((result_payload or {}).get("status") or "").strip()
     is_complete_result = _is_result_complete_enough(result_payload)
-    if result_status == "completed" and is_complete_result:
+    if result_status == "completed":
+        # If the agent explicitly marked it completed, trust that even
+        # when the scorecard is thin — avoid showing stale "进行中".
         status = "completed"
     elif result_status in {"generating", "failed"}:
         status = result_status
+    elif is_complete_result:
+        # Scorecard exists but status field is missing — still completed.
+        status = "completed"
     else:
         status = "in_progress"
 
@@ -3011,6 +3568,51 @@ def _is_result_complete_enough(result_payload: dict[str, Any] | None) -> bool:
     return False
 
 
+def _scorecard_has_numerical_scores(scorecard: dict[str, Any] | None) -> bool:
+    """Check if a scorecard has actual numerical scores (not just text fields)."""
+    if not isinstance(scorecard, dict):
+        return False
+    if scorecard.get("overall") is not None:
+        return True
+    return any(
+        _normalize_score_value(d.get("score")) is not None
+        for d in (scorecard.get("dimensions") or [])
+    )
+
+
+def _enrich_scorecard_with_sep(
+    result_payload: dict[str, Any],
+    messages: list,
+    conversation,
+    coding_session: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Enrich a result payload's scorecard with SEP deterministic scores if it lacks numerical data."""
+    scorecard = result_payload.get("scorecard")
+    if not isinstance(scorecard, dict):
+        return result_payload
+
+    needs_overall = scorecard.get("overall") is None
+    needs_dims = not any(
+        _normalize_score_value(d.get("score")) is not None
+        for d in (scorecard.get("dimensions") or [])
+    )
+    needs_evidence = not scorecard.get("sep_evidence_chain")
+    if not needs_overall and not needs_dims and not needs_evidence:
+        return result_payload
+
+    sep_scorecard = _try_sep_scoring(messages, conversation, coding_session)
+    if not sep_scorecard:
+        return result_payload
+
+    if needs_overall:
+        scorecard["overall"] = sep_scorecard.get("overall")
+    if needs_dims:
+        scorecard["dimensions"] = sep_scorecard.get("dimensions", [])
+    scorecard["sep_evidence_chain"] = sep_scorecard.get("sep_evidence_chain", [])
+    scorecard["sep_theta_trajectory"] = sep_scorecard.get("sep_theta_trajectory", [])
+    return result_payload
+
+
 async def _require_interview_conversation(
     db: AsyncSession,
     *,
@@ -3059,6 +3661,7 @@ async def get_interview_result(
         (conversation.extra_metadata or {}).get(INTERVIEW_RESULT_METADATA_KEY),
         conversation=conversation,
         coding_session=coding_session,
+        messages=messages,
     )
     if _is_result_complete_enough(stored_result):
         result_payload = await _ensure_result_enrichment(
@@ -3071,6 +3674,8 @@ async def get_interview_result(
             messages=messages,
             persist_if_missing=True,
         )
+        # Enrich with SEP scores if cached result lacks numerical data
+        _enrich_scorecard_with_sep(result_payload, messages, conversation, coding_session)
         return {
             "thread_id": conversation.thread_id,
             "title": conversation.title,
@@ -3085,6 +3690,26 @@ async def get_interview_result(
         derived = _build_result_from_message(message, conversation, coding_session)
         if not derived:
             continue
+
+        # Enrich with SEP scores if scorecard lacks numerical scores
+        derived_scorecard = derived.get("scorecard")
+        if isinstance(derived_scorecard, dict):
+            has_numerical = derived_scorecard.get("overall") is not None or any(
+                _normalize_score_value(d.get("score")) is not None
+                for d in (derived_scorecard.get("dimensions") or [])
+            )
+            if not has_numerical:
+                sep_scorecard = _try_sep_scoring(messages, conversation, coding_session)
+                if sep_scorecard:
+                    if derived_scorecard.get("overall") is None:
+                        derived_scorecard["overall"] = sep_scorecard.get("overall")
+                    if not any(
+                        _normalize_score_value(d.get("score")) is not None
+                        for d in (derived_scorecard.get("dimensions") or [])
+                    ):
+                        derived_scorecard["dimensions"] = sep_scorecard.get("dimensions", [])
+                    derived_scorecard["sep_evidence_chain"] = sep_scorecard.get("sep_evidence_chain", [])
+                    derived_scorecard["sep_theta_trajectory"] = sep_scorecard.get("sep_theta_trajectory", [])
 
         await _save_interview_result_metadata(
             db,
@@ -3180,9 +3805,7 @@ async def get_interview_history(
         if not _is_result_complete_enough(stored_result):
             latest_message = latest_assistant_messages_by_thread.get(conversation.thread_id)
             derived_result = (
-                _build_result_from_message(latest_message, conversation, coding_session)
-                if latest_message
-                else None
+                _build_result_from_message(latest_message, conversation, coding_session) if latest_message else None
             )
             if derived_result:
                 improvement_plan = (stored_result or {}).get("improvement_plan")
@@ -3410,6 +4033,7 @@ def _build_finalize_prompt(
     target_position: str,
     interview_round: str,
     coding_session: dict[str, Any] | None,
+    resume_summary: str | None = None,
 ) -> str:
     coding_result = coding_session.get("judge_result") if isinstance(coding_session, dict) else {}
     coding_status = str((coding_session or {}).get("judge_status") or (coding_result or {}).get("status") or "").strip()
@@ -3423,6 +4047,8 @@ def _build_finalize_prompt(
         f"目标岗位：{target_position or get_default_position_label()}",
         f"面试轮次：{interview_round or '初试'}",
     ]
+    if resume_summary:
+        lines.append(f"候选人简历摘要：{resume_summary}")
     if problem_title:
         lines.append(f"代码题：{problem_title}")
     if difficulty:
@@ -3461,10 +4087,30 @@ async def _invoke_interview_finalize_turn(
         raise HTTPException(status_code=500, detail="模拟面试智能体不存在")
 
     conv_repo = ConversationRepository(db)
+
+    # Load resume summary if available
+    metadata = dict(getattr(conversation, "extra_metadata", None) or {})
+    resume_id = metadata.get("resume_id")
+    resume_summary: str | None = None
+    if resume_id:
+        try:
+            from src.services.interview_resume_service import load_selected_resume_context_payload
+
+            resume_payload = await load_selected_resume_context_payload(
+                db=db,
+                user_id=int(current_user.id),
+                resume_id=int(resume_id),
+                strict=False,
+            )
+            resume_summary = resume_payload.get("summary") if isinstance(resume_payload, dict) else None
+        except Exception:
+            logger.warning("Failed to load resume summary for finalize prompt, proceeding without it")
+
     prompt = _build_finalize_prompt(
         target_position=target_position,
         interview_round=interview_round,
         coding_session=coding_session,
+        resume_summary=resume_summary,
     )
     human_message = HumanMessage(content=prompt)
     await conv_repo.add_message_by_thread_id(
@@ -3489,6 +4135,7 @@ async def _invoke_interview_finalize_turn(
         "context_overrides": {
             "target_position": target_position,
             "interview_round": interview_round,
+            **({"selected_resume_id": resume_id} if resume_id else {}),
         }
     }
     agent_config = await _build_effective_agent_config(
