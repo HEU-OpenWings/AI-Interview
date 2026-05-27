@@ -1805,110 +1805,22 @@ def _extract_qa_pairs(messages: list) -> list[tuple[str, str]]:
     return qa_pairs
 
 
-_SEP_POSITIONS = ("backend", "frontend", "algorithm")
-_SEP_POSITION_KEYWORDS: tuple[tuple[str, str], ...] = (
-    ("frontend", "frontend"),
-    ("前端", "frontend"),
-    ("react", "frontend"),
-    ("vue", "frontend"),
-    ("angular", "frontend"),
-    ("web", "frontend"),
-    ("h5", "frontend"),
-    ("ui", "frontend"),
-    ("algorithm", "algorithm"),
-    ("算法", "algorithm"),
-    ("机器学习", "algorithm"),
-    ("ml", "algorithm"),
-    ("ai", "algorithm"),
-    ("backend", "backend"),
-    ("后端", "backend"),
-    ("server", "backend"),
-    ("java", "backend"),
-    ("python", "backend"),
-    ("golang", "backend"),
-    ("node", "backend"),
-    ("c++", "backend"),
-    ("c#", "backend"),
-    ("rust", "backend"),
-    ("php", "backend"),
-    ("ruby", "backend"),
-    ("全栈", "backend"),
-    ("fullstack", "backend"),
+# SEP bank-slug resolution + Jaccard matcher moved to interview_result_sep_helpers
+from src.services.interview_result_sep_helpers import (
+    SEP_MIN_BANK_COVERAGE as _SEP_MIN_BANK_COVERAGE,
+    SEP_MIN_MATCHED_PAIRS as _SEP_MIN_MATCHED_PAIRS,
+    match_question as _sep_match_question,
+    resolve_bank_slug,
 )
 
 
 def _resolve_position_for_sep(conversation, coding_session: dict[str, Any] | None) -> str:
-    """Resolve the SEP question-bank slug from a raw position label.
-
-    Supports mixed Chinese/English position strings via substring matching
-    (e.g. "Node.js 后端工程师" → backend, "前端 React" → frontend).
-    """
+    """Wrap `resolve_bank_slug` with the project's existing title-parsing logic."""
     title_position, _ = _parse_thread_context(getattr(conversation, "title", ""))
     raw_position = str(
         (coding_session or {}).get("target_position") or title_position or "backend"
     ).strip().lower()
-    if raw_position in _SEP_POSITIONS:
-        return raw_position
-    for keyword, slug in _SEP_POSITION_KEYWORDS:
-        if keyword in raw_position:
-            return slug
-    return "backend"
-
-
-_SEP_MIN_BANK_COVERAGE = 0.5  # at least 50% of Q&A pairs must match a real rubric
-_SEP_MIN_MATCHED_PAIRS = 2  # need at least 2 grounded matches before trusting SEP
-
-_SEP_QUESTION_TOKENIZER = None
-
-
-def _sep_token_set(text: str) -> set[str]:
-    """Tokenize a question for matching: drop punctuation, length >= 2 (CJK-aware)."""
-    global _SEP_QUESTION_TOKENIZER  # noqa: PLW0603
-    if _SEP_QUESTION_TOKENIZER is None:
-        try:
-            import jieba
-
-            _SEP_QUESTION_TOKENIZER = jieba
-        except Exception:  # noqa: BLE001 - jieba missing → fall back to character set
-            _SEP_QUESTION_TOKENIZER = False
-    if not text:
-        return set()
-    if _SEP_QUESTION_TOKENIZER:
-        tokens = {tok.strip().lower() for tok in _SEP_QUESTION_TOKENIZER.cut(text) if len(tok.strip()) >= 2}
-    else:
-        tokens = set()
-    # Always include 2-char windows so we degrade gracefully when jieba is absent.
-    clean = "".join(ch for ch in text if ch.isalnum() or "一" <= ch <= "鿿")
-    tokens.update(clean[i : i + 2].lower() for i in range(len(clean) - 1))
-    return tokens
-
-
-def _sep_match_question(question_text: str, bank_questions: list[dict], used_ids: set[str]) -> dict | None:
-    """Match an LLM-asked question to a bank entry using Jaccard token overlap.
-
-    Returns None when no entry passes the similarity floor. This prevents the
-    pipeline from silently inventing scores for questions outside the bank.
-    """
-    q_tokens = _sep_token_set(question_text)
-    if len(q_tokens) < 3:
-        return None
-    best: tuple[float, dict | None] = (0.0, None)
-    for bq in bank_questions:
-        if bq["id"] in used_ids:
-            continue
-        b_tokens = _sep_token_set(bq.get("question_template", "") + " " + bq.get("concept", ""))
-        if not b_tokens:
-            continue
-        inter = len(q_tokens & b_tokens)
-        if inter == 0:
-            continue
-        union = len(q_tokens | b_tokens) or 1
-        jaccard = inter / union
-        # Require both a minimum Jaccard and a meaningful absolute overlap to
-        # avoid spurious matches between short questions.
-        if jaccard >= 0.18 and inter >= 3 and jaccard > best[0]:
-            best = (jaccard, bq)
-    return best[1]
+    return resolve_bank_slug(raw_position)
 
 
 def _try_sep_scoring(
@@ -1918,11 +1830,14 @@ def _try_sep_scoring(
 ) -> dict[str, Any] | None:
     """Run SEP deterministic scoring on conversation Q&A pairs.
 
-    Returns a scorecard dict from SEP only when enough Q&A pairs were
-    confidently matched to the question bank. If matching coverage is too low
-    (the LLM asked questions outside the bank), returns None so the caller can
-    fall back to the LLM-generated scorecard rather than show inflated scores
-    for off-topic answers.
+    Preferred path: a thread-scoped SEPSession seeded at *ask-time* by the
+    `pick_sep_adaptive_question` agent tool. Each question's id is therefore
+    already known, so we can pair questions to rubrics with zero ambiguity.
+
+    Fallback path (legacy conversations whose agent didn't use the adaptive
+    tool): rebuild a fresh session and try Jaccard text matching against the
+    bank. If that doesn't reach the coverage floor we return None so the
+    caller falls back to the LLM scorecard instead of inventing scores.
     """
     if not _is_sep_available():
         return None
@@ -1933,32 +1848,63 @@ def _try_sep_scoring(
 
     try:
         from src.services.sep import SEPSession
+        from src.services.sep.session_cache import get_session
     except Exception as exc:  # noqa: BLE001 - import boundary; log instead of swallow
         logger.warning("SEP import failed: %s", exc)
         return None
 
-    position = _resolve_position_for_sep(conversation, coding_session)
-    try:
-        session = SEPSession(position=position)
-    except Exception as exc:  # noqa: BLE001 - SEPSession init boundary
-        logger.warning("SEPSession init failed for position=%s: %s", position, exc)
-        return None
-
-    bank_questions = list(session._question_bank)
-    if not bank_questions:
-        return None
-
+    thread_id = str(getattr(conversation, "thread_id", "") or "").strip()
+    cached = get_session(thread_id) if thread_id else None
     matched_pairs = 0
-    for question_text, answer_text in qa_pairs:
-        best_match = _sep_match_question(question_text, bank_questions, session.asked_ids)
-        if best_match is None:
-            continue
+
+    if cached and cached.asked_ids:
+        # Adaptive path: cached.asked_ids holds question_ids the agent already
+        # picked via SEP. Replay them in order against the candidate's answers.
+        bank_by_id = {q["id"]: q for q in cached._question_bank}
+        asked_in_order: list[dict] = [bank_by_id[qid] for qid in cached.asked_ids if qid in bank_by_id]
+        # Pair the first len(asked_in_order) Q&A pairs with the picked questions.
+        pairing = list(zip(asked_in_order, qa_pairs))
+        # SEP's session state already had `asked_ids` populated; rebuild a clean
+        # session so record_answer can re-run feature extraction from scratch.
+        session = SEPSession(position=cached.position)
+        for question, (_question_text, answer_text) in pairing:
+            try:
+                session.record_answer(question, answer_text)
+                matched_pairs += 1
+            except Exception as exc:  # noqa: BLE001 - per-question boundary
+                logger.warning(
+                    "SEP record_answer failed (adaptive) for q_id=%s: %s",
+                    question.get("id"),
+                    exc,
+                )
+                continue
+        if matched_pairs == 0:
+            # Cached session existed but couldn't be replayed; fall through.
+            cached = None
+
+    if not (cached and matched_pairs > 0):
+        # Legacy / unmatched path — try fuzzy matching as a best effort.
+        position = _resolve_position_for_sep(conversation, coding_session)
         try:
-            session.record_answer(best_match, answer_text)
-            matched_pairs += 1
-        except Exception as exc:  # noqa: BLE001 - per-question record boundary
-            logger.warning("SEP record_answer failed for q_id=%s: %s", best_match.get("id"), exc)
-            continue
+            session = SEPSession(position=position)
+        except Exception as exc:  # noqa: BLE001 - SEPSession init boundary
+            logger.warning("SEPSession init failed for position=%s: %s", position, exc)
+            return None
+
+        bank_questions = list(session._question_bank)
+        if not bank_questions:
+            return None
+
+        for question_text, answer_text in qa_pairs:
+            best_match = _sep_match_question(question_text, bank_questions, session.asked_ids)
+            if best_match is None:
+                continue
+            try:
+                session.record_answer(best_match, answer_text)
+                matched_pairs += 1
+            except Exception as exc:  # noqa: BLE001 - per-question record boundary
+                logger.warning("SEP record_answer failed for q_id=%s: %s", best_match.get("id"), exc)
+                continue
 
     coverage = matched_pairs / len(qa_pairs)
     if matched_pairs < _SEP_MIN_MATCHED_PAIRS or coverage < _SEP_MIN_BANK_COVERAGE:
@@ -1978,55 +1924,17 @@ def _try_sep_scoring(
     return _scorecard_from_sep_report(report, coverage=coverage)
 
 
+# SEP narrative + scorecard shaping moved to a dedicated helpers module so
+# this file stays focused on orchestration. The wrappers below preserve the
+# private-underscore names that the rest of this module already uses.
+from src.services.interview_result_sep_helpers import (
+    scorecard_from_sep_report as _scorecard_from_sep_report_impl,
+    sep_narrative_from_report as _sep_narrative_from_report_impl,
+)
+
+
 def _sep_narrative_from_report(sep_report: "EvaluationReport") -> dict[str, list[str] | str]:  # noqa: F821, UP037
-    """Build deterministic strengths/risks/suggestions/summary text from a SEP report.
-
-    Walks the evidence chain and groups items by type and dimension. Each
-    bullet cites a concrete concept so the user can see *why* a score moved,
-    not just an opaque number.
-    """
-    strengths: list[str] = []
-    risks: list[str] = []
-    suggestions: list[str] = []
-
-    by_dimension: dict[str, list] = {}
-    for item in sep_report.evidence_chain:
-        by_dimension.setdefault(item.dimension, []).append(item)
-
-    for dim, items in by_dimension.items():
-        dim_label = DIMENSION_LABELS.get(dim, dim)
-        positives = [it for it in items if it.score_delta > 0 and it.evidence_type in {"keyword_hit", "bonus_keyword"}]
-        misconceptions = [it for it in items if it.evidence_type == "misconception"]
-        hedges = [it for it in items if it.evidence_type == "hedge"]
-
-        if positives:
-            top = max(positives, key=lambda it: it.score_delta)
-            concept = top.concept or "相关考点"
-            strengths.append(f"{dim_label}：在「{concept}」上覆盖了核心要点（{top.evidence_text}）。")
-
-        if misconceptions:
-            top = max(misconceptions, key=lambda it: -it.score_delta)
-            concept = top.concept or "相关考点"
-            risks.append(f"{dim_label}：「{concept}」存在概念误区——{top.evidence_text}。")
-            suggestions.append(f"重点复习「{concept}」的标准定义与边界条件，避免再次混淆。")
-
-        if hedges:
-            risks.append(f"{dim_label}：回答中模糊词较多，可信度被打折扣。")
-            suggestions.append(f"练习用「我做了 X，达到了 Y」这类陈述句来表达对{dim_label}的掌握。")
-
-    dims_summary = "、".join(
-        f"{DIMENSION_LABELS.get(k, k)} {v}" for k, v in sep_report.dimensions.items()
-    )
-    summary = (
-        f"基于 {len(sep_report.evidence_chain)} 条客观证据生成。综合 {sep_report.overall} 分，"
-        f"分项得分：{dims_summary}。"
-    )
-    return {
-        "summary": summary,
-        "strengths": strengths,
-        "risks": risks,
-        "suggestions": suggestions,
-    }
+    return _sep_narrative_from_report_impl(sep_report)
 
 
 def _scorecard_from_sep_report(  # noqa: F821, UP037
@@ -2034,36 +1942,7 @@ def _scorecard_from_sep_report(  # noqa: F821, UP037
     *,
     coverage: float = 1.0,
 ) -> dict[str, Any]:
-    """Convert a SEP EvaluationReport into the scorecard dict expected by the frontend.
-
-    Coverage is the share of Q&A pairs that matched the bank; surfaced so the
-    UI can disclose how grounded the score is.
-    """
-    dimensions = [{"key": k, "name": DIMENSION_LABELS.get(k, k), "score": v} for k, v in sep_report.dimensions.items()]
-    narrative = _sep_narrative_from_report(sep_report)
-    return {
-        "overall": sep_report.overall,
-        "dimensions": dimensions,
-        "strengths": narrative["strengths"],
-        "risks": narrative["risks"],
-        "suggestions": narrative["suggestions"],
-        "summary": narrative["summary"],
-        "sep_evidence_chain": [
-            {
-                "dimension": item.dimension,
-                "question": item.question,
-                "concept": item.concept,
-                "score_delta": item.score_delta,
-                "evidence_text": item.evidence_text,
-                "evidence_type": item.evidence_type,
-                "difficulty": item.difficulty,
-            }
-            for item in sep_report.evidence_chain
-        ],
-        "sep_theta_trajectory": sep_report.theta_trajectory,
-        "sep_coverage": round(coverage, 2),
-        "score_source": "sep" if coverage >= 0.99 else "sep_partial",
-    }
+    return _scorecard_from_sep_report_impl(sep_report, coverage=coverage)
 
 
 def _build_result_from_message(message, conversation, coding_session: dict[str, Any] | None) -> dict[str, Any] | None:
