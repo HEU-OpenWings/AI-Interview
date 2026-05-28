@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import logging
 import threading
-from typing import Optional
 
 from src.services.sep import SEPSession
 
@@ -27,7 +26,7 @@ def _make_key(thread_id: str) -> str:
     return str(thread_id or "").strip()
 
 
-def get_session(thread_id: str) -> Optional[SEPSession]:
+def get_session(thread_id: str) -> SEPSession | None:
     """Return the cached session for thread_id, if any."""
     key = _make_key(thread_id)
     if not key:
@@ -52,7 +51,7 @@ def get_or_create_session(thread_id: str, position: str) -> SEPSession:
         if session is None:
             session = SEPSession(position=position or "backend")
             _CACHE[key] = session
-            logger.info("Created SEP session for thread=%s position=%s", key, position)
+            logger.info("Created SEP session for thread={} position={}", key, position)
         return session
 
 
@@ -63,7 +62,7 @@ def drop_session(thread_id: str) -> None:
         return
     with _LOCK:
         if _CACHE.pop(key, None) is not None:
-            logger.info("Dropped SEP session for thread=%s", key)
+            logger.info("Dropped SEP session for thread={}", key)
 
 
 def snapshot_size() -> int:

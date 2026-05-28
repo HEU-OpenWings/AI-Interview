@@ -769,7 +769,7 @@ async def pick_sep_adaptive_question(runtime: ToolRuntime) -> dict[str, Any]:
     try:
         from src.services.sep.session_cache import get_or_create_session
     except Exception as exc:  # noqa: BLE001 - import boundary
-        logger.warning("SEP 不可用，无法启用自适应选题: %s", exc)
+        logger.warning("SEP 不可用，无法启用自适应选题: {}", exc)
         return {"question": "", "message": f"SEP 不可用：{exc}"}
 
     ctx = get_agent_request_context()
@@ -785,7 +785,7 @@ async def pick_sep_adaptive_question(runtime: ToolRuntime) -> dict[str, Any]:
     question = session.next_question()
     if not question:
         logger.info(
-            "SEP 题库已无可用题（thread=%s, position=%s, asked=%d）",
+            "SEP 题库已无可用题（thread={}, position={}, asked={}）",
             thread_id,
             bank_slug,
             len(session.asked_ids),

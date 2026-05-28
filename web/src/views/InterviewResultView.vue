@@ -1172,16 +1172,20 @@ onBeforeUnmount(() => { if (observer) observer.disconnect(); if (scoreAnimFrame)
    reliable pagination, and dim-bars are forced to print via color-adjust. */
 @media print {
   :global(body), :global(html) { background: #fff !important; }
+  /* Hide the project's actual app shell: `.app-layout > .header` + `.nav` +
+     legacy ant-design candidates kept as a safety net. */
+  :global(.header), :global(.app-layout > .header),
+  :global(.nav), :global(.app-layout > .nav),
   :global(.app-sider), :global(.ant-layout-sider),
-  :global(.app-header), :global(.ant-layout-header),
-  :global(.app-footer), :global(.ant-back-top),
+  :global(.ant-back-top),
   :global(.ant-message), :global(.ant-modal-mask), :global(.ant-modal-wrap) {
     display: none !important;
   }
-  :global(.ant-layout-content), :global(.app-main), :global(main) {
+  :global(.app-router-view), :global(.app-layout), :global(main) {
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
+    width: 100% !important;
   }
   .rv-root {
     max-width: 100% !important;

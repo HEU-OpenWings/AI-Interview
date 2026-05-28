@@ -21,6 +21,14 @@ from src.services.chat_stream_service import (
     _resolve_agent_config,
     save_messages_from_langgraph_state,
 )
+from src.services.interview_result_sep_helpers import (
+    SEP_MIN_BANK_COVERAGE as _SEP_MIN_BANK_COVERAGE,
+    SEP_MIN_MATCHED_PAIRS as _SEP_MIN_MATCHED_PAIRS,
+    match_question as _sep_match_question,
+    resolve_bank_slug,
+    scorecard_from_sep_report as _scorecard_from_sep_report_impl,
+    sep_narrative_from_report as _sep_narrative_from_report_impl,
+)
 from src.services.interview_coding_service import (
     _build_practice_problem_ref,
     get_coding_session_from_metadata,
@@ -49,7 +57,9 @@ def _is_sep_available() -> bool:
 
 INTERVIEW_RESULT_METADATA_KEY = "interview_result"
 INTERVIEW_AGENT_ID = "InterviewAgent"
-# Matches: ```interview_scorecard\n{...}\n``` OR ```json\ninterview_scorecard: {...}\n``` (LLM may output prefix inside code block)
+# Matches the fenced scorecard block emitted by the LLM. Supports two forms:
+#   ```interview_scorecard {...} ```
+#   ```json interview_scorecard: {...} ```
 INTERVIEW_SCORECARD_PATTERN = re.compile(
     r"```(?:interview_scorecard|json)\s*(?:interview_scorecard\s*)?(\{[\s\S]*?\})\s*```",
     re.IGNORECASE,
@@ -1805,13 +1815,8 @@ def _extract_qa_pairs(messages: list) -> list[tuple[str, str]]:
     return qa_pairs
 
 
-# SEP bank-slug resolution + Jaccard matcher moved to interview_result_sep_helpers
-from src.services.interview_result_sep_helpers import (
-    SEP_MIN_BANK_COVERAGE as _SEP_MIN_BANK_COVERAGE,
-    SEP_MIN_MATCHED_PAIRS as _SEP_MIN_MATCHED_PAIRS,
-    match_question as _sep_match_question,
-    resolve_bank_slug,
-)
+# SEP helpers (`_SEP_MIN_BANK_COVERAGE`, `_sep_match_question`, etc.) live in
+# `interview_result_sep_helpers`; they're imported at the top of this file.
 
 
 def _resolve_position_for_sep(conversation, coding_session: dict[str, Any] | None) -> str:
@@ -1850,7 +1855,7 @@ def _try_sep_scoring(
         from src.services.sep import SEPSession
         from src.services.sep.session_cache import get_session
     except Exception as exc:  # noqa: BLE001 - import boundary; log instead of swallow
-        logger.warning("SEP import failed: %s", exc)
+        logger.warning("SEP import failed: {}", exc)
         return None
 
     thread_id = str(getattr(conversation, "thread_id", "") or "").strip()
@@ -1873,7 +1878,7 @@ def _try_sep_scoring(
                 matched_pairs += 1
             except Exception as exc:  # noqa: BLE001 - per-question boundary
                 logger.warning(
-                    "SEP record_answer failed (adaptive) for q_id=%s: %s",
+                    "SEP record_answer failed (adaptive) for q_id={}: {}",
                     question.get("id"),
                     exc,
                 )
@@ -1888,7 +1893,7 @@ def _try_sep_scoring(
         try:
             session = SEPSession(position=position)
         except Exception as exc:  # noqa: BLE001 - SEPSession init boundary
-            logger.warning("SEPSession init failed for position=%s: %s", position, exc)
+            logger.warning("SEPSession init failed for position={}: {}", position, exc)
             return None
 
         bank_questions = list(session._question_bank)
@@ -1903,13 +1908,13 @@ def _try_sep_scoring(
                 session.record_answer(best_match, answer_text)
                 matched_pairs += 1
             except Exception as exc:  # noqa: BLE001 - per-question record boundary
-                logger.warning("SEP record_answer failed for q_id=%s: %s", best_match.get("id"), exc)
+                logger.warning("SEP record_answer failed for q_id={}: {}", best_match.get("id"), exc)
                 continue
 
     coverage = matched_pairs / len(qa_pairs)
     if matched_pairs < _SEP_MIN_MATCHED_PAIRS or coverage < _SEP_MIN_BANK_COVERAGE:
         logger.info(
-            "SEP coverage too low (matched=%d/%d, ratio=%.2f) — falling back to LLM scorecard",
+            "SEP coverage too low (matched={}/{}, ratio={:.2f}) — falling back to LLM scorecard",
             matched_pairs,
             len(qa_pairs),
             coverage,
@@ -1919,29 +1924,19 @@ def _try_sep_scoring(
     try:
         report = session.build_report()
     except Exception as exc:  # noqa: BLE001 - report build boundary
-        logger.warning("SEP build_report failed: %s", exc)
+        logger.warning("SEP build_report failed: {}", exc)
         return None
     return _scorecard_from_sep_report(report, coverage=coverage)
 
 
-# SEP narrative + scorecard shaping moved to a dedicated helpers module so
-# this file stays focused on orchestration. The wrappers below preserve the
-# private-underscore names that the rest of this module already uses.
-from src.services.interview_result_sep_helpers import (
-    scorecard_from_sep_report as _scorecard_from_sep_report_impl,
-    sep_narrative_from_report as _sep_narrative_from_report_impl,
-)
-
-
-def _sep_narrative_from_report(sep_report: "EvaluationReport") -> dict[str, list[str] | str]:  # noqa: F821, UP037
+# SEP narrative + scorecard shaping live in interview_result_sep_helpers (see
+# the top-of-file import). These thin wrappers preserve the private-underscore
+# names that the rest of this module already uses.
+def _sep_narrative_from_report(sep_report):
     return _sep_narrative_from_report_impl(sep_report)
 
 
-def _scorecard_from_sep_report(  # noqa: F821, UP037
-    sep_report: "EvaluationReport",
-    *,
-    coverage: float = 1.0,
-) -> dict[str, Any]:
+def _scorecard_from_sep_report(sep_report, *, coverage: float = 1.0) -> dict[str, Any]:
     return _scorecard_from_sep_report_impl(sep_report, coverage=coverage)
 
 
@@ -2139,7 +2134,10 @@ def _build_weakness_reason(
     # what the system actually knows: only the relative score, no specific
     # evidence was extracted for this dimension.
     if score is not None:
-        return f"{config['label']}当前 {score} 分，是本轮所有维度中相对偏低的一项；本轮未提炼出具体的失分点证据，建议结合下方完整对话回顾。"
+        return (
+            f"{config['label']}当前 {score} 分，是本轮所有维度中相对偏低的一项；"
+            "本轮未提炼出具体的失分点证据，建议结合下方完整对话回顾。"
+        )
     return f"{config['label']}本轮未生成可量化的评分证据。"
 
 
