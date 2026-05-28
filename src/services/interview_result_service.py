@@ -2013,6 +2013,19 @@ def _normalize_result_payload(
             else:
                 scorecard = sep_scorecard
 
+    # V3-001 fallback: when the LLM scorecard has per-dimension scores but
+    # forgot to emit `overall`, average the dimensions instead of letting the
+    # UI render "—". This salvages roughly half of the malformed-scorecard
+    # threads we observed in production.
+    if scorecard and scorecard.get("overall") is None:
+        dim_scores = [
+            _normalize_score_value(d.get("score"))
+            for d in (scorecard.get("dimensions") or [])
+        ]
+        valid = [s for s in dim_scores if s is not None]
+        if valid:
+            scorecard["overall"] = round(sum(valid) / len(valid))
+
     status = str(value.get("status") or "").strip() or ("completed" if scorecard else "idle")
     payload = {
         "status": status,

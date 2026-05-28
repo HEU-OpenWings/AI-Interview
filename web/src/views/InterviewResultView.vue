@@ -22,6 +22,20 @@
 
     <template v-else>
       <!-- ====== HERO: Verdict first ====== -->
+      <!-- V3-001 fix: warn the user when the scorecard is structurally
+           incomplete (LLM produced no `overall`). Keeps the report visible
+           so the candidate can still read whatever did make it through, but
+           offers a single-click recovery. -->
+      <div v-if="isIncompleteScorecard" class="rv-incomplete-banner" role="alert">
+        <div class="rv-incomplete-banner__body">
+          <strong>本次评估数据不完整</strong>
+          <p>系统识别到模型本轮未生成有效的综合得分，下方仍展示了已经成功提炼的内容；建议重新生成报告以获得完整评分。</p>
+        </div>
+        <button class="rv-btn" :disabled="finalizing" @click="finalizeResult(true)">
+          {{ finalizing ? '重新生成中…' : '重新生成评分' }}
+        </button>
+      </div>
+
       <header ref="heroEl" class="rv-hero">
         <div class="rv-hero__text">
           <div class="rv-hero__kicker">
@@ -44,17 +58,20 @@
             </button>
           </div>
         </div>
-        <div class="rv-hero__score">
+        <div class="rv-hero__score" :class="{ 'rv-hero__score--incomplete': isIncompleteScorecard }">
           <div class="rv-hero__score-ring">
             <svg viewBox="0 0 160 160" class="rv-hero__score-svg">
               <circle cx="80" cy="80" r="72" fill="none" stroke="var(--gray-200)" stroke-width="3" />
-              <circle cx="80" cy="80" r="72" fill="none" stroke="var(--main-500)" stroke-width="3"
+              <circle v-if="!isIncompleteScorecard" cx="80" cy="80" r="72" fill="none" stroke="var(--main-500)" stroke-width="3"
                 stroke-linecap="round" :stroke-dasharray="452" :stroke-dashoffset="452 - (452 * (overallScore ?? 0) / 100)"
                 class="rv-hero__score-arc" />
             </svg>
             <div class="rv-hero__score-inner">
-              <span class="rv-hero__score-num">{{ animatedScore }}</span>
-              <span class="rv-hero__score-total">/ 100</span>
+              <span v-if="isIncompleteScorecard" class="rv-hero__score-num rv-hero__score-num--muted">—</span>
+              <template v-else>
+                <span class="rv-hero__score-num">{{ animatedScore }}</span>
+                <span class="rv-hero__score-total">/ 100</span>
+              </template>
             </div>
           </div>
           <div class="rv-hero__score-label">{{ scoreVerdictLabel }}</div>
@@ -433,7 +450,19 @@ const displayRound = computed(() => scorecard.value?.round || threadContext.valu
 const generatedAtText = computed(() => result.value?.generated_at ? formatDateTime(result.value.generated_at) : '')
 const overallScore = computed(() => normalizeScore(scorecard.value?.overall ?? scorecard.value?.overall_score ?? scorecard.value?.total_score))
 
-const scoreVerdictLabel = computed(() => overallScore.value !== null ? getScoreVerdict(overallScore.value) : '等待评估')
+// V3-001 fix: `status === "completed"` does NOT guarantee `overall` exists.
+// In practice ~50% of historical threads have `overall=null` because the
+// LLM occasionally returns a malformed scorecard. We surface that explicitly
+// instead of pretending the score is 0/100 with verdict "等待评估".
+const isIncompleteScorecard = computed(
+  () => hasCompletedResult.value && overallScore.value === null
+)
+
+const scoreVerdictLabel = computed(() => {
+  if (overallScore.value !== null) return getScoreVerdict(overallScore.value)
+  if (isIncompleteScorecard.value) return '评分数据不完整'
+  return '等待评估'
+})
 
 // Score source chip (P1: 任务 D)
 const scoreSourceBadge = computed(() => {
@@ -876,7 +905,26 @@ onBeforeUnmount(() => { if (observer) observer.disconnect(); if (scoreAnimFrame)
   line-height: 1;
   color: var(--main-600);
 }
+.rv-hero__score-num--muted { color: var(--gray-400); }
+.rv-hero__score--incomplete .rv-hero__score-num { color: var(--gray-400); }
 .rv-hero__score-total { font-size: 14px; color: var(--gray-500); margin-top: 4px; }
+
+/* V3-001 fix: incomplete-scorecard banner sits just above the hero block. */
+.rv-incomplete-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  background: var(--color-warning-50);
+  border: 1px solid var(--color-warning-100);
+  border-radius: 8px;
+  color: var(--gray-1000);
+}
+.rv-incomplete-banner__body { flex: 1; min-width: 0; }
+.rv-incomplete-banner__body strong { display: block; font-size: 15px; margin-bottom: 4px; color: var(--color-warning-700); }
+.rv-incomplete-banner__body p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--gray-700); }
 .rv-hero__score-label {
   font-size: 13px; color: var(--gray-700); font-weight: 500; margin-top: 16px;
   padding: 6px 14px;
@@ -1195,7 +1243,7 @@ onBeforeUnmount(() => { if (observer) observer.disconnect(); if (scoreAnimFrame)
     page-break-inside: auto;
   }
   .rv-nav, .rv-hero__actions, .rv-block__more, .rv-insight__refs,
-  .rv-btn, button { display: none !important; }
+  .rv-btn, button, .rv-incomplete-banner { display: none !important; }
   .rv-hero { grid-template-columns: 2fr 1fr !important; gap: 24px !important; page-break-after: avoid; }
   .rv-hero__title { font-size: 22px !important; }
   .rv-hero__source-chip { background: #f5f5f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
