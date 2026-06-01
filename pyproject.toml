@@ -67,6 +67,7 @@ dependencies = [
     "loguru>=0.7.3",
     "redis>=5.2.0",
     "openviking>=0.2.6",
+    "jieba>=0.42",
 ]
 [tool.ruff]
 line-length = 120  # 代码最大行宽
@@ -75,6 +76,7 @@ lint.select = [         # 选择的规则
     "E",
     "W",
     "UP",
+    # "BLE",  # 禁裸 except Exception；存量 ~356 处，待集中清理后再启用（见 CLAUDE.md "异常处理规范"）
 ]
 
 [tool.uv]
