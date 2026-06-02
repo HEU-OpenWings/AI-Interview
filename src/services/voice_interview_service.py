@@ -494,8 +494,10 @@ async def _get_user_from_access_token(token: str, db) -> User:
         payload = AuthUtils.verify_access_token(token)
         user_id = payload.get("sub")
         if not user_id:
+            logger.warning("[VoiceWS] Token missing 'sub' claim, payload keys: %s", list(payload.keys()))
             raise ValueError("missing sub")
     except Exception as exc:
+        logger.warning("[VoiceWS] User token verification failed: %s", exc)
         raise HTTPException(status_code=401, detail="无效的语音会话凭证") from exc
 
     result = await db.execute(select(User).filter(User.id == int(user_id)))
@@ -531,6 +533,7 @@ def _decode_voice_session_id(voice_session_id: str) -> VoiceSessionClaims:
     try:
         payload = AuthUtils.verify_access_token(voice_session_id)
     except Exception as exc:
+        logger.warning("[VoiceWS] Voice session token verification failed: %s", exc)
         raise HTTPException(status_code=401, detail="语音会话已失效") from exc
 
     if payload.get("session_type") != "voice_interview":
@@ -563,20 +566,24 @@ class DoubaoBidirectionalTTSClient:
             f"Connecting Doubao bidirectional TTS with resource_id={self.resource_id}, "
             f"speaker={DOUBAO_DEFAULT_SPEAKER}"
         )
-        self._ws = await websockets.connect(
-            DOUBAO_TTS_WS_URL,
-            additional_headers={
-                "X-Api-App-Key": self.app_id,
-                "X-Api-Access-Key": self.api_key,
-                "X-Api-Resource-Id": self.resource_id,
-                "X-Api-Connect-Id": self._connect_id,
-            },
-            max_size=10 * 1024 * 1024,
-        )
-        await doubao_start_connection(self._ws)
-        response = await self.receive_response()
-        if response.get("event") != EVENT_CONNECTION_STARTED:
-            raise RuntimeError("豆包 TTS 建连失败")
+        try:
+            self._ws = await websockets.connect(
+                DOUBAO_TTS_WS_URL,
+                additional_headers={
+                    "X-Api-App-Key": self.app_id,
+                    "X-Api-Access-Key": self.api_key,
+                    "X-Api-Resource-Id": self.resource_id,
+                    "X-Api-Connect-Id": self._connect_id,
+                },
+                max_size=10 * 1024 * 1024,
+            )
+            await doubao_start_connection(self._ws)
+            response = await self.receive_response()
+            if response.get("event") != EVENT_CONNECTION_STARTED:
+                raise RuntimeError(f"豆包 TTS 建连失败: unexpected event={response.get('event')}")
+        except Exception:
+            logger.error("Doubao TTS connect failed", exc_info=True)
+            raise
 
     async def start_session(self, session_id: str, *, user_id: str) -> None:
         payload = {
@@ -900,9 +907,10 @@ class VoiceInterviewBridge:
         self._candidate_capture_state = "idle"
         self._candidate_partial_transcript = ""
         self._candidate_final_transcript = ""
+        self._opening_turn_sent = False
 
     async def run(self) -> None:
-        await self.websocket.accept()
+        # WebSocket is already accepted by voice_interview_websocket_endpoint
         await self.doubao.connect()
         await self._send_event(
             "session_ready",
@@ -923,8 +931,14 @@ class VoiceInterviewBridge:
             task.result()
 
     async def close(self) -> None:
-        await self._interrupt_current_turn(notify=False)
-        await self._stop_candidate_capture(send_stop=True, reset_transcript=True)
+        try:
+            await self._interrupt_current_turn(notify=False)
+        except Exception:
+            pass
+        try:
+            await self._stop_candidate_capture(send_stop=True, reset_transcript=True)
+        except Exception:
+            pass
         if self._session_watchdog_task and not self._session_watchdog_task.done():
             self._session_watchdog_task.cancel()
         await self.doubao.close()
@@ -935,10 +949,44 @@ class VoiceInterviewBridge:
 
     async def _send_event(self, event_type: str, **payload: Any) -> None:
         async with self._client_send_lock:
-            await self.websocket.send_text(json.dumps({"type": event_type, **payload}, ensure_ascii=False))
+            if self.websocket.client_state.name == "DISCONNECTED":
+                return
+            try:
+                await self.websocket.send_text(json.dumps({"type": event_type, **payload}, ensure_ascii=False))
+            except RuntimeError:
+                # WebSocket connection already closed — suppress send errors
+                # during teardown to avoid masking the original exception.
+                pass
 
     async def _send_candidate_capture_state(self) -> None:
         await self._send_event("candidate_capture_state", state=self._candidate_capture_state)
+
+    async def _send_agent_state_snapshot(self) -> None:
+        """Send a snapshot of the current agent state to the client."""
+        try:
+            agent = agent_manager.get_agent(self.claims.agent_id)
+            if not agent:
+                return
+            config_dict = {
+                "configurable": {
+                    "thread_id": self.claims.thread_id,
+                    "user_id": str(self.user.id),
+                }
+            }
+            graph = await agent.get_graph()
+            state = await graph.aget_state(config_dict)
+            agent_state = extract_agent_state(getattr(state, "values", {})) if state else {}
+            async with pg_manager.get_async_session_context() as db:
+                conv_repo = ConversationRepository(db)
+                agent_state = await enrich_agent_state_with_conversation_metadata(
+                    conv_repo,
+                    thread_id=self.claims.thread_id,
+                    agent_state=agent_state,
+                )
+            if agent_state:
+                await self._send_event("agent_state", agent_state=agent_state)
+        except Exception:
+            pass
 
     async def _set_candidate_capture_state(
         self,
@@ -1010,6 +1058,9 @@ class VoiceInterviewBridge:
 
             message_type = str(payload.get("type") or "").strip()
             if message_type == "start_interview":
+                if self._opening_turn_sent:
+                    continue
+                self._opening_turn_sent = True
                 await self._start_turn(
                     _build_opening_prompt(self.claims.position, self.claims.round_name),
                     is_opening=True,
@@ -1024,6 +1075,8 @@ class VoiceInterviewBridge:
                 await self._stop_candidate_capture(send_stop=True)
             elif message_type == "interrupt":
                 await self._interrupt_current_turn(notify=True)
+            elif message_type == "agent_state_refresh":
+                await self._send_agent_state_snapshot()
             elif message_type == "finish":
                 break
 
@@ -1410,30 +1463,43 @@ class VoiceInterviewBridge:
 
 
 async def voice_interview_websocket_endpoint(*, websocket: WebSocket, voice_session_id: str, token: str) -> None:
+    # Accept the WebSocket first so the HTTP upgrade always succeeds (101).
+    # Auth failures are then delivered as in-band WebSocket error messages
+    # instead of HTTP 401, which browsers handle poorly for WebSocket connections.
+    await websocket.accept()
+
     bridge: VoiceInterviewBridge | None = None
     try:
+        logger.info("[VoiceWS] Step 1: decoding voice_session_id (len=%d, preview=%s...)", len(voice_session_id), voice_session_id[:30])
         claims = _decode_voice_session_id(voice_session_id)
+        logger.info("[VoiceWS] Step 1 OK: thread_id=%s agent_id=%s", claims.thread_id, claims.agent_id)
         async with pg_manager.get_async_session_context() as db:
+            logger.info("[VoiceWS] Step 2: validating user token (len=%d, preview=%s...)", len(token), token[:30])
             user = await _get_user_from_access_token(token, db)
+            logger.info("[VoiceWS] Step 2 OK: user_id=%s", user.id)
             conv_repo = ConversationRepository(db)
             conversation = await require_user_conversation(conv_repo, claims.thread_id, str(user.id))
             if conversation.agent_id != claims.agent_id:
-                raise HTTPException(status_code=400, detail="线程所属智能体不匹配")
+                await websocket.send_text(json.dumps({"type": "error", "message": "线程所属智能体不匹配"}, ensure_ascii=False))
+                await websocket.close(code=1008)
+                return
 
         bridge = VoiceInterviewBridge(websocket=websocket, claims=claims, user=user)
+        logger.info("[VoiceWS] Step 3: starting bridge.run()")
         await bridge.run()
     except HTTPException as exc:
+        logger.warning("[VoiceWS] HTTPException (after accept): status=%s detail=%s", exc.status_code, exc.detail)
         try:
-            if websocket.application_state == WebSocketState.CONNECTING:
-                await websocket.accept()
             await websocket.send_text(json.dumps({"type": "error", "message": exc.detail}, ensure_ascii=False))
-        finally:
-            await websocket.close(code=1008)
-    except Exception as exc:
-        logger.error("Voice interview websocket error: %s", exc, exc_info=True)
+        except Exception:
+            pass
         try:
-            if websocket.application_state == WebSocketState.CONNECTING:
-                await websocket.accept()
+            await websocket.close(code=1008)
+        except Exception:
+            pass
+    except Exception as exc:
+        logger.error(f"[VoiceWS] Unexpected error: {exc}", exc_info=True)
+        try:
             await websocket.send_text(json.dumps({"type": "error", "message": str(exc)}, ensure_ascii=False))
         except Exception:
             pass
@@ -1443,4 +1509,7 @@ async def voice_interview_websocket_endpoint(*, websocket: WebSocket, voice_sess
             pass
     finally:
         if bridge is not None:
-            await bridge.close()
+            try:
+                await bridge.close()
+            except Exception:
+                pass

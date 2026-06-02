@@ -68,7 +68,7 @@ function float32ToPcm16Bytes(input, inputSampleRate, outputSampleRate = ASR_SAMP
 }
 
 export function useVoiceInterviewSession({ onCodingRedirect } = {}) {
-  const connectionState = ref('idle')
+  const connectionState = ref('idle') // idle | connecting | connected | reconnecting | error | closed
   const playbackState = ref('idle')
   const candidateCaptureState = ref('idle')
   const micPermissionState = ref('unknown')
@@ -77,6 +77,11 @@ export function useVoiceInterviewSession({ onCodingRedirect } = {}) {
   const messages = ref([])
   const agentState = ref({})
   const threadId = ref('')
+  // Auto-reconnect state
+  let _intentionalClose = false
+  let _reconnectAttempts = 0
+  const MAX_RECONNECT_ATTEMPTS = 5
+  let _lastConnectParams = null
   const sessionReady = ref(false)
   const partialTranscript = ref('')
   const finalTranscript = ref('')
@@ -325,8 +330,10 @@ export function useVoiceInterviewSession({ onCodingRedirect } = {}) {
       return
     }
 
+    _intentionalClose = false
+    _lastConnectParams = { voiceSessionId, token, nextThreadId }
     error.value = ''
-    connectionState.value = 'connecting'
+    connectionState.value = _reconnectAttempts > 0 ? 'reconnecting' : 'connecting'
     threadId.value = nextThreadId || threadId.value
     await new Promise((resolve, reject) => {
       let settled = false
@@ -451,7 +458,6 @@ export function useVoiceInterviewSession({ onCodingRedirect } = {}) {
       ws.onclose = () => {
         window.clearTimeout(connectTimer)
         stopCandidateCapture({ sendStop: false })
-        connectionState.value = 'closed'
         sessionReady.value = false
         candidateCaptureState.value = 'idle'
         if (!settled) {
@@ -459,6 +465,25 @@ export function useVoiceInterviewSession({ onCodingRedirect } = {}) {
           reject(new Error(error.value || '语音连接已关闭'))
         }
         ws = null
+
+        // Auto-reconnect on unexpected disconnect
+        if (!_intentionalClose && _lastConnectParams && _reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          _reconnectAttempts += 1
+          connectionState.value = 'reconnecting'
+          error.value = `语音连接断开，正在重连 (${_reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})...`
+          const delay = Math.min(1000 * Math.pow(2, _reconnectAttempts - 1), 10000)
+          setTimeout(() => {
+            if (!_intentionalClose && connectionState.value === 'reconnecting') {
+              connect(_lastConnectParams).catch(() => {})
+            }
+          }, delay)
+        } else if (_intentionalClose || _reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+          connectionState.value = _intentionalClose ? 'closed' : 'error'
+          if (!_intentionalClose) {
+            error.value = '语音连接已断开，请手动刷新重试'
+          }
+          _reconnectAttempts = 0
+        }
       }
     })
   }
@@ -478,6 +503,8 @@ export function useVoiceInterviewSession({ onCodingRedirect } = {}) {
   }
 
   function close({ sendFinish = true } = {}) {
+    _intentionalClose = true
+    _reconnectAttempts = 0
     stopCandidateCapture({ sendStop: false })
     if (sendFinish) {
       send({ type: 'finish' })

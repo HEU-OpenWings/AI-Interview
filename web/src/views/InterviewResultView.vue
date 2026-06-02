@@ -12,6 +12,7 @@
       <a-spin size="large" />
       <h2>正在为你整理面试复盘</h2>
       <p>我们正在逐题分析你的回答、对比岗位要求、汇总各维度表现。这通常需要几十秒。</p>
+      <button class="rv-btn rv-btn--secondary" style="margin-top:16px" @click="cancelGeneration">取消生成</button>
     </div>
     <div v-else-if="!hasCompletedResult" class="rv-state">
       <div class="rv-state__mark rv-state__mark--muted">?</div>
@@ -442,6 +443,9 @@ const reportHighlights = computed(() => Array.isArray(result.value?.report_highl
 const summaryMarkdown = computed(() => String(result.value?.summary_markdown || '').replace(/\n*\s*完整结果已生成，可在面试结果页查看。?\s*$/u, '').trim())
 const hasCompletedResult = computed(() => result.value?.status === 'completed' && Boolean(scorecard.value || summaryMarkdown.value || reportHighlights.value.length || technicalQuestionReviews.value.length))
 const isGenerating = computed(() => result.value?.status === 'generating')
+const cancelGeneration = () => {
+  router.back()
+}
 const failedMessage = computed(() => result.value?.status === 'failed' ? result.value?.error_message || '请稍后重试' : '')
 const threadTitle = computed(() => payload.value?.title || `${selectedPosition.value} · ${selectedRound.value}`)
 const threadContext = computed(() => parseThreadTitle(threadTitle.value))

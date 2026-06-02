@@ -7,6 +7,19 @@
         <button class="coding-ready-banner__close" @click="dismissCodingBanner">&times;</button>
       </div>
     </Transition>
+    <Transition name="fade">
+      <div v-if="showCompletionTransition" class="completion-transition">
+        <div class="completion-transition__content">
+          <div class="completion-check">&#10003;</div>
+          <h2 class="completion-transition__title">面试完成，很棒！</h2>
+          <p class="completion-transition__desc">正在为你生成详细的面试评估报告…</p>
+          <div class="completion-transition__bar">
+            <div class="completion-transition__fill"></div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+    <InterviewStageIndicator :agent-state="currentAgentState" />
     <AgentChatComponent
       ref="chatComponentRef"
       :agent-id="interviewAgentId"
@@ -52,11 +65,12 @@
 <script setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { BarChart3, FileText, Settings, Share2, Video, LoaderCircle } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 
 import AgentChatComponent from '@/components/AgentChatComponent.vue'
+import InterviewStageIndicator from '@/components/InterviewStageIndicator.vue'
 import { useAgentStore } from '@/stores/agent'
 import { useVideoEventStream } from '@/composables/useVideoEventStream'
 import { ChatExporter } from '@/utils/chatExporter'
@@ -140,7 +154,16 @@ async function toggleVideoMode() {
     message.warning('面试会话未就绪，无法开启视频模式')
     return
   }
-  await eventStream.enableVideoMode(activeThreadId)
+  // Show confirmation before enabling video analysis
+  Modal.confirm({
+    title: '开启视频分析',
+    content: '视频分析将开启摄像头并实时分析您的面部表情、姿态和情绪，帮助面试官更全面地评估。确认开启？',
+    okText: '确认开启',
+    cancelText: '取消',
+    onOk: async () => {
+      await eventStream.enableVideoMode(activeThreadId)
+    }
+  })
   if (!isVideoMode.value && eventStream.error.value) {
     message.error(eventStream.error.value)
   }
@@ -262,7 +285,11 @@ const interviewCompletedKey = (tid) => `interview-completed-redirected:${tid}`
 // result page before the first question is even answered.
 const threadsSeenInProgress = new Set()
 
+const currentAgentState = ref(null)
+const showCompletionTransition = ref(false)
+
 const handleAgentStateChange = (agentState) => {
+  currentAgentState.value = agentState
   if (!threadId.value) return
 
   // Detect interview completion: all todos finished → auto-redirect to result page
@@ -275,18 +302,21 @@ const handleAgentStateChange = (agentState) => {
       threadsSeenInProgress.add(threadId.value)
     } else if (lastDone && threadsSeenInProgress.has(threadId.value)) {
       const doneKey = interviewCompletedKey(threadId.value)
-      if (!sessionStorage.getItem(doneKey)) {
-        sessionStorage.setItem(doneKey, '1')
-        router.replace({
-          name: 'InterviewResultPage',
-          query: {
-            threadId: threadId.value,
-            position: selectedPosition.value,
-            round: selectedRound.value,
-            autoGenerate: '1',
-            ...(selectedResumeId.value ? { resumeId: String(selectedResumeId.value) } : {})
-          }
-        })
+      if (!sessionStorage.getItem(doneKey) && !showCompletionTransition.value) {
+        showCompletionTransition.value = true
+        setTimeout(() => {
+          sessionStorage.setItem(doneKey, '1')
+          router.replace({
+            name: 'InterviewResultPage',
+            query: {
+              threadId: threadId.value,
+              position: selectedPosition.value,
+              round: selectedRound.value,
+              autoGenerate: '1',
+              ...(selectedResumeId.value ? { resumeId: String(selectedResumeId.value) } : {})
+            }
+          })
+        }, 2500)
         return
       }
     }
@@ -455,4 +485,83 @@ watch(
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.4; transform: scale(0.7); }
 }
+
+/* Completion transition */
+.completion-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+
+  &__content {
+    text-align: center;
+    max-width: 400px;
+    padding: 48px 32px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gray-900, #1a1a1a);
+    margin: 16px 0 8px;
+  }
+
+  &__desc {
+    font-size: 14px;
+    color: var(--gray-500, #888);
+    margin-bottom: 24px;
+  }
+
+  &__bar {
+    width: 100%;
+    height: 4px;
+    background: var(--gray-200, #f0f0f0);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    width: 30%;
+    background: linear-gradient(90deg, #43a047, #66bb6a);
+    border-radius: 2px;
+    animation: completion-bar 2s ease-in-out forwards;
+  }
+}
+
+.completion-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  color: #fff;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes completion-bar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-enter-active, .fade-leave-active { transition: opacity 0.4s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 </style>

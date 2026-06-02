@@ -95,15 +95,17 @@
               />
             </div>
 
-            <!-- 生成中的加载状态 - 增强条件支持主聊天和resume流程 -->
+            <!-- 生成中的加载状态 -->
             <div class="generating-status" v-if="isProcessing && visibleConversationCount > 0">
               <div class="generating-indicator">
-                <div class="loading-dots">
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                <div class="generating-pulse">
+                  <div class="generating-pulse__ring"></div>
+                  <div class="generating-pulse__core"></div>
                 </div>
-                <span class="generating-text">正在生成回复...</span>
+                <div class="generating-body">
+                  <span class="generating-text">{{ assistantThinkingLabel }}</span>
+                  <span class="generating-sub-text" v-if="assistantThinkingSub">{{ assistantThinkingSub }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -482,8 +484,21 @@ watch(
 
 const inputPlaceholder = computed(() => {
   if (!isResumeInterviewMode.value) return '输入问题...'
+  if (isProcessing.value) return '面试正在启动，请稍候...'
+
+  // Dynamic placeholder based on current interview stage
+  const todos = threadStateAgentState.value?.todos
+  if (Array.isArray(todos) && todos.length > 0) {
+    const inProgress = todos.find(t => t.status === 'in_progress')
+    const completedCount = todos.filter(t => t.status === 'completed').length
+    const totalStages = todos.length
+    if (inProgress) {
+      return `第${completedCount + 1}/${totalStages}阶段 - ${inProgress.content}：请在此输入您的回答...`
+    }
+  }
+
   if (hasSelectedResumeContext.value) {
-    return isProcessing.value ? '面试正在启动，请稍候...' : '请直接回答面试问题，或补充岗位 / 公司背景...'
+    return '请直接回答面试问题，或补充岗位 / 公司背景...'
   }
   return hasUploadedFiles.value
     ? '请回答当前问题，或补充目标岗位 / 公司 / 面试轮次...'
@@ -654,6 +669,54 @@ const isStreaming = computed(() => {
   return threadState ? threadState.isStreaming : false
 })
 const isProcessing = computed(() => isStreaming.value)
+
+// Dynamic thinking status messages for richer AI-state feedback
+const THINKING_LABELS = [
+  '正在理解您的回答...',
+  '正在分析项目经验与技能匹配...',
+  '正在检索相关知识库...',
+  '正在匹配合适的面试题目...',
+  '正在整理追问逻辑...',
+  '正在生成回复...'
+]
+const STAGE_THINKING_SUBS = {
+  '发起开场并请候选人自我介绍': '即将进入面试流程，请稍候',
+  '追问项目经历与技术细节': '正在深入分析您的项目经验',
+  '相关技术知识提问': '正在匹配合适的技术题目',
+  '代码考核': '正在准备编程题目',
+  '评估岗位匹配度与风险点': '正在综合评估匹配度',
+  '输出总结与评分卡': '正在汇总面试数据并生成评分'
+}
+
+const thinkingLabelIdx = ref(0)
+let _thinkingTimer = null
+watch(isProcessing, (val) => {
+  if (val) {
+    _thinkingTimer = setInterval(() => {
+      thinkingLabelIdx.value = (thinkingLabelIdx.value + 1) % THINKING_LABELS.length
+    }, 3000)
+  } else {
+    clearInterval(_thinkingTimer)
+    thinkingLabelIdx.value = 0
+  }
+})
+
+const assistantThinkingLabel = computed(() => THINKING_LABELS[thinkingLabelIdx.value])
+
+const assistantThinkingSub = computed(() => {
+  const todos = threadStateAgentState.value?.todos
+  if (!Array.isArray(todos)) return ''
+  const inProgress = todos.find(t => t.status === 'in_progress')
+  if (inProgress) {
+    return STAGE_THINKING_SUBS[inProgress.content] || `${inProgress.content}进行中`
+  }
+  return ''
+})
+
+const threadStateAgentState = computed(() => {
+  const ts = currentThreadState.value
+  return ts?.agentState || null
+})
 
 // ==================== SCROLL & RESIZE HANDLING ====================
 // Update scroll controller to target .chat-main
@@ -2477,40 +2540,73 @@ watch(
 }
 
 .generating-status {
-  display: flex;
-  justify-content: flex-start;
-  padding: 1rem 0;
+  padding: 16px 24px;
+  margin: 8px 0;
+  background: linear-gradient(135deg, #f0f7ff, #e8f0fe);
+  border: 1px solid #c5d9f1;
+  border-radius: 12px;
   animation: fadeInUp 0.4s ease-out;
-  transition: all 0.2s;
 }
 
 .generating-indicator {
   display: flex;
   align-items: center;
-  padding: 0.75rem 0rem;
+  gap: 14px;
+}
 
-  .generating-text {
-    margin-left: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.025em;
-    /* 恢复灰色调：深灰 -> 亮灰(高光) -> 深灰 */
-    background: linear-gradient(
-      90deg,
-      var(--gray-700) 0%,
-      var(--gray-700) 40%,
-      var(--gray-300) 45%,
-      var(--gray-200) 50%,
-      var(--gray-300) 55%,
-      var(--gray-700) 60%,
-      var(--gray-700) 100%
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: waveFlash 2s linear infinite;
+.generating-pulse {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+
+  &__ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid #90caf9;
+    animation: pulse-ring 1.5s ease-out infinite;
   }
+
+  &__core {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1976d2, #42a5f5);
+    animation: pulse-core 1.5s ease-out infinite;
+  }
+}
+
+.generating-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.generating-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1565c0;
+}
+
+.generating-sub-text {
+  font-size: 12px;
+  color: #78909c;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes pulse-core {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.85); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes spin {
