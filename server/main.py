@@ -99,6 +99,8 @@ def _extract_client_ip(request: Request) -> str:
 
 class LoginRateLimitMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        if request.scope.get("type") == "websocket":
+            return await call_next(request)
         normalized_path = request.url.path.rstrip("/") or "/"
         request_signature = (normalized_path, request.method.upper())
 
@@ -136,6 +138,8 @@ class LoginRateLimitMiddleware(BaseHTTPMiddleware):
 # 鉴权中间件
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        if request.scope.get("type") == "websocket":
+            return await call_next(request)
         # 获取请求路径
         path = request.url.path
 

@@ -58,7 +58,7 @@
           <div class="interviewer-visual" :class="`is-${visualPulseState}`">
             <div class="interviewer-ring"></div>
             <div class="interviewer-core">
-              <div v-if="visualPulseState === 'speaking'" class="wave-bars" aria-hidden="true">
+              <div v-if="visualPulseState === 'speaking'" class="wave-bars" :class="`wave-bars--${activeSpeaker}`" aria-hidden="true">
                 <span v-for="bar in 6" :key="`wave-${bar}`" class="wave-bar"></span>
               </div>
               <div v-else-if="visualPulseState === 'waiting'" class="waiting-dots" aria-hidden="true">
@@ -72,6 +72,15 @@
             <div class="hero-kicker">当前现场</div>
             <div class="hero-title">{{ liveStatusTitle }}</div>
             <div class="hero-text">{{ liveStatusDescription }}</div>
+
+            <div v-if="captureDurationWarning" class="answer-timeout-warning">
+              <Clock :size="12" />
+              {{ captureDurationWarning }}
+            </div>
+            <div v-if="lowVolumeAlert" class="low-volume-warning">
+              <Volume1 :size="12" />
+              音量过低，请靠近麦克风或提高音量
+            </div>
 
             <div class="hero-meter" :class="{ active: visualPulseState === 'speaking' }" aria-hidden="true">
               <span v-for="bar in 12" :key="`hero-meter-${bar}`" class="hero-meter-bar"></span>
@@ -362,12 +371,14 @@ import {
   ApiOutlined,
   AudioOutlined,
   CameraOutlined,
+  ClockCircleOutlined,
   MessageOutlined,
   PartitionOutlined,
   ReloadOutlined,
   SafetyCertificateOutlined,
   UserOutlined
 } from '@ant-design/icons-vue'
+import { Clock, Volume1 } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 
 import { interviewVoiceApi } from '@/apis/interview_voice'
@@ -615,11 +626,37 @@ const liveStatusTone = computed(() => {
   return 'idle'
 })
 
+const activeSpeaker = computed(() => {
+  if (isInterviewerSpeaking.value) return 'interviewer'
+  if (isCapturing.value) return 'candidate'
+  return 'idle'
+})
+
 const visualPulseState = computed(() => {
   if (isInterviewerSpeaking.value || isCapturing.value) return 'speaking'
   if (candidateCaptureState.value === 'processing' || isInterviewerWaiting.value) return 'waiting'
   return 'idle'
 })
+
+const captureDurationWarning = computed(() => {
+  if (!isCapturing.value) return ''
+  const elapsed = captureStartTime.value ? Math.floor((Date.now() - captureStartTime.value) / 1000) : 0
+  if (elapsed > 180) return `回答已持续 ${Math.floor(elapsed / 60)} 分 ${elapsed % 60} 秒，请注意控制回答时长`
+  return ''
+})
+
+const captureStartTime = ref(0)
+watch(isCapturing, (val) => {
+  if (val) {
+    captureStartTime.value = Date.now()
+  } else {
+    captureStartTime.value = 0
+  }
+})
+
+// Low volume alert placeholder — ready for future audio level integration
+const lowVolumeAlert = ref(false)
+
 const liveStatusShortLabel = computed(() => {
   if (isInterviewerSpeaking.value) return '面试官播报中'
   if (isCapturing.value) return '候选人回答中'
@@ -957,7 +994,11 @@ const openInterviewResult = () => {
   })
 }
 
-const handleAgentStateRefresh = async () => {}
+const handleAgentStateRefresh = () => {
+  // Trigger a state refresh by sending a benign message that prompts the
+  // server to emit the latest agent_state event.
+  send({ type: 'agent_state_refresh' })
+}
 
 const ensureAgentReady = async () => {
   if (!agentStore.isInitialized) {
@@ -1547,6 +1588,35 @@ watch(
   background: var(--main-color);
   transform-origin: center bottom;
   animation: wave-bar-bounce 1s ease-in-out infinite;
+}
+
+.wave-bars--interviewer .wave-bar {
+  background: #43a047;
+}
+
+.wave-bars--candidate .wave-bar {
+  background: #1976d2;
+}
+
+.low-volume-warning {
+  font-size: 11px;
+  color: #e67e22;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.answer-timeout-warning {
+  font-size: 11px;
+  color: #e74c3c;
+  margin-top: 4px;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .wave-bar:nth-child(2) {

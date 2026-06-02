@@ -102,6 +102,28 @@
           </div>
         </div>
 
+        <!-- 面试准备引导 -->
+        <div v-if="canStartInterview" class="prep-guide">
+          <div class="prep-guide__header">
+            <Info :size="14" />
+            <span>面试准备提示</span>
+          </div>
+          <div class="prep-guide__grid">
+            <div class="prep-guide__item">
+              <Clock :size="14" class="prep-guide__icon" />
+              <span>预计时长 <strong>15-25 分钟</strong></span>
+            </div>
+            <div class="prep-guide__item">
+              <ListChecks :size="14" class="prep-guide__icon" />
+              <span>涵盖<strong> 6 个环节</strong>：自我介绍、项目经历、技术提问、代码考核、匹配评估、总结评分</span>
+            </div>
+            <div class="prep-guide__item">
+              <Lightbulb :size="14" class="prep-guide__icon" />
+              <span>建议准备好简历、在安静环境中使用麦克风以获得最佳体验</span>
+            </div>
+          </div>
+        </div>
+
         <div class="setup-actions">
           <button class="primary-btn" type="button" :disabled="!canStartInterview" @click="startInterview">
             开始面试
@@ -145,7 +167,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { Sparkles, Clock, ChevronRight, LoaderCircle } from 'lucide-vue-next'
+import { Sparkles, Clock, ChevronRight, LoaderCircle, Info, Lightbulb, ListChecks } from 'lucide-vue-next'
 import { useAgentStore } from '@/stores/agent'
 import { threadApi } from '@/apis/agent_api'
 import { resumeApi } from '@/apis/resume_api'
@@ -684,6 +706,51 @@ const continueInterview = (thread) => {
   .primary-btn,
   .secondary-btn {
     width: 100%;
+  }
+}
+
+/* Interview prep guide */
+.prep-guide {
+  margin: 16px 0;
+  padding: 16px;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  border: 1px solid #c8e6c9;
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease-out;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2e7d32;
+    margin-bottom: 12px;
+  }
+
+  &__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+
+    strong {
+      color: #333;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #43a047;
   }
 }
 </style>

@@ -6,7 +6,9 @@
     "docs:host": "vitepress dev docs --host"
   },
   "dependencies": {
+    "docx": "^9.6.1",
     "markdown-it-task-checkbox": "^1.0.6",
+    "pptxgenjs": "^4.0.1",
     "vitepress": "^1.6.4"
   }
 }

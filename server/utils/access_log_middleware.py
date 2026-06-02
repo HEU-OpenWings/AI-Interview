@@ -40,6 +40,10 @@ class AccessLogMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
         """处理请求并记录访问日志"""
+        # WebSocket 连接直接放行，避免 BaseHTTPMiddleware 干扰升级握手
+        if request.scope.get("type") == "websocket":
+            return await call_next(request)
+
         # 记录请求开始时间
         start_time = time.perf_counter()
 

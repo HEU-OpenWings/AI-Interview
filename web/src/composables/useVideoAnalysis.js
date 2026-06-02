@@ -56,7 +56,7 @@ export function useVideoAnalysis() {
   const GAZE_CHANGE_THRESHOLD = 5 // 视线方向变化计数阈值（每分钟）
 
   const EMOTION_CONFIRM_FRAMES = 2
-  const VISION_WASM_PATH = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.34/wasm'
+  const VISION_WASM_PATH = '/wasm'
 
   const MODEL_CONFIGS = {
     face: {
