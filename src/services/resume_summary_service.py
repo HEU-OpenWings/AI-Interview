@@ -1,4 +1,4 @@
-"""简历结构化摘要服务 - 使用 LLM 提取简历关键信息。"""
+"""简历结构化摘要服务 - 优先使用 LLM，并提供本地规则降级。"""
 
 import asyncio
 import json
@@ -19,6 +19,40 @@ LLM_TIMEOUT = 120  # 秒
 # 默认使用可靠模型进行摘要提取
 DEFAULT_SUMMARY_MODEL = "siliconflow/Pro/deepseek-ai/DeepSeek-V3.2"
 
+_LOCAL_SKILL_PATTERNS = (
+    (r"(?<![A-Za-z0-9_])python(?![A-Za-z0-9_])", "Python"),
+    (r"(?<![A-Za-z0-9_])java(?![A-Za-z0-9_])", "Java"),
+    (r"(?<![A-Za-z0-9_])javascript(?![A-Za-z0-9_])", "JavaScript"),
+    (r"(?<![A-Za-z0-9_])typescript(?![A-Za-z0-9_])", "TypeScript"),
+    (r"(?<![A-Za-z0-9_])c\+\+(?![A-Za-z0-9_])", "C++"),
+    (r"(?<![A-Za-z0-9_])c#(?![A-Za-z0-9_])", "C#"),
+    (r"(?<![A-Za-z0-9_])(?:go|golang)(?![A-Za-z0-9_])", "Go"),
+    (r"(?<![A-Za-z0-9_])rust(?![A-Za-z0-9_])", "Rust"),
+    (r"(?<![A-Za-z0-9_])fastapi(?![A-Za-z0-9_])", "FastAPI"),
+    (r"(?<![A-Za-z0-9_])django(?![A-Za-z0-9_])", "Django"),
+    (r"(?<![A-Za-z0-9_])flask(?![A-Za-z0-9_])", "Flask"),
+    (r"(?<![A-Za-z0-9_])spring\s*boot(?![A-Za-z0-9_])", "Spring Boot"),
+    (r"(?<![A-Za-z0-9_])node(?:\.js|js)(?![A-Za-z0-9_])", "Node.js"),
+    (r"(?<![A-Za-z0-9_])react(?:\.js|js)?(?![A-Za-z0-9_])", "React"),
+    (r"(?<![A-Za-z0-9_])vue(?:\.js|js)?(?![A-Za-z0-9_])", "Vue"),
+    (r"(?<![A-Za-z0-9_])sql(?![A-Za-z0-9_])", "SQL"),
+    (r"(?<![A-Za-z0-9_])mysql(?![A-Za-z0-9_])", "MySQL"),
+    (r"(?<![A-Za-z0-9_])postgresql(?![A-Za-z0-9_])", "PostgreSQL"),
+    (r"(?<![A-Za-z0-9_])mongodb(?![A-Za-z0-9_])", "MongoDB"),
+    (r"(?<![A-Za-z0-9_])redis(?![A-Za-z0-9_])", "Redis"),
+    (r"(?<![A-Za-z0-9_])docker(?![A-Za-z0-9_])", "Docker"),
+    (r"(?<![A-Za-z0-9_])(?:kubernetes|k8s)(?![A-Za-z0-9_])", "Kubernetes"),
+    (r"(?<![A-Za-z0-9_])linux(?![A-Za-z0-9_])", "Linux"),
+    (r"(?<![A-Za-z0-9_])git(?![A-Za-z0-9_])", "Git"),
+    (r"(?<![A-Za-z0-9_])pytorch(?![A-Za-z0-9_])", "PyTorch"),
+    (r"(?<![A-Za-z0-9_])tensorflow(?![A-Za-z0-9_])", "TensorFlow"),
+    (r"机器学习|(?<![A-Za-z0-9_])machine\s+learning(?![A-Za-z0-9_])", "机器学习"),
+    (r"深度学习|(?<![A-Za-z0-9_])deep\s+learning(?![A-Za-z0-9_])", "深度学习"),
+    (r"自然语言处理|(?<![A-Za-z0-9_])nlp(?![A-Za-z0-9_])", "自然语言处理"),
+    (r"计算机视觉|(?<![A-Za-z0-9_])computer\s+vision(?![A-Za-z0-9_])", "计算机视觉"),
+    (r"大语言模型|大模型|(?<![A-Za-z0-9_])llm(?![A-Za-z0-9_])", "大语言模型"),
+)
+
 
 class ResumeSummaryService:
     """简历结构化摘要服务"""
@@ -28,7 +62,7 @@ class ResumeSummaryService:
 
     async def extract_summary(self, markdown_content: str) -> dict[str, Any]:
         """
-        调用 LLM 提取简历结构化信息，支持重试和超时。
+        调用 LLM 提取简历结构化信息，支持重试、超时和本地规则降级。
 
         Args:
             markdown_content: 简历的 markdown 内容
@@ -37,54 +71,160 @@ class ResumeSummaryService:
             提取的结构化字典
 
         Raises:
-            ValueError: 简历内容为空或提取失败
+            ValueError: 简历内容为空
         """
         if not markdown_content or not markdown_content.strip():
             raise ValueError("简历内容为空，无法提取摘要")
 
-        model = load_chat_model(self.model_name)
+        try:
+            model = load_chat_model(self.model_name)
+        except Exception as e:
+            logger.warning(f"LLM 模型初始化失败，使用本地规则提取简历摘要: {e}")
+            return self._extract_local_summary(markdown_content)
+
         prompt = resume_extraction_prompt.replace("{resume_text}", markdown_content)
 
         last_error = None
         for attempt in range(1, MAX_RETRIES + 1):
+            logger.info(f"LLM 提取尝试 {attempt}/{MAX_RETRIES}")
             try:
-                logger.info(f"LLM 提取尝试 {attempt}/{MAX_RETRIES}")
                 response = await asyncio.wait_for(model.ainvoke(prompt), timeout=LLM_TIMEOUT)
-                content = response.content if hasattr(response, "content") else str(response)
-
-                logger.debug(f"LLM 原始响应长度: {len(content)} 字符")
-                logger.debug(f"LLM 完整响应: {content}")
-
-                # 尝试多种方式解析 JSON
-                summary = self._parse_json_response(content)
-                if summary:
-                    logger.info("简历摘要提取成功")
-                    return summary
-                else:
-                    # JSON 解析失败，LLM 已返回内容，重试可能得到不同结果
-                    last_error = "JSON 解析失败"
-                    logger.warning(f"第 {attempt} 次 JSON 解析失败，原始响应: {content[:500]}")
-                    if attempt < MAX_RETRIES:
-                        await asyncio.sleep(RETRY_DELAY)
-                    continue
-
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 last_error = f"LLM 调用超时（{LLM_TIMEOUT}s）"
                 logger.warning(f"第 {attempt} 次 LLM 调用超时")
                 if attempt < MAX_RETRIES:
                     await asyncio.sleep(RETRY_DELAY)
+                continue
             except (ConnectionError, OSError) as e:
                 last_error = str(e)
                 logger.warning(f"第 {attempt} 次 LLM 网络错误: {e}")
                 if attempt < MAX_RETRIES:
                     await asyncio.sleep(RETRY_DELAY)
+                continue
             except Exception as e:
                 last_error = str(e)
-                logger.error(f"简历摘要提取失败: {e}")
-                # 不再继续重试，直接抛出
-                raise ValueError(f"LLM 提取失败: {last_error}") from e
+                logger.warning(f"LLM 调用失败，使用本地规则提取简历摘要: {e}")
+                break
 
-        raise ValueError(f"简历摘要提取失败（已重试 {MAX_RETRIES} 次）: {last_error}")
+            content = response.content if hasattr(response, "content") else str(response)
+
+            logger.debug(f"LLM 原始响应长度: {len(content)} 字符")
+            logger.debug(f"LLM 完整响应: {content}")
+
+            # 尝试多种方式解析 JSON
+            summary = self._parse_json_response(content)
+            if summary:
+                logger.info("简历摘要提取成功")
+                return summary
+
+            # JSON 解析失败，LLM 已返回内容，重试可能得到不同结果
+            last_error = "JSON 解析失败"
+            logger.warning(f"第 {attempt} 次 JSON 解析失败，原始响应: {content[:500]}")
+            if attempt < MAX_RETRIES:
+                await asyncio.sleep(RETRY_DELAY)
+
+        logger.warning(f"LLM 简历摘要提取不可用，切换到本地规则: {last_error}")
+        return self._extract_local_summary(markdown_content)
+
+    @staticmethod
+    def _extract_labeled_value(content: str, labels: tuple[str, ...]) -> str | None:
+        """提取形如“标签：值”的单行字段，仅处理显式信息。"""
+        for raw_line in content.splitlines():
+            line = re.sub(r"^[\s>#*\-]+", "", raw_line).replace("**", "").replace("__", "").strip()
+            for label in labels:
+                match = re.match(rf"{re.escape(label)}\s*[:：]\s*(.+)$", line, re.IGNORECASE)
+                if match:
+                    value = match.group(1).strip().strip("`*_ ")
+                    return value or None
+        return None
+
+    @staticmethod
+    def _dedupe_values(values: list[str]) -> list[str]:
+        """按出现顺序去重，比较时忽略大小写。"""
+        result = []
+        seen = set()
+        for value in values:
+            cleaned = value.strip()
+            key = cleaned.casefold()
+            if cleaned and key not in seen:
+                seen.add(key)
+                result.append(cleaned)
+        return result
+
+    def _extract_labeled_list(self, content: str, labels: tuple[str, ...]) -> list[str]:
+        """提取逗号、顿号或分号分隔的显式列表字段。"""
+        value = self._extract_labeled_value(content, labels)
+        if not value:
+            return []
+
+        items = []
+        for item in re.split(r"[,，、;；|]+", value):
+            cleaned = re.sub(r"^(?:熟练掌握|熟悉|掌握|了解|精通|使用|运用)\s*", "", item.strip())
+            if cleaned:
+                items.append(cleaned)
+        return self._dedupe_values(items)
+
+    @staticmethod
+    def _extract_url(content: str, host_pattern: str) -> str | None:
+        match = re.search(rf"https?://(?:www\.)?{host_pattern}/[^\s)>\]]+", content, re.IGNORECASE)
+        return match.group(0).rstrip(".,;，。；") if match else None
+
+    def _extract_local_summary(self, markdown_content: str) -> dict[str, Any]:
+        """在 LLM 不可用时，从明确文本和高置信度关键词生成兼容摘要。"""
+        name = self._extract_labeled_value(markdown_content, ("姓名", "Name"))
+        gender = self._extract_labeled_value(markdown_content, ("性别", "Gender"))
+        age_text = self._extract_labeled_value(markdown_content, ("年龄", "Age"))
+        age_match = re.search(r"\d{1,3}", age_text or "")
+        age = int(age_match.group(0)) if age_match else None
+
+        phone_match = re.search(r"(?<!\d)(?:\+?86[-\s]?)?1[3-9]\d{9}(?!\d)", markdown_content)
+        email_match = re.search(r"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", markdown_content, re.IGNORECASE)
+
+        technical = self._extract_labeled_list(markdown_content, ("专业技能", "技术技能", "技能", "技术栈"))
+        for pattern, canonical_name in _LOCAL_SKILL_PATTERNS:
+            if re.search(pattern, markdown_content, re.IGNORECASE):
+                technical.append(canonical_name)
+        technical = self._dedupe_values(technical)
+
+        photo_value = self._extract_labeled_value(markdown_content, ("照片", "证件照", "Photo"))
+        photo_match = re.search(r"https?://[^\s)>\]]+", photo_value or "", re.IGNORECASE)
+
+        summary = {
+            "basic_info": {
+                "name": name,
+                "gender": gender,
+                "age": age,
+                "phone": phone_match.group(0) if phone_match else None,
+                "email": email_match.group(0) if email_match else None,
+                "location": self._extract_labeled_value(markdown_content, ("所在地", "现居地", "Location")),
+                "github": self._extract_url(markdown_content, r"github\.com"),
+                "linkedin": self._extract_url(markdown_content, r"linkedin\.com"),
+                "photo_url": photo_match.group(0).rstrip(".,;，。；") if photo_match else None,
+            },
+            "education": [],
+            "work_experience": [],
+            "project_experience": [],
+            "skills": {
+                "technical": technical,
+                "languages": self._extract_labeled_list(markdown_content, ("语言能力", "语言", "Languages")),
+                "certifications": self._extract_labeled_list(markdown_content, ("证书", "资质", "Certifications")),
+            },
+            "awards": self._extract_labeled_list(markdown_content, ("获奖情况", "荣誉", "Awards")),
+            "training": self._extract_labeled_list(markdown_content, ("培训经历", "培训", "Training")),
+            "self_evaluation": self._extract_labeled_value(markdown_content, ("自我评价", "Self Evaluation")),
+            "job_preference": {
+                "job_intention": self._extract_labeled_value(
+                    markdown_content, ("求职意向", "目标岗位", "意向岗位", "Job Intention")
+                ),
+                "expected_salary": self._extract_labeled_value(markdown_content, ("期望薪资", "Expected Salary")),
+                "desired_location": self._extract_labeled_value(
+                    markdown_content, ("期望工作地点", "期望地点", "Desired Location")
+                ),
+            },
+        }
+
+        logger.info(f"使用本地规则生成简历摘要，提取到 {len(technical)} 项技术技能")
+        return summary
 
     def _preprocess_json_text(self, text: str) -> str:
         """
