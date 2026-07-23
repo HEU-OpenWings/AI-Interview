@@ -247,10 +247,14 @@ const languageLabelMap = {
   python: 'Python'
 }
 const pendingJudgeStatuses = new Set(['PENDING', 'JUDGING'])
+const submissionPollInitialDelay = 1500
+const submissionPollMaxDelay = 12000
+const submissionPollMaxAttempts = 12
 const getSkipCodingRedirectKey = (value) => `interview-skip-coding-redirect:${value}`
 
 let saveTimer = null
 let pollTimer = null
+let pollSequence = 0
 
 const languageOptions = computed(() => {
   const allowed = session.value?.problem?.allowed_languages || ['javascript']
@@ -446,15 +450,30 @@ const scheduleDraftSave = () => {
   }, 800)
 }
 
+const stopSubmissionPolling = () => {
+  pollSequence += 1
+  if (pollTimer) clearTimeout(pollTimer)
+  pollTimer = null
+}
+
 const startSubmissionPolling = () => {
-  if (pollTimer) clearInterval(pollTimer)
-  if (!session.value?.submission_id) return
-  pollTimer = setInterval(async () => {
+  stopSubmissionPolling()
+  const currentThreadId = activeThreadId.value || threadId.value
+  const submissionId = String(session.value?.submission_id || '').trim()
+  if (!currentThreadId || !submissionId) return
+
+  const currentPollSequence = pollSequence
+  let attempts = 0
+
+  const pollSubmission = async () => {
+    if (currentPollSequence !== pollSequence) return
+    pollTimer = null
+    attempts += 1
+
     try {
-      const data = await interviewCodeApi.getSubmissionResult(
-        activeThreadId.value || threadId.value,
-        session.value.submission_id
-      )
+      const data = await interviewCodeApi.getSubmissionResult(currentThreadId, submissionId)
+      if (currentPollSequence !== pollSequence) return
+
       session.value = {
         ...session.value,
         judge_status: data.judge_status,
@@ -462,20 +481,31 @@ const startSubmissionPolling = () => {
         submitted_at: data.submitted_at
       }
       if (data.judge_status && !pendingJudgeStatuses.has(data.judge_status)) {
-        clearInterval(pollTimer)
-        pollTimer = null
+        stopSubmissionPolling()
         if (latestSubmittedId.value && latestSubmittedId.value === session.value?.submission_id) {
           latestSubmittedId.value = ''
           message.success('代码考核已完成，正在返回面试继续后续环节')
           goBackToInterview()
         }
+        return
       }
+
+      if (attempts >= submissionPollMaxAttempts) {
+        stopSubmissionPolling()
+        message.warning('判题时间较长，请稍后刷新页面查看结果')
+        return
+      }
+
+      const nextDelay = Math.min(submissionPollInitialDelay * 2 ** attempts, submissionPollMaxDelay)
+      pollTimer = setTimeout(pollSubmission, nextDelay)
     } catch (error) {
-      clearInterval(pollTimer)
-      pollTimer = null
+      if (currentPollSequence !== pollSequence) return
+      stopSubmissionPolling()
       console.error('轮询判题结果失败:', error)
     }
-  }, 1500)
+  }
+
+  pollTimer = setTimeout(pollSubmission, submissionPollInitialDelay)
 }
 
 const handleRunSample = async () => {
@@ -618,7 +648,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   if (saveTimer) clearTimeout(saveTimer)
-  if (pollTimer) clearInterval(pollTimer)
+  stopSubmissionPolling()
 })
 </script>
 
