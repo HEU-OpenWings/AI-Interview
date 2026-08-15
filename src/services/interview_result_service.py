@@ -3803,6 +3803,25 @@ async def get_interview_history(
         record["improvement_plan"] = (result_payload or {}).get("improvement_plan")
         records.append(record)
 
+    # 工作台「本场进度」需要已答题数与题目总数；后端此前不产出这两个字段，
+    # 前端只能显示 0。以成功调用的出题工具次数作为题目数来源。
+    question_counts_by_thread = await conv_repo.count_successful_tool_calls_by_thread_ids(
+        [conversation.thread_id for conversation in conversations],
+        ["pick_random_technical_question", "pick_sep_adaptive_question"],
+    )
+    for record in records:
+        asked_count = int(question_counts_by_thread.get(str(record.get("thread_id")), 0))
+        reviews = _normalize_technical_question_reviews(
+            (stored_results_by_thread.get(str(record.get("thread_id"))) or {}).get(
+                "technical_question_reviews"
+            )
+        )
+        # 已答数优先用结果里的逐题评审条数（含回答的题）；
+        # 进行中的会话退化为出题数近似（题目已发出但未必已回答）。
+        answered_count = len(reviews) if reviews else asked_count
+        record["question_count"] = asked_count
+        record["answered_count"] = answered_count
+
     records.sort(
         key=lambda item: (str(item.get("updated_at") or ""), str(item.get("thread_id") or "")),
         reverse=True,

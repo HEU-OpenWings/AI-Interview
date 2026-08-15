@@ -7,6 +7,7 @@ from langchain.agents.middleware import (
     TodoListMiddleware,
     ToolCallLimitMiddleware,
 )
+from openai import AuthenticationError
 
 from src.agents.common import BaseAgent, load_chat_model
 from src.agents.common.backends import create_agent_composite_backend
@@ -129,7 +130,12 @@ class InterviewAgent(BaseAgent):
                     run_limit=1,
                     exit_behavior="continue",
                 ),
-                ModelRetryMiddleware(),
+                ModelRetryMiddleware(
+                    # 认证类错误重试无意义且会拖长静默挂起时间，直接抛错，
+                    # 由 chat_stream_service 转成 SSE error chunk 下发前端。
+                    retry_on=lambda exc: not isinstance(exc, AuthenticationError),
+                    on_failure="error",
+                ),
             ],
             checkpointer=await self._get_checkpointer(),
         )

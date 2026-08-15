@@ -19,40 +19,63 @@ def _clean_text(value: Any, limit: int = 200) -> str:
     return f"{text[:limit].rstrip()}..."
 
 
+def _extract_technical_skills(skills_value: Any) -> list[Any]:
+    """skills 可能是 {"technical": [...]}、plain list 或其它形态，统一取技能列表。"""
+    if isinstance(skills_value, dict):
+        skills_value = skills_value.get("technical") or skills_value.get("all") or []
+    if isinstance(skills_value, str):
+        skills_value = [skills_value]
+    if not isinstance(skills_value, list):
+        return []
+    return [skill for skill in skills_value if isinstance(skill, (str, int, float))]
+
+
 def _compact_resume_summary(summary_json: dict[str, Any] | None) -> dict[str, Any] | None:
     if not isinstance(summary_json, dict) or not summary_json:
         return None
 
+    def _as_list(value: Any) -> list[Any]:
+        return value if isinstance(value, list) else []
+
     basic_info = summary_json.get("basic_info") or {}
-    education = summary_json.get("education") or []
-    work_experience = summary_json.get("work_experience") or []
-    project_experience = summary_json.get("project_experience") or []
-    technical_skills = ((summary_json.get("skills") or {}).get("technical") or [])[:12]
-    awards = (summary_json.get("awards") or [])[:4]
+    education = _as_list(summary_json.get("education"))
+    work_experience = _as_list(summary_json.get("work_experience"))
+    project_experience = _as_list(summary_json.get("project_experience"))
+    technical_skills = _extract_technical_skills(summary_json.get("skills"))[:12]
+    awards = _as_list(summary_json.get("awards"))[:4]
+
+    def _dict_item(value: Any) -> dict[str, Any]:
+        return value if isinstance(value, dict) else {}
+
+    def _list_field(item: dict[str, Any], key: str) -> list[Any]:
+        value = item.get(key)
+        return value if isinstance(value, list) else []
 
     return {
         "candidate": {
-            "name": basic_info.get("name"),
-            "school": education[0].get("school") if education else None,
-            "major": education[0].get("major") if education else None,
-            "current_role": work_experience[0].get("position") if work_experience else None,
+            "name": _dict_item(basic_info).get("name"),
+            "school": _dict_item(education[0]).get("school") if education else None,
+            "major": _dict_item(education[0]).get("major") if education else None,
+            "current_role": _dict_item(work_experience[0]).get("position") if work_experience else None,
         },
         "recent_work": [
             {
                 "company": item.get("company"),
                 "position": item.get("position"),
                 "duration": item.get("duration"),
-                "highlights": [_clean_text(highlight, 120) for highlight in (item.get("highlights") or [])[:2]],
+                "highlights": [_clean_text(highlight, 120) for highlight in _list_field(item, "highlights")[:2]],
             }
             for item in work_experience[:2]
+            if isinstance(item, dict)
         ],
         "projects": [
             {
                 "name": item.get("name"),
-                "tech_stack": (item.get("tech_stack") or [])[:6],
+                "tech_stack": _list_field(item, "tech_stack")[:6],
                 "description": _clean_text(item.get("description"), 160),
             }
             for item in project_experience[:3]
+            if isinstance(item, dict)
         ],
         "skills": technical_skills,
         "awards": awards,

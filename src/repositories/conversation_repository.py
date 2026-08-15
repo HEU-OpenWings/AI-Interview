@@ -379,6 +379,27 @@ class ConversationRepository:
         )
         return result.scalar_one_or_none()
 
+    async def count_successful_tool_calls_by_thread_ids(
+        self, thread_ids: list[str], tool_names: list[str]
+    ) -> dict[str, int]:
+        """批量统计每个 thread 中指定工具的成功调用次数（出题数统计用）。"""
+        normalized_thread_ids = [str(thread_id).strip() for thread_id in thread_ids if str(thread_id).strip()]
+        if not normalized_thread_ids or not tool_names:
+            return {}
+        query = (
+            select(Conversation.thread_id, func.count(ToolCall.id))
+            .join(Message, Message.id == ToolCall.message_id)
+            .join(Conversation, Conversation.id == Message.conversation_id)
+            .where(
+                Conversation.thread_id.in_(normalized_thread_ids),
+                ToolCall.tool_name.in_(tool_names),
+                ToolCall.status == "success",
+            )
+            .group_by(Conversation.thread_id)
+        )
+        result = await self.db.execute(query)
+        return {thread_id: count for thread_id, count in result.all()}
+
     async def update_tool_call_output(
         self,
         langgraph_tool_call_id: str,
