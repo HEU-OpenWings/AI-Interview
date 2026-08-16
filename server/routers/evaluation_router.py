@@ -49,6 +49,8 @@ async def delete_evaluation_benchmark(benchmark_id: str, current_user: User = De
         service = EvaluationService()
         await service.delete_benchmark(benchmark_id)
         return {"message": "success", "data": None}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"删除评估基准失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"删除评估基准失败: {str(e)}")
@@ -67,11 +69,8 @@ async def download_evaluation_benchmark(benchmark_id: str, current_user: User = 
             filename=download_info["filename"],
             media_type="application/x-ndjson",
         )
-    except ValueError as e:
-        if "not found" in str(e).lower():
-            raise HTTPException(status_code=404, detail=str(e))
-        logger.error(f"下载评估基准失败: {e}, {traceback.format_exc()}")
-        raise HTTPException(status_code=500, detail=f"下载评估基准失败: {str(e)}")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"下载评估基准失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"下载评估基准失败: {str(e)}")
@@ -101,6 +100,8 @@ async def get_evaluation_results_by_db(
             db_id, task_id, page=page, page_size=page_size, error_only=error_only
         )
         return {"message": "success", "data": results}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"获取评估结果失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"获取评估结果失败: {str(e)}")
@@ -115,6 +116,8 @@ async def delete_evaluation_result_by_db(db_id: str, task_id: str, current_user:
         service = EvaluationService()
         await service.delete_evaluation_result_by_db(db_id, task_id)
         return {"message": "success", "data": None}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"删除评估结果失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"删除评估结果失败: {str(e)}")
@@ -172,6 +175,8 @@ async def get_evaluation_benchmarks(db_id: str, current_user: User = Depends(get
         service = EvaluationService()
         benchmarks = await service.get_benchmarks(db_id)
         return {"message": "success", "data": benchmarks}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"获取评估基准列表失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"获取评估基准列表失败: {str(e)}")
@@ -188,6 +193,8 @@ async def generate_evaluation_benchmark(
         service = EvaluationService()
         result = await service.generate_benchmark(db_id=db_id, params=params, created_by=current_user.user_id)
         return {"message": "success", "data": result}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"生成评估基准失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"生成评估基准失败: {str(e)}")
@@ -207,6 +214,8 @@ async def run_evaluation(db_id: str, params: dict = Body(...), current_user: Use
             created_by=current_user.user_id,
         )
         return {"message": "success", "data": {"task_id": task_id}}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"启动评估失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"启动评估失败: {str(e)}")
@@ -221,6 +230,8 @@ async def get_evaluation_history(db_id: str, current_user: User = Depends(get_ad
         service = EvaluationService()
         history = await service.get_evaluation_history(db_id)
         return {"message": "success", "data": history}
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"获取评估历史失败: {e}, {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"获取评估历史失败: {str(e)}")
