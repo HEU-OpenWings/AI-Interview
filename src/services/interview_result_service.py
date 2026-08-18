@@ -4006,11 +4006,11 @@ async def list_learning_databases(*, current_user: User) -> dict[str, Any]:
 async def get_learning_database_detail(*, db_id: str, current_user: User) -> dict[str, Any]:
     accessible = await knowledge_base.check_accessible({"role": current_user.role}, db_id)
     if not accessible:
-        raise HTTPException(status_code=403, detail="鏃犳潈璁块棶璇ョ煡璇嗗簱。")
+        raise HTTPException(status_code=403, detail="无权访问该知识库。")
 
     database = await knowledge_base.get_database_info(db_id)
     if not isinstance(database, dict):
-        raise HTTPException(status_code=404, detail="鐭ヨ瘑搴撲笉瀛樺湪")
+        raise HTTPException(status_code=404, detail="知识库不存在")
 
     files = database.get("files") if isinstance(database.get("files"), dict) else {}
     documents = [

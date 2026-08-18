@@ -474,6 +474,8 @@ async def get_chat_models(model_provider: str, current_user: User = Depends(get_
 @chat.post("/models/update")
 async def update_chat_models(model_provider: str, model_names: list[str], current_user=Depends(get_admin_user)):
     """更新指定模型提供商的模型列表 (仅管理员)"""
+    if model_provider not in conf.model_names:
+        raise HTTPException(status_code=404, detail=f"模型提供商 {model_provider} 不存在")
     conf.model_names[model_provider].models = model_names
     conf._save_models_to_file(model_provider)
     return {"models": conf.model_names[model_provider].models}

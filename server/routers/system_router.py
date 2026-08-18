@@ -254,6 +254,8 @@ async def add_custom_provider(
             return {"message": f"自定义供应商 {provider_id} 添加成功"}
         else:
             raise HTTPException(status_code=400, detail=f"供应商ID {provider_id} 已存在，请使用其他ID")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"添加自定义供应商失败 {provider_id}: {e}")
         raise HTTPException(status_code=500, detail=f"添加自定义供应商失败: {str(e)}")
@@ -272,6 +274,8 @@ async def update_custom_provider(
             return {"message": f"自定义供应商 {provider_id} 更新成功"}
         else:
             raise HTTPException(status_code=404, detail=f"自定义供应商 {provider_id} 不存在或更新失败")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"更新自定义供应商失败 {provider_id}: {e}")
         raise HTTPException(status_code=500, detail=f"更新自定义供应商失败: {str(e)}")
@@ -286,6 +290,8 @@ async def delete_custom_provider(provider_id: str, current_user: User = Depends(
             return {"message": f"自定义供应商 {provider_id} 删除成功"}
         else:
             raise HTTPException(status_code=404, detail=f"自定义供应商 {provider_id} 不存在或删除失败")
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"删除自定义供应商失败 {provider_id}: {e}")
         raise HTTPException(status_code=500, detail=f"删除自定义供应商失败: {str(e)}")

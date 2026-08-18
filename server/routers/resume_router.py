@@ -909,11 +909,36 @@ async def _trigger_resume_match(resume_id: int, job_id: int) -> None:
             logger.warning(f"简历匹配跳过：岗位不存在，job_id={job_id}")
             return
 
+        # 摘要可能尚未就绪（匹配任务与摘要提取存在时序窗口），短轮询等待摘要就绪，
+        # 超时后置 failed，避免 match_status 永久停留在 pending。
+        summary_json = None
+        for _ in range(30):
+            async with pg_manager.get_async_session_context() as session:
+                result = await session.execute(select(UserResume).where(UserResume.id == resume_id))
+                resume = result.scalar_one_or_none()
+                if not resume:
+                    logger.warning(f"简历匹配跳过：简历不存在，resume_id={resume_id}")
+                    return
+                if resume.summary_json:
+                    summary_json = resume.summary_json
+                    break
+            await asyncio.sleep(2)
+
+        if not summary_json:
+            logger.warning(f"简历匹配跳过：摘要等待超时，resume_id={resume_id}")
+            async with pg_manager.get_async_session_context() as session:
+                result = await session.execute(select(UserResume).where(UserResume.id == resume_id))
+                resume = result.scalar_one_or_none()
+                if resume and resume.match_status in ("pending", "processing"):
+                    resume.match_status = "failed"
+                    await session.commit()
+            return
+
         async with pg_manager.get_async_session_context() as session:
             result = await session.execute(select(UserResume).where(UserResume.id == resume_id))
             resume = result.scalar_one_or_none()
-            if not resume or not resume.summary_json:
-                logger.warning(f"简历匹配跳过：简历不存在或摘要为空，resume_id={resume_id}")
+            if not resume:
+                logger.warning(f"简历匹配跳过：简历不存在，resume_id={resume_id}")
                 return
 
             resume.match_status = "processing"
@@ -922,7 +947,7 @@ async def _trigger_resume_match(resume_id: int, job_id: int) -> None:
             match_result = await asyncio.to_thread(
                 match_service.calculate_match,
                 job_dict,
-                resume.summary_json,
+                summary_json,
             )
 
             resume.match_result = match_result

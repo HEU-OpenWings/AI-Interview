@@ -3,11 +3,10 @@ import { ref, reactive } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { databaseApi, documentApi, queryApi } from '@/apis/knowledge_api'
 import { useTaskerStore } from '@/stores/tasker'
-import { useRouter } from 'vue-router'
+import router from '@/router'
 import { parseToShanghai } from '@/utils/time'
 
 export const useDatabaseStore = defineStore('database', () => {
-  const router = useRouter()
   const taskerStore = useTaskerStore()
 
   // State

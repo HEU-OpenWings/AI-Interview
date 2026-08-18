@@ -5,6 +5,8 @@ import uuid
 from datetime import datetime
 from typing import Any
 
+from fastapi import HTTPException
+
 from src import config
 from src.knowledge import knowledge_base
 from src.models import select_model
@@ -59,17 +61,17 @@ class EvaluationService:
                 try:
                     item = json.loads(line)
                     if "query" not in item:
-                        raise ValueError(f"第{line_num}行缺少必需的'query'字段")
+                        raise HTTPException(status_code=400, detail=f"第{line_num}行缺少必需的'query'字段")
                     if item.get("gold_chunk_ids"):
                         has_gold_chunks = True
                     if item.get("gold_answer"):
                         has_gold_answers = True
                     questions.append(item)
                 except json.JSONDecodeError as e:
-                    raise ValueError(f"第{line_num}行JSON格式错误: {str(e)}")
+                    raise HTTPException(status_code=400, detail=f"第{line_num}行JSON格式错误: {str(e)}")
 
             if not questions:
-                raise ValueError("文件中没有有效的问题数据")
+                raise HTTPException(status_code=400, detail="文件中没有有效的问题数据")
 
             benchmark_id = f"benchmark_{uuid.uuid4().hex[:8]}"
             benchmark_dir = await self._get_benchmark_dir(db_id)
@@ -177,7 +179,7 @@ class EvaluationService:
         try:
             row = await self.eval_repo.get_benchmark(benchmark_id)
             if row is None or row.db_id != db_id:
-                raise ValueError("Benchmark not found")
+                raise HTTPException(status_code=404, detail="评估基准不存在")
             data_file_path = row.data_file_path
             total_questions = row.question_count or 0
             questions = []
@@ -236,11 +238,11 @@ class EvaluationService:
         """获取评估基准下载信息"""
         row = await self.eval_repo.get_benchmark(benchmark_id)
         if row is None:
-            raise ValueError("Benchmark not found")
+            raise HTTPException(status_code=404, detail="评估基准不存在")
 
         data_file_path = row.data_file_path or ""
         if not data_file_path or not os.path.exists(data_file_path):
-            raise ValueError("Benchmark file not found")
+            raise HTTPException(status_code=404, detail="评估基准文件不存在")
 
         filename_base = (row.name or "").strip()
         if not filename_base:
@@ -260,7 +262,7 @@ class EvaluationService:
         try:
             row = await self.eval_repo.get_benchmark(benchmark_id)
             if row is None:
-                raise ValueError("Benchmark not found")
+                raise HTTPException(status_code=404, detail="评估基准不存在")
             if row.data_file_path and os.path.exists(row.data_file_path):
                 os.remove(row.data_file_path)
             await self.eval_repo.delete_benchmark(benchmark_id)
@@ -464,7 +466,7 @@ class EvaluationService:
 
             benchmark_row = await self.eval_repo.get_benchmark(benchmark_id)
             if benchmark_row is None or benchmark_row.db_id != db_id:
-                raise ValueError("Benchmark not found")
+                raise HTTPException(status_code=404, detail="评估基准不存在")
 
             # 从知识库元数据中获取检索配置
             retrieval_config = {}
@@ -779,13 +781,13 @@ class EvaluationService:
         self, db_id: str, task_id: str, page: int = 1, page_size: int = 20, error_only: bool = False
     ) -> dict[str, Any]:
         if not re.match(r"^eval_[a-f0-9]{8}$", task_id):
-            raise ValueError("Invalid task_id format")
+            raise HTTPException(status_code=400, detail="task_id 格式不正确")
         row = await self.eval_repo.get_result(task_id)
         if row is None or row.db_id != db_id:
             task = await tasker.get_task(task_id)
             if task:
                 return {"task_id": task_id, "status": task.status, "progress": task.progress, "message": task.message}
-            raise ValueError(f"Result not found for task {task_id}")
+            raise HTTPException(status_code=404, detail="评估结果不存在")
 
         details = await self.eval_repo.list_result_details(task_id)
         all_results = [
@@ -838,10 +840,10 @@ class EvaluationService:
 
     async def delete_evaluation_result_by_db(self, db_id: str, task_id: str) -> None:
         if not re.match(r"^eval_[a-f0-9]{8}$", task_id):
-            raise ValueError("Invalid task_id format")
+            raise HTTPException(status_code=400, detail="task_id 格式不正确")
         row = await self.eval_repo.get_result(task_id)
         if row is None or row.db_id != db_id:
-            raise ValueError("Result not found")
+            raise HTTPException(status_code=404, detail="评估结果不存在")
         await self.eval_repo.delete_result(task_id)
         logger.info(f"成功删除评估结果: {task_id}")
         return
