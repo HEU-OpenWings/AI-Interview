@@ -27,6 +27,7 @@ export function useVideoCapture() {
 
   let fpsFrameCount = 0
   let fpsTimerId = null
+  let fpsIntervalId = null
   let devicesCache = ref([])
 
   const isSupported = computed(
@@ -212,8 +213,8 @@ export function useVideoCapture() {
     }
     fpsTimerId = requestAnimationFrame(countFrame)
 
-    // 每秒统计一次帧数
-    fps._interval = setInterval(() => {
+    // 每秒统计一次帧数（interval id 存局部变量，fps.value 是数字不能挂属性）
+    fpsIntervalId = setInterval(() => {
       fps.value = fpsFrameCount
       fpsFrameCount = 0
     }, 1000)
@@ -224,9 +225,9 @@ export function useVideoCapture() {
       cancelAnimationFrame(fpsTimerId)
       fpsTimerId = null
     }
-    if (fps._interval) {
-      clearInterval(fps._interval)
-      fps._interval = null
+    if (fpsIntervalId) {
+      clearInterval(fpsIntervalId)
+      fpsIntervalId = null
     }
   }
 

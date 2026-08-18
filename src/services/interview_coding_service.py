@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import ast
 import base64
@@ -297,7 +297,9 @@ async def _judge_server_request(payload: dict[str, Any]) -> dict[str, Any]:
             last_error = exc
             continue
 
-    raise HTTPException(status_code=502, detail=f"Failed to communicate with JudgeServer at {OJ_JUDGE_SERVER_URL}") from last_error
+    raise HTTPException(
+        status_code=502, detail=f"Failed to communicate with JudgeServer at {OJ_JUDGE_SERVER_URL}"
+    ) from last_error
 
 
 def _build_sample_run_result(
@@ -355,7 +357,11 @@ def _build_sample_run_result(
             }
         )
 
-    overall_status = "ACCEPTED" if status_list and all(item == "ACCEPTED" for item in status_list) else (status_list[0] if status_list else "SYSTEM_ERROR")
+    overall_status = (
+        "ACCEPTED"
+        if status_list and all(item == "ACCEPTED" for item in status_list)
+        else (status_list[0] if status_list else "SYSTEM_ERROR")
+    )
     return {
         "status": overall_status,
         "passed": overall_status == "ACCEPTED",
@@ -528,7 +534,7 @@ def _build_seed_problem_sample_source(problem: dict[str, Any], language: str, co
         "  return parts;\n"
         "}\n\n"
         "function __sampleEval(expression) {\n"
-        "  return Function(`\"use strict\"; return (${expression});`)();\n"
+        '  return Function(`"use strict"; return (${expression});`)();\n'
         "}\n\n"
         "function __sampleParseArgs(rawInput, paramNames) {\n"
         "  const input = rawInput.trim();\n"
@@ -795,9 +801,7 @@ def _load_cs_notes_curated_problems() -> list[dict[str, Any]]:
     for item in payload:
         if not isinstance(item, dict):
             continue
-        position_tags = [
-            str(tag).strip() for tag in (item.get("position_tags") or []) if str(tag or "").strip()
-        ]
+        position_tags = [str(tag).strip() for tag in (item.get("position_tags") or []) if str(tag or "").strip()]
         normalized_item = {
             "package_path": _normalize_repo_package_path(item.get("package_path") or ""),
             "package_type": str(item.get("package_type") or "curated"),
@@ -1020,9 +1024,7 @@ def get_problem_package_detail(package_path: str) -> dict[str, Any]:
         if _normalize_repo_package_path(problem.get("package_path") or "") == normalized_path
     ]
     if curated_problems:
-        curated_packages = {
-            item["package_path"]: item for item in _build_curated_problem_packages(curated_problems)
-        }
+        curated_packages = {item["package_path"]: item for item in _build_curated_problem_packages(curated_problems)}
         return {
             "package": curated_packages[normalized_path],
             "problems": [
@@ -1085,7 +1087,9 @@ def get_problem_package_detail(package_path: str) -> dict[str, Any]:
                 "summary": manifest_item.get("summary") or problem.get("summary") or "",
                 "description": manifest_item.get("description") or problem.get("description") or "",
                 "input_description": manifest_item.get("input_description") or problem.get("input_description") or "",
-                "output_description": manifest_item.get("output_description") or problem.get("output_description") or "",
+                "output_description": manifest_item.get("output_description")
+                or problem.get("output_description")
+                or "",
                 "examples": manifest_item.get("examples") or problem.get("examples") or [],
                 "allowed_languages": manifest_item.get("allowed_languages") or problem.get("allowed_languages") or [],
                 "starter_code": manifest_item.get("starter_code") or problem.get("starter_code") or {},
@@ -1319,10 +1323,7 @@ def _normalize_problem(problem_data: dict[str, Any]) -> OJProblem:
     difficulty_tag = _normalize_difficulty_tag(problem_data.get("difficulty"))
     manifest_entries = _build_freeproblemset_display_map().get(display_id) or []
     if manifest_entries:
-        difficulty_candidates = [
-            _normalize_difficulty_tag(entry.get("difficulty_tag"))
-            for entry in manifest_entries
-        ]
+        difficulty_candidates = [_normalize_difficulty_tag(entry.get("difficulty_tag")) for entry in manifest_entries]
         if difficulty_candidates:
             difficulty_rank = {"easy": 0, "medium": 1, "hard": 2}
             difficulty_tag = max(difficulty_candidates, key=lambda item: difficulty_rank.get(item, 1))
@@ -1338,12 +1339,7 @@ def _normalize_problem(problem_data: dict[str, Any]) -> OJProblem:
             or statement_language
         )
     topic_tags = _dedupe_preserve_order(
-        [
-            str(tag).strip()
-            for entry in manifest_entries
-            for tag in (entry.get("topic_tags") or [])
-            if str(tag).strip()
-        ]
+        [str(tag).strip() for entry in manifest_entries for tag in (entry.get("topic_tags") or []) if str(tag).strip()]
     )
     return OJProblem(
         id=int(problem_data["id"]),
@@ -1389,8 +1385,17 @@ def _serialize_problem(problem: OJProblem) -> dict[str, Any]:
 
 # 非编程题目标题关键词，用于过滤数理化等非编程问题
 _NON_CODING_TITLE_PATTERNS = [
-    "物理", "化学", "数学", "磁通量", "磁场", "电场",
-    "力学", "热学", "光学", "原子", "分子",
+    "物理",
+    "化学",
+    "数学",
+    "磁通量",
+    "磁场",
+    "电场",
+    "力学",
+    "热学",
+    "光学",
+    "原子",
+    "分子",
 ]
 
 
@@ -1403,6 +1408,21 @@ def _is_coding_problem(problem_data: dict[str, Any]) -> bool:
     return True
 
 
+def _has_placeholder_samples_only(problem_data: dict[str, Any]) -> bool:
+    """freeproblemset 导入时缺失数据的题目 samples 全为 "N/A" 占位，其判题测试数据同样是占位，
+    任何正确提交都不可能通过，必须从出题候选中剔除。"""
+    samples = problem_data.get("samples") or []
+    if not samples:
+        return False
+
+    def _is_placeholder(sample: Any) -> bool:
+        if not isinstance(sample, dict):
+            return False
+        return "N/A" in (str(sample.get("input") or "").strip(), str(sample.get("output") or "").strip())
+
+    return all(_is_placeholder(sample) for sample in samples)
+
+
 def _filter_candidate_problem(problem_data: dict[str, Any], *, excluded_problem_ids: set[str]) -> bool:
     display_id = str(problem_data.get("_id") or "")
     numeric_id = str(problem_data.get("id") or "")
@@ -1413,6 +1433,8 @@ def _filter_candidate_problem(problem_data: dict[str, Any], *, excluded_problem_
     if display_id in excluded_problem_ids or numeric_id in excluded_problem_ids:
         return False
     if not _is_coding_problem(problem_data):
+        return False
+    if _has_placeholder_samples_only(problem_data):
         return False
     return True
 
@@ -1476,8 +1498,7 @@ def _pick_candidate_bucket(
                 if str(tag).strip()
             }
             manifest_difficulties = {
-                _normalize_difficulty_tag(entry.get("difficulty_tag"))
-                for entry in manifest_entries
+                _normalize_difficulty_tag(entry.get("difficulty_tag")) for entry in manifest_entries
             }
             effective_difficulty = next(iter(manifest_difficulties or {candidate_difficulty}), "medium")
             if target_tag in position_tags and (not target_difficulty or effective_difficulty == target_difficulty):
@@ -1488,8 +1509,10 @@ def _pick_candidate_bucket(
             ):
                 matching_general.append(candidate)
                 continue
-        if OJ_PROBLEM_SOURCE and source == OJ_PROBLEM_SOURCE and (
-            not target_difficulty or candidate_difficulty == target_difficulty
+        if (
+            OJ_PROBLEM_SOURCE
+            and source == OJ_PROBLEM_SOURCE
+            and (not target_difficulty or candidate_difficulty == target_difficulty)
         ):
             interview_seed.append(candidate)
         else:
@@ -1517,6 +1540,18 @@ async def _pick_random_problem(
         target_position=target_position,
         difficulty_level=difficulty_level,
     )
+    if not candidates and excluded:
+        # 可用题池（已过滤无测试数据的占位题）可能很小，排除本轮已用题后可能为空；
+        # 此时忽略排除列表兜底出题，避免出题接口 500 卡死面试流程。
+        logger.warning(
+            f"可用编程题在排除 {sorted(excluded)} 后为空，忽略排除列表重新选题 "
+            f"(target_position={target_position}, difficulty={difficulty_level})"
+        )
+        candidates = _pick_candidate_bucket(
+            await _list_candidate_problems(set()),
+            target_position=target_position,
+            difficulty_level=difficulty_level,
+        )
     if not candidates:
         raise HTTPException(
             status_code=500,
@@ -1617,9 +1652,7 @@ def _normalize_coding_session_state(coding_session: dict[str, Any]) -> dict[str,
     session = dict(coding_session or {})
     problem = session.get("problem") if isinstance(session.get("problem"), dict) else {}
     allowed_languages = [
-        language
-        for language in (problem.get("allowed_languages") or [])
-        if language in SUPPORTED_FRONTEND_LANGUAGES
+        language for language in (problem.get("allowed_languages") or []) if language in SUPPORTED_FRONTEND_LANGUAGES
     ]
     if not allowed_languages:
         current_language = str(session.get("language") or DEFAULT_CODING_LANGUAGE)
@@ -1660,16 +1693,18 @@ def _normalize_coding_session_state(coding_session: dict[str, Any]) -> dict[str,
 
     sample_run = session.get("sample_run") if isinstance(session.get("sample_run"), dict) else {}
     normalized_sample_run = _build_sample_run_state()
-    normalized_sample_run.update({
-        "status": str(sample_run.get("status") or normalized_sample_run["status"]),
-        "passed": bool(sample_run.get("passed", normalized_sample_run["passed"])),
-        "message": str(sample_run.get("message") or ""),
-        "stdout": str(sample_run.get("stdout") or ""),
-        "stderr": str(sample_run.get("stderr") or ""),
-        "compile_error": str(sample_run.get("compile_error") or ""),
-        "tests": list(sample_run.get("tests") or []),
-        "ran_at": str(sample_run.get("ran_at") or ""),
-    })
+    normalized_sample_run.update(
+        {
+            "status": str(sample_run.get("status") or normalized_sample_run["status"]),
+            "passed": bool(sample_run.get("passed", normalized_sample_run["passed"])),
+            "message": str(sample_run.get("message") or ""),
+            "stdout": str(sample_run.get("stdout") or ""),
+            "stderr": str(sample_run.get("stderr") or ""),
+            "compile_error": str(sample_run.get("compile_error") or ""),
+            "tests": list(sample_run.get("tests") or []),
+            "ran_at": str(sample_run.get("ran_at") or ""),
+        }
+    )
     session["sample_run"] = normalized_sample_run
     return session
 

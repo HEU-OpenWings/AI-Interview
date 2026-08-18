@@ -381,7 +381,9 @@ def _extract_labeled_field(markdown: str, labels: list[str], table_pairs: dict[s
 
     for key, value in table_pairs.items():
         normalized_key = _normalize_title(key)
-        if any(_normalize_title(label) == normalized_key or _normalize_title(label) in normalized_key for label in labels):
+        if any(
+            _normalize_title(label) == normalized_key or _normalize_title(label) in normalized_key for label in labels
+        ):
             return re.sub(r"\s+", " ", value).strip()
 
     labels_pattern = "|".join(re.escape(label) for label in labels)
@@ -669,7 +671,9 @@ async def _parse_resume_markdown_and_extract_summary(resume_id: int, job_id: int
 @resume.get("")
 async def get_my_resumes(current_user: User = Depends(get_required_user), db: AsyncSession = Depends(get_db)):
     result = await db.execute(
-        select(UserResume).where(UserResume.user_id == current_user.id).order_by(UserResume.created_at.desc(), UserResume.id.desc())
+        select(UserResume)
+        .where(UserResume.user_id == current_user.id)
+        .order_by(UserResume.created_at.desc(), UserResume.id.desc())
     )
     resume_records = result.scalars().all()
     return {
@@ -725,9 +729,7 @@ async def extract_progress(
         while True:
             try:
                 async with pg_manager.get_async_session_context() as session:
-                    result = await session.execute(
-                        select(UserResume).where(UserResume.id == resume_id)
-                    )
+                    result = await session.execute(select(UserResume).where(UserResume.id == resume_id))
                     record = result.scalar_one_or_none()
                     if record is None:
                         yield f"data: {json.dumps({'stage': 'failed', 'error': '简历记录不存在'})}\n\n"
@@ -893,6 +895,7 @@ async def delete_my_resume(
 
 class ResumeMatchRequest(BaseModel):
     """简历匹配请求"""
+
     job_id: int | None = None
     auto_detect: bool = False
 
@@ -907,6 +910,12 @@ async def _trigger_resume_match(resume_id: int, job_id: int) -> None:
         job_dict = get_builtin_job(job_id)
         if not job_dict:
             logger.warning(f"简历匹配跳过：岗位不存在，job_id={job_id}")
+            async with pg_manager.get_async_session_context() as session:
+                result = await session.execute(select(UserResume).where(UserResume.id == resume_id))
+                resume = result.scalar_one_or_none()
+                if resume and resume.match_status in ("pending", "processing"):
+                    resume.match_status = "failed"
+                    await session.commit()
             return
 
         # 摘要可能尚未就绪（匹配任务与摘要提取存在时序窗口），短轮询等待摘要就绪，

@@ -1811,6 +1811,12 @@ const handleSendOrStop = async (payload) => {
       // 中断生成
       threadState.streamAbortController.abort()
 
+      // abort 后旧流的 catch/finally 会因 epoch 失效而跳过清理，
+      // 这里必须同步回收发送状态，否则该线程永远停留在“停止”态
+      threadState.isStreaming = false
+      threadState.streamAbortController = null
+      resetOnGoingConv(threadId)
+
       // 中断后刷新消息历史，确保显示最新的状态
       try {
         const syncEpoch = beginThreadMessageSync(threadId)
