@@ -152,6 +152,7 @@ const agentStore = useAgentStore()
 const chatComponentRef = ref(null)
 const eventStream = useVideoEventStream()
 const codingReady = ref(false)
+const latestCodingSession = ref(null)
 const currentAgentState = ref(null)
 const elapsedSeconds = ref(0)
 let elapsedTimer = null
@@ -310,6 +311,17 @@ const goToCodingWorkbench = () => {
 
 const dismissCodingBanner = () => {
   codingReady.value = false
+  // 写入 skip key，避免下一次 agent-state 推送立即重新弹出横幅
+  // （与 InterviewCodingView.goBackToInterview 的写法保持一致）
+  if (threadId.value && latestCodingSession.value) {
+    const skipKey = getSkipCodingRedirectKey(threadId.value)
+    const currentStartedAt = String(latestCodingSession.value.started_at || '').trim() || 'active'
+    try {
+      sessionStorage.setItem(skipKey, currentStartedAt)
+    } catch (storageError) {
+      console.warn('忽略编程考核横幅状态写入失败', storageError)
+    }
+  }
 }
 
 const finishInterview = () => {
@@ -432,6 +444,7 @@ const handleAgentStateChange = (agentState) => {
 
   const codingSession = agentState?.coding_session
   if (!threadId.value || !codingSession) return
+  latestCodingSession.value = codingSession
   if (!['ready', 'coding'].includes(codingSession.status)) return
   const skipKey = getSkipCodingRedirectKey(threadId.value)
   const skipStartedAt = sessionStorage.getItem(skipKey)

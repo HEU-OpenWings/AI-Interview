@@ -54,9 +54,18 @@ def ensure_shanghai(value: dt.datetime) -> dt.datetime:
     return value.astimezone(SHANGHAI_TZ)
 
 
-def utc_isoformat(value: dt.datetime | None = None) -> str:
-    """Return an ISO 8601 string in UTC with a trailing Z suffix."""
-    value = ensure_utc(value or utc_now())
+def utc_isoformat(value: dt.datetime | None = None, *, naive_as_utc: bool = False) -> str:
+    """Return an ISO 8601 string in UTC with a trailing Z suffix.
+
+    naive_as_utc=True 时，naive 输入按 UTC 处理（应用数据库时间列均以
+    utc_now_naive 写入，读出的 naive 值就是 UTC）。默认 False 保持
+    ensure_utc 的 legacy 行为（naive 视为 Asia/Shanghai）。
+    """
+    value = value or utc_now()
+    if naive_as_utc and value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    else:
+        value = ensure_utc(value)
     iso_string = value.isoformat()
     if iso_string.endswith(_ISO_Z_SUFFIX):
         return iso_string.replace(_ISO_Z_SUFFIX, "Z")
@@ -120,11 +129,11 @@ def format_utc_datetime(value: dt.datetime | None) -> str | None:
     Format a datetime to UTC ISO 8601 string, handling naive datetimes.
 
     Returns None for None input.
-    Naive datetimes are assumed to be in UTC (legacy behavior).
+    Naive datetimes are assumed to be in UTC（数据库时间列均以 utc_now_naive 写入）.
     """
     if value is None:
         return None
-    return utc_isoformat(value)
+    return utc_isoformat(value, naive_as_utc=True)
 
 
 __all__ = [

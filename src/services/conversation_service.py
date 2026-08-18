@@ -261,8 +261,9 @@ async def upload_thread_attachment_view(
     # 上传源文件到 MinIO（用于前端下载）
     minio_url = None
     try:
-        file_content = await file.read()
+        # convert_upload_to_markdown 内部已把文件读到 EOF，必须先回卷再读源内容
         await file.seek(0)
+        file_content = await file.read()
         client = get_minio_client()
         object_name = f"attachments/{thread_id}/{conversion.file_name}"
         result = client.upload_file(

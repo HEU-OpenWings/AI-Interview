@@ -35,8 +35,8 @@ services:
       - MINIO_URI=${MINIO_URI:-http://minio:9000}
       - MODEL_DIR_IN_DOCKER=/models
       - RUNNING_IN_DOCKER=true
-      - NO_PROXY=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn
-      - no_proxy=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn
+      - NO_PROXY=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
       - OJ_API_BASE_URL=${OJ_API_BASE_URL:-http://oj-backend.local:8000/api}
       - OJ_JUDGE_SERVER_URL=${OJ_JUDGE_SERVER_URL:-http://oj-judge-server:12358}
       - OJ_USERNAME=${OJ_USERNAME:-root}
@@ -93,8 +93,8 @@ services:
       - MINIO_URI=${MINIO_URI:-http://minio:9000}
       - MODEL_DIR_IN_DOCKER=/models
       - RUNNING_IN_DOCKER=true
-      - NO_PROXY=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn
-      - no_proxy=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn
+      - NO_PROXY=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
       - OJ_API_BASE_URL=${OJ_API_BASE_URL:-http://oj-backend.local:8000/api}
       - OJ_JUDGE_SERVER_URL=${OJ_JUDGE_SERVER_URL:-http://oj-judge-server:12358}
       - OJ_USERNAME=${OJ_USERNAME:-root}
@@ -275,6 +275,8 @@ services:
       - SERVICE_URL=http://oj-judge-server:8080
       - BACKEND_URL=http://oj-backend:8000/api/judge_server_heartbeat/
       - TOKEN=${OJ_JUDGE_SERVER_TOKEN:-CHANGE_ME}
+      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
     volumes:
       - ./docker/volumes/oj/data/test_case:/test_case:ro
       - ./docker/volumes/oj/log:/log
@@ -304,6 +306,8 @@ services:
       - POSTGRES_USER=${OJ_POSTGRES_USER:-onlinejudge}
       - POSTGRES_PASSWORD=${OJ_POSTGRES_PASSWORD:-onlinejudge}
       - JUDGE_SERVER_TOKEN=${OJ_JUDGE_SERVER_TOKEN:-CHANGE_ME}
+      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
     depends_on:
       oj-postgres:
         condition: service_healthy
@@ -351,6 +355,8 @@ services:
     env_file:
       - .env
     environment:
+      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
       - OJ_ADMIN_BASE_URL=http://oj-backend.local:8000
       - OJ_USERNAME=${OJ_USERNAME:-root}
       - OJ_PASSWORD=${OJ_PASSWORD:-rootroot}
@@ -384,6 +390,8 @@ services:
     env_file:
       - .env
     environment:
+      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
       - OJ_ADMIN_BASE_URL=http://oj-backend.local:8000
       - OJ_USERNAME=${OJ_USERNAME:-root}
       - OJ_PASSWORD=${OJ_PASSWORD:-rootroot}
