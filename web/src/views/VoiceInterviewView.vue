@@ -140,7 +140,7 @@
             <a-button :loading="startingCamera" @click="handleToggleCamera">
               {{ isCameraStreaming ? '关闭摄像头' : '开启摄像头' }}
             </a-button>
-            <a-button :disabled="!isCapturing" @click="handleToggleCapture">
+            <a-button :disabled="startingCapture" @click="handleToggleCapture">
               {{ isCapturing ? '静音' : '开始收音' }}
             </a-button>
           </div>
@@ -212,6 +212,14 @@ const EMOTION_LABELS = {
   angry: '烦躁',
   surprised: '惊讶',
   disgust: '抗拒'
+}
+
+const POSTURE_LABELS = {
+  upright: '坐姿端正',
+  leaning_forward: '身体前倾',
+  leaning_back: '身体后仰',
+  head_tilt: '头部偏斜',
+  slouching: '含胸驼背'
 }
 
 const GAZE_LABELS = {
@@ -307,6 +315,8 @@ const {
   isCameraSupported,
   isStreaming: isCameraStreaming,
   isVideoMode,
+  posture,
+  postureScore,
   resolution: cameraResolution,
   videoRef: cameraVideoRef
 } = videoEventStream
@@ -376,14 +386,6 @@ const cameraResolutionLabel = computed(() => {
   return `${cameraResolution.value.width} x ${cameraResolution.value.height}`
 })
 
-const videoGazeValue = computed(() => {
-  const score = backendVideoAggregate.value?.avg_attention_score ?? attentionScore.value
-  return typeof score === 'number' ? Math.round(score) : null
-})
-const videoGazeNote = computed(() => {
-  const direction = backendVideoAggregate.value?.gaze_direction || gazeDirection.value
-  return GAZE_LABELS[direction] || '等待检测'
-})
 const videoEmotionValue = computed(() => {
   const emotion = backendVideoAggregate.value?.dominant_emotion || currentEmotion.value
   return EMOTION_LABELS[emotion] || '待检测'
@@ -393,30 +395,60 @@ const videoEmotionNote = computed(() => {
   const score = emotionScores.value?.[emotion]
   return typeof score === 'number' ? `置信度 ${Math.round(score * 100)}%` : '无明显波动'
 })
+const videoAttentionValue = computed(() => {
+  const score = backendVideoAggregate.value?.avg_attention_score ?? attentionScore.value
+  return typeof score === 'number' ? `${Math.round(score)} 分` : '待检测'
+})
+const videoAttentionNote = computed(() => {
+  const score = backendVideoAggregate.value?.avg_attention_score ?? attentionScore.value
+  if (typeof score !== 'number') return '开启摄像头后持续评估'
+  if (score >= 80) return '专注度稳定'
+  if (score >= 60) return '专注度中等'
+  return '注意力偏低'
+})
+const videoPostureValue = computed(() => {
+  const postureState =
+    backendVideoAggregate.value?.current_posture ||
+    backendVideoAggregate.value?.dominant_posture ||
+    posture.value
+  return POSTURE_LABELS[postureState] || '待检测'
+})
+const videoPostureNote = computed(() => {
+  const score = backendVideoAggregate.value?.avg_posture_score ?? postureScore.value
+  return typeof score === 'number' ? `坐姿评分 ${Math.round(score)} 分` : '开启摄像头后持续评估'
+})
+const videoGazeValue = computed(() => {
+  const direction = backendVideoAggregate.value?.gaze_direction || gazeDirection.value
+  return GAZE_LABELS[direction] || '待检测'
+})
+const videoGazeNote = computed(() => {
+  const direction = backendVideoAggregate.value?.gaze_direction || gazeDirection.value
+  return direction === 'center' ? '持续注视镜头' : '视线偏离镜头，注意回正'
+})
 const videoAnalysisMetrics = computed(() => [
-  {
-    key: 'gaze',
-    label: '视线停留',
-    value: videoGazeValue.value === null ? '待检测' : `${videoGazeValue.value}%`,
-    note: videoGazeNote.value
-  },
-  {
-    key: 'pace',
-    label: '语速',
-    value: isCapturing.value ? '回答中' : '待检测',
-    note: isCapturing.value ? '实时识别中' : '开始回答后统计'
-  },
-  {
-    key: 'pause',
-    label: '停顿次数',
-    value: '待检测',
-    note: isCapturing.value ? '本题统计中' : '开始回答后统计'
-  },
   {
     key: 'emotion',
     label: '情绪',
     value: videoEmotionValue.value,
     note: videoEmotionNote.value
+  },
+  {
+    key: 'attention',
+    label: '注意力',
+    value: videoAttentionValue.value,
+    note: videoAttentionNote.value
+  },
+  {
+    key: 'posture',
+    label: '姿态',
+    value: videoPostureValue.value,
+    note: videoPostureNote.value
+  },
+  {
+    key: 'gaze',
+    label: '视线',
+    value: videoGazeValue.value,
+    note: videoGazeNote.value
   }
 ])
 const videoRecentAlerts = computed(() => {
