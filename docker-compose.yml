@@ -35,8 +35,8 @@ services:
       - MINIO_URI=${MINIO_URI:-http://minio:9000}
       - MODEL_DIR_IN_DOCKER=/models
       - RUNNING_IN_DOCKER=true
-      - NO_PROXY=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
-      - no_proxy=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - NO_PROXY=localhost,api,worker,127.0.0.1,minio,mineru,mineru-api,paddlex,api.siliconflow.cn,openspeech.bytedance.com,dashscope.aliyuncs.com,mineru.net,cdn-mineru.openxlab.org.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
+      - no_proxy=localhost,api,worker,127.0.0.1,minio,mineru,mineru-api,paddlex,api.siliconflow.cn,openspeech.bytedance.com,dashscope.aliyuncs.com,mineru.net,cdn-mineru.openxlab.org.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
       - OJ_API_BASE_URL=${OJ_API_BASE_URL:-http://oj-backend.local:8000/api}
       - OJ_JUDGE_SERVER_URL=${OJ_JUDGE_SERVER_URL:-http://oj-judge-server:12358}
       - OJ_USERNAME=${OJ_USERNAME:-root}
@@ -93,8 +93,8 @@ services:
       - MINIO_URI=${MINIO_URI:-http://minio:9000}
       - MODEL_DIR_IN_DOCKER=/models
       - RUNNING_IN_DOCKER=true
-      - NO_PROXY=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
-      - no_proxy=localhost,127.0.0.1,minio,mineru,paddlex,api.siliconflow.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - NO_PROXY=localhost,api,worker,127.0.0.1,minio,mineru,mineru-api,paddlex,api.siliconflow.cn,openspeech.bytedance.com,dashscope.aliyuncs.com,mineru.net,cdn-mineru.openxlab.org.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
+      - no_proxy=localhost,api,worker,127.0.0.1,minio,mineru,mineru-api,paddlex,api.siliconflow.cn,openspeech.bytedance.com,dashscope.aliyuncs.com,mineru.net,cdn-mineru.openxlab.org.cn,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
       - OJ_API_BASE_URL=${OJ_API_BASE_URL:-http://oj-backend.local:8000/api}
       - OJ_JUDGE_SERVER_URL=${OJ_JUDGE_SERVER_URL:-http://oj-judge-server:12358}
       - OJ_USERNAME=${OJ_USERNAME:-root}
@@ -125,6 +125,10 @@ services:
       - app-network
     env_file:
       - .env
+    environment:
+      # Docker Desktop 会注入宿主机代理，内部服务名必须直连，否则健康检查被死代理拦截
+      - NO_PROXY=localhost,127.0.0.1,api,worker,minio,mineru,postgres,redis,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - no_proxy=localhost,127.0.0.1,api,worker,minio,mineru,postgres,redis,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
     command: sh /app/scripts/wait_and_import_interview_knowledge.sh
     restart: "no"
     depends_on:
@@ -275,8 +279,8 @@ services:
       - SERVICE_URL=http://oj-judge-server:8080
       - BACKEND_URL=http://oj-backend:8000/api/judge_server_heartbeat/
       - TOKEN=${OJ_JUDGE_SERVER_TOKEN:-CHANGE_ME}
-      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
-      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - NO_PROXY=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
+      - no_proxy=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
     volumes:
       - ./docker/volumes/oj/data/test_case:/test_case:ro
       - ./docker/volumes/oj/log:/log
@@ -306,8 +310,8 @@ services:
       - POSTGRES_USER=${OJ_POSTGRES_USER:-onlinejudge}
       - POSTGRES_PASSWORD=${OJ_POSTGRES_PASSWORD:-onlinejudge}
       - JUDGE_SERVER_TOKEN=${OJ_JUDGE_SERVER_TOKEN:-CHANGE_ME}
-      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
-      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - NO_PROXY=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
+      - no_proxy=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
     depends_on:
       oj-postgres:
         condition: service_healthy
@@ -355,8 +359,8 @@ services:
     env_file:
       - .env
     environment:
-      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
-      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - NO_PROXY=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
+      - no_proxy=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
       - OJ_ADMIN_BASE_URL=http://oj-backend.local:8000
       - OJ_USERNAME=${OJ_USERNAME:-root}
       - OJ_PASSWORD=${OJ_PASSWORD:-rootroot}
@@ -390,8 +394,8 @@ services:
     env_file:
       - .env
     environment:
-      - NO_PROXY=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
-      - no_proxy=localhost,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis
+      - NO_PROXY=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
+      - no_proxy=localhost,api,worker,127.0.0.1,oj-backend,oj-backend.local,oj-judge-server,oj-postgres,oj-redis,pypi.tuna.tsinghua.edu.cn
       - OJ_ADMIN_BASE_URL=http://oj-backend.local:8000
       - OJ_USERNAME=${OJ_USERNAME:-root}
       - OJ_PASSWORD=${OJ_PASSWORD:-rootroot}
