@@ -84,9 +84,9 @@
           </ol>
         </section>
 
-        <section class="rail-section">
+        <section v-if="assessmentPoints.length" class="rail-section">
           <h2>本题考察点</h2>
-          <div v-if="assessmentPoints.length" class="assessment-list">
+          <div class="assessment-list">
             <div v-for="point in assessmentPoints" :key="point.label" class="assessment-row">
               <span>{{ point.label }}</span>
               <strong :class="{ 'is-covered': point.covered }">
@@ -94,12 +94,11 @@
               </strong>
             </div>
           </div>
-          <p v-else class="rail-empty">当前 SSE 未提供 SEP 考察点，回答完成后将在报告中评估。</p>
         </section>
 
-        <section class="rail-section">
+        <section v-if="questionSource" class="rail-section">
           <h2>题目来源</h2>
-          <div v-if="questionSource" class="source-block">
+          <div class="source-block">
             <strong>{{ questionSource.name }}</strong>
             <span>{{ questionSource.path }}</span>
             <a
@@ -111,16 +110,14 @@
               查看知识点原文
             </a>
           </div>
-          <p v-else class="rail-empty">当前会话未提供题库来源定位。</p>
         </section>
 
-        <section class="rail-section">
+        <section v-if="resumeReference" class="rail-section">
           <h2>简历关联</h2>
-          <blockquote v-if="resumeReference" class="resume-reference">
+          <blockquote class="resume-reference">
             {{ resumeReference.quote }}
             <footer>{{ resumeReference.source }}</footer>
           </blockquote>
-          <p v-else class="rail-empty">当前会话未提供简历原文定位。</p>
         </section>
       </aside>
     </div>

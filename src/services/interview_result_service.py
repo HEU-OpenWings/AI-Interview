@@ -5,8 +5,8 @@ import asyncio
 import html
 import json
 import re
-from urllib.parse import urlparse
 from typing import Any
+from urllib.parse import urlparse
 
 from fastapi import HTTPException
 from langchain.messages import HumanMessage
@@ -21,19 +21,29 @@ from src.services.chat_stream_service import (
     _resolve_agent_config,
     save_messages_from_langgraph_state,
 )
-from src.services.interview_result_sep_helpers import (
-    SEP_BANK_SLUGS,
-    SEP_MIN_BANK_COVERAGE as _SEP_MIN_BANK_COVERAGE,
-    SEP_MIN_MATCHED_PAIRS as _SEP_MIN_MATCHED_PAIRS,
-    match_question as _sep_match_question,
-    resolve_bank_slug,
-    scorecard_from_sep_report as _scorecard_from_sep_report_impl,
-    sep_narrative_from_report as _sep_narrative_from_report_impl,
-)
 from src.services.interview_coding_service import (
     _build_practice_problem_ref,
     get_coding_session_from_metadata,
     list_imported_problem_packages,
+)
+from src.services.interview_result_sep_helpers import (
+    SEP_BANK_SLUGS,
+    resolve_bank_slug,
+)
+from src.services.interview_result_sep_helpers import (
+    SEP_MIN_BANK_COVERAGE as _SEP_MIN_BANK_COVERAGE,
+)
+from src.services.interview_result_sep_helpers import (
+    SEP_MIN_MATCHED_PAIRS as _SEP_MIN_MATCHED_PAIRS,
+)
+from src.services.interview_result_sep_helpers import (
+    match_question as _sep_match_question,
+)
+from src.services.interview_result_sep_helpers import (
+    scorecard_from_sep_report as _scorecard_from_sep_report_impl,
+)
+from src.services.interview_result_sep_helpers import (
+    sep_narrative_from_report as _sep_narrative_from_report_impl,
 )
 from src.services.position_types import get_default_position_label, get_problemset_tag_for_position
 from src.storage.postgres.models_business import User
@@ -56,13 +66,15 @@ def _is_sep_available() -> bool:
             _SEP_AVAILABLE = False
     return _SEP_AVAILABLE
 
+
 INTERVIEW_RESULT_METADATA_KEY = "interview_result"
 INTERVIEW_AGENT_ID = "InterviewAgent"
-# Matches the fenced scorecard block emitted by the LLM. Supports two forms:
+# Matches the fenced scorecard block emitted by the LLM. Supports forms:
 #   ```interview_scorecard {...} ```
 #   ```json interview_scorecard: {...} ```
+#   ```json:interview_scorecard {...} ```
 INTERVIEW_SCORECARD_PATTERN = re.compile(
-    r"```(?:interview_scorecard|json)\s*(?:interview_scorecard\s*)?(\{[\s\S]*?\})\s*```",
+    r"```(?:json[\s:]*)?(?:interview_scorecard)[\s:]*(\{[\s\S]*?\})\s*```",
     re.IGNORECASE,
 )
 GENERIC_JSON_CODE_BLOCK_PATTERN = re.compile(
@@ -93,11 +105,43 @@ REVERSE_DIMENSION_LABELS = {
     "基础知识": "technical_competence",
     "岗位匹配度": "soft_skills",
 }
+# 英文维度 key → 归一化维度 key（供 _normalize_dimension_key 直连归并）。
+EN_DIMENSION_KEY_MAP = {
+    "technical_knowledge": "technical_competence",
+    "practical_experience": "technical_competence",
+    "code_ability": "technical_competence",
+    "coding_ability": "technical_competence",
+    "technical_depth": "technical_competence",
+    "ai_application_design": "technical_competence",
+    "mult_agent_systems": "technical_competence",
+    "rag_system_understanding": "technical_competence",
+    "prompt_engineering": "technical_competence",
+    "technical_expertise": "technical_competence",
+    "ai_technical_expertise": "technical_competence",
+    "ai_architecture": "technical_competence",
+    "engineering_practice": "technical_competence",
+    "engineering_prowess": "technical_competence",
+    "project_experience": "technical_competence",
+    "production_experience": "technical_competence",
+    "system_architecture": "problem_solving",
+    "system_design": "problem_solving",
+    "analytical_thinking": "problem_solving",
+    "problem_solving": "problem_solving",
+    "problem_solving_ability": "problem_solving",
+    "problem_solving_approach": "problem_solving",
+    "structured_thinking": "problem_solving",
+    "communication_skills": "communication",
+    "communication_clarity": "communication",
+    "soft_skills_team_fit": "soft_skills",
+    "learning_ability": "soft_skills",
+    "collaboration_potential": "soft_skills",
+    "learning_agility": "soft_skills",
+}
 DIMENSION_KEYWORD_MAPPING = (
-    (("项目经验", "技术深度"), "technical_competence"),
+    (("项目经验", "技术深度", "智能体", "架构", "工程落地", "性能优化", "技术实现"), "technical_competence"),
     (("基础知识",), "technical_competence"),
     (("代码能力", "编程能力", "工程实现"), "problem_solving"),
-    (("问题解决",), "problem_solving"),
+    (("问题解决", "架构设计", "系统设计"), "problem_solving"),
     (("沟通表达", "沟通与表达", "表达能力"), "communication"),
     (("综合素质", "岗位匹配度", "岗位匹配", "团队协作"), "soft_skills"),
 )
@@ -882,11 +926,23 @@ def _normalize_detailed_scores(value: Any) -> list[dict[str, Any]]:
 
     result: list[dict[str, Any]] = []
     for key, raw_score in value.items():
+        if isinstance(raw_score, dict) and raw_score:
+            inner_scores = [
+                score for score in (_parse_numeric_score(inner) for inner in raw_score.values()) if score is not None
+            ]
+            if not inner_scores:
+                continue
+            raw_score = sum(inner_scores) / len(inner_scores)
         normalized_score = _normalize_interview_score(raw_score)
         if normalized_score is None:
             continue
         result.append({"name": _label_dimension_key(str(key)), "score": normalized_score})
-    return result
+    # 归并后同标签的维度（如 technical_depths 与 project_experience 都显示"技术能力"）
+    # 合并取均值，避免报告里出现重名维度。
+    merged_scores: dict[str, list[int]] = {}
+    for item in result:
+        merged_scores.setdefault(item["name"], []).append(item["score"])
+    return [{"name": name, "score": round(sum(scores) / len(scores))} for name, scores in merged_scores.items()]
 
 
 def _extract_score_mapping(value: Any) -> dict[str, Any]:
@@ -903,6 +959,31 @@ def _label_dimension_key(key: str) -> str:
         "communication_clarity": "沟通表达",
         "soft_skills_team_fit": "综合素质",
         "code_ability": "编码能力",
+        "technical_depths": "技术能力",
+        "project_implementation": "项目经验",
+        "problem_solving": "问题解决",
+        "problem_solving_ability": "问题解决",
+        "problem_solving_approach": "问题解决",
+        "communication_skills": "沟通表达",
+        "structured_thinking": "问题解决",
+        "ai_application_design": "技术能力",
+        "mult_agent_systems": "技术能力",
+        "rag_system_understanding": "技术能力",
+        "prompt_engineering": "技术能力",
+        "system_architecture": "问题解决",
+        "learning_ability": "综合素质",
+        "collaboration_potential": "综合素质",
+        "technical_depth": "技术能力",
+        "technical_expertise": "技术能力",
+        "ai_technical_expertise": "技术能力",
+        "ai_architecture": "技术能力",
+        "engineering_practice": "技术能力",
+        "engineering_prowess": "技术能力",
+        "project_experience": "技术能力",
+        "production_experience": "技术能力",
+        "system_design": "问题解决",
+        "analytical_thinking": "问题解决",
+        "learning_agility": "综合素质",
     }
     return fallback_labels.get(key, DIMENSION_LABELS.get(key, key))
 
@@ -915,6 +996,9 @@ def _normalize_dimension_key(key: str) -> str:
     direct_mapping = REVERSE_DIMENSION_LABELS.get(normalized) or REVERSE_DIMENSION_LABELS.get(normalized_no_space)
     if direct_mapping:
         return direct_mapping
+
+    if normalized_no_space in EN_DIMENSION_KEY_MAP:
+        return EN_DIMENSION_KEY_MAP[normalized_no_space]
 
     for keywords, target_key in DIMENSION_KEYWORD_MAPPING:
         if any(keyword in normalized_no_space for keyword in keywords):
@@ -945,19 +1029,59 @@ def _normalize_scorecard(value: Any) -> dict[str, Any] | None:
         zh_dimensions.append({"name": str(dimension_name or "").strip(), "score": raw_score})
     detailed_scores = _extract_score_mapping(value.get("detailed_scores") or value.get("rating_scores"))
     dimension_scores = _extract_score_mapping(value.get("dimension_scores"))
+    # LLM 偶发把数值分数放在嵌套块（scoring / scorecard），如 technical_expertise/overall_score，多为 0-5 制。
+    nested_score_block = _extract_score_mapping(value.get("scoring") or value.get("scorecard"))
+    if not dimension_scores:
+        # 部分输出把维度拆成"硬技能/软技能"两组 dict（technical_dimensions / soft_skills）。
+        for dim_group in (value.get("technical_dimensions"), value.get("soft_skills")):
+            if isinstance(dim_group, dict):
+                dimension_scores.update(dim_group)
+    if not dimension_scores and not detailed_scores:
+        detailed_scores = nested_score_block or detailed_scores
+    # 部分输出以 [{category, score}] 列表形式给出维度（technical_competencies）。
+    competency_list = (
+        value.get("technical_competencies") or value.get("competency_scores") or value.get("dimension_list")
+    )
+    if isinstance(competency_list, list):
+        competency_map = {
+            str(item.get("category") or item.get("name") or "").strip(): item.get("score")
+            for item in competency_list
+            if isinstance(item, dict)
+        }
+        competency_map = {k: v for k, v in competency_map.items() if k and _parse_numeric_score(v) is not None}
+        if competency_map:
+            if not detailed_scores:
+                detailed_scores = competency_map
+            else:
+                detailed_scores = {**detailed_scores, **competency_map}
     dimensions_value = value.get("dimensions") or zh_dimensions
     dimensions_scale_hint = _detect_score_scale(dimensions_value)
     fallback_scale_hint = _detect_score_scale(detailed_scores or dimension_scores)
     interview_outcome = value.get("interview_outcome") if isinstance(value.get("interview_outcome"), dict) else {}
     match_assessment = value.get("match_assessment") if isinstance(value.get("match_assessment"), dict) else {}
     fallback_dimensions = _normalize_detailed_scores(detailed_scores or dimension_scores)
+    # scoring 块里的 overall_score 是总分，不应作为维度参与平均。
+    fallback_dimensions = [
+        item
+        for item in fallback_dimensions
+        if str(item.get("name") or "").strip().lower() not in {"overall_score", "total_score"}
+    ]
     fallback_overall = None
     if fallback_dimensions:
         fallback_overall = round(sum(item["score"] for item in fallback_dimensions) / len(fallback_dimensions))
+    scoring_overall = _parse_numeric_score((nested_score_block or {}).get("overall_score"))
+    assessment_overall = _parse_numeric_score(assessment_summary.get("overall_score"))
     raw_overall_value = value.get(
         "overall",
-        value.get("overall_score", value.get("total_score", value.get("total", value.get("综合评分")))),
+        value.get(
+            "overall_rating",
+            value.get("overall_score", value.get("total_score", value.get("total", value.get("综合评分")))),
+        ),
     )
+    if raw_overall_value is None and scoring_overall is not None:
+        raw_overall_value = scoring_overall
+    if raw_overall_value is None and assessment_overall is not None:
+        raw_overall_value = assessment_overall
     normalized_overall = _normalize_interview_score(
         raw_overall_value,
         scale_hint=dimensions_scale_hint or fallback_scale_hint,
@@ -970,6 +1094,7 @@ def _normalize_scorecard(value: Any) -> dict[str, Any] | None:
         "role": str(
             value.get("role")
             or value.get("position")
+            or value.get("position_applied")
             or value.get("target_position")
             or candidate_info.get("target_position")
             or basic_info.get("目标岗位")
@@ -985,6 +1110,8 @@ def _normalize_scorecard(value: Any) -> dict[str, Any] | None:
         "dimensions": _normalize_dimensions(dimensions_value) or fallback_dimensions,
         "strengths": _normalize_string_list(
             value.get("strengths")
+            or value.get("key_strengths")
+            or value.get("highlighted_strengths")
             or value.get("highlights")
             or value.get("主要亮点")
             or assessment_summary.get("strengths")
@@ -993,6 +1120,11 @@ def _normalize_scorecard(value: Any) -> dict[str, Any] | None:
         ),
         "risks": _normalize_string_list(
             value.get("risks")
+            or value.get("risk_points")
+            or value.get("development_areas")
+            or value.get("key_concerns")
+            or value.get("potential_risks")
+            or value.get("areas_for_improvement")
             or value.get("improvement_areas")
             or value.get("主要风险点")
             or assessment_summary.get("concerns")
@@ -1001,6 +1133,7 @@ def _normalize_scorecard(value: Any) -> dict[str, Any] | None:
         ),
         "suggestions": _normalize_string_list(
             value.get("suggestions")
+            or value.get("recommendations")
             or value.get("next_steps")
             or value.get("推荐方向")
             or interview_outcome.get("next_assessment_focus")
@@ -1008,6 +1141,9 @@ def _normalize_scorecard(value: Any) -> dict[str, Any] | None:
         ),
         "summary": str(
             value.get("summary")
+            or value.get("conclusion")
+            or value.get("overall_assessment")
+            or value.get("recommendation")
             or value.get("面试官总体评价")
             or assessment_summary.get("overall_conclusion")
             or interview_outcome.get("recommendation")
@@ -1273,7 +1409,7 @@ def _strip_conversational_prefix(sentence: str) -> str:
         original = s
         for prefix in _CONVERSATIONAL_PREFIXES:
             if s.startswith(prefix):
-                rest = s[len(prefix):].lstrip(" :：，,、的—-")
+                rest = s[len(prefix) :].lstrip(" :：，,、的—-")
                 if rest:
                     s = rest
                     break
@@ -1833,9 +1969,7 @@ def _extract_qa_pairs(messages: list) -> list[tuple[str, str]]:
 def _resolve_position_for_sep(conversation, coding_session: dict[str, Any] | None) -> str:
     """Wrap `resolve_bank_slug` with the project's existing title-parsing logic."""
     title_position, _ = _parse_thread_context(getattr(conversation, "title", ""))
-    raw_position = str(
-        (coding_session or {}).get("target_position") or title_position or "backend"
-    ).strip().lower()
+    raw_position = str((coding_session or {}).get("target_position") or title_position or "backend").strip().lower()
     return resolve_bank_slug(raw_position)
 
 
@@ -2075,15 +2209,9 @@ def _normalize_result_payload(
             scorecard["round"] = title_round
 
     # If scorecard has no numerical scores, try SEP deterministic scoring
-    has_numerical_scores = (
-        scorecard is not None
-        and (
-            scorecard.get("overall") is not None
-            or any(
-                _normalize_score_value(d.get("score")) is not None
-                for d in (scorecard.get("dimensions") or [])
-            )
-        )
+    has_numerical_scores = scorecard is not None and (
+        scorecard.get("overall") is not None
+        or any(_normalize_score_value(d.get("score")) is not None for d in (scorecard.get("dimensions") or []))
     )
     if not has_numerical_scores and messages:
         sep_scorecard = _try_sep_scoring(messages, conversation, coding_session)
@@ -2093,8 +2221,7 @@ def _normalize_result_payload(
                 if scorecard.get("overall") is None:
                     scorecard["overall"] = sep_scorecard.get("overall")
                 if not any(
-                    _normalize_score_value(d.get("score")) is not None
-                    for d in (scorecard.get("dimensions") or [])
+                    _normalize_score_value(d.get("score")) is not None for d in (scorecard.get("dimensions") or [])
                 ):
                     scorecard["dimensions"] = sep_scorecard.get("dimensions", [])
                 scorecard["sep_evidence_chain"] = sep_scorecard.get("sep_evidence_chain", [])
@@ -2111,10 +2238,7 @@ def _normalize_result_payload(
     # UI render "—". This salvages roughly half of the malformed-scorecard
     # threads we observed in production.
     if scorecard and scorecard.get("overall") is None:
-        dim_scores = [
-            _normalize_score_value(d.get("score"))
-            for d in (scorecard.get("dimensions") or [])
-        ]
+        dim_scores = [_normalize_score_value(d.get("score")) for d in (scorecard.get("dimensions") or [])]
         valid = [s for s in dim_scores if s is not None]
         if valid:
             scorecard["overall"] = round(sum(valid) / len(valid))
@@ -3557,10 +3681,7 @@ def _scorecard_has_numerical_scores(scorecard: dict[str, Any] | None) -> bool:
         return False
     if scorecard.get("overall") is not None:
         return True
-    return any(
-        _normalize_score_value(d.get("score")) is not None
-        for d in (scorecard.get("dimensions") or [])
-    )
+    return any(_normalize_score_value(d.get("score")) is not None for d in (scorecard.get("dimensions") or []))
 
 
 def _enrich_scorecard_with_sep(
@@ -3576,8 +3697,7 @@ def _enrich_scorecard_with_sep(
 
     needs_overall = scorecard.get("overall") is None
     needs_dims = not any(
-        _normalize_score_value(d.get("score")) is not None
-        for d in (scorecard.get("dimensions") or [])
+        _normalize_score_value(d.get("score")) is not None for d in (scorecard.get("dimensions") or [])
     )
     needs_evidence = not scorecard.get("sep_evidence_chain")
     if not needs_overall and not needs_dims and not needs_evidence:
@@ -3678,8 +3798,7 @@ async def get_interview_result(
         derived_scorecard = derived.get("scorecard")
         if isinstance(derived_scorecard, dict):
             has_numerical = derived_scorecard.get("overall") is not None or any(
-                _normalize_score_value(d.get("score")) is not None
-                for d in (derived_scorecard.get("dimensions") or [])
+                _normalize_score_value(d.get("score")) is not None for d in (derived_scorecard.get("dimensions") or [])
             )
             if not has_numerical:
                 sep_scorecard = _try_sep_scoring(messages, conversation, coding_session)
@@ -3812,9 +3931,7 @@ async def get_interview_history(
     for record in records:
         asked_count = int(question_counts_by_thread.get(str(record.get("thread_id")), 0))
         reviews = _normalize_technical_question_reviews(
-            (stored_results_by_thread.get(str(record.get("thread_id"))) or {}).get(
-                "technical_question_reviews"
-            )
+            (stored_results_by_thread.get(str(record.get("thread_id"))) or {}).get("technical_question_reviews")
         )
         # 已答数优先用结果里的逐题评审条数（含回答的题）；
         # 进行中的会话退化为出题数近似（题目已发出但未必已回答）。

@@ -1088,6 +1088,90 @@ def test_extract_scorecard_accepts_generic_json_code_block_with_interview_scorec
     assert "interview_scorecard" not in stripped
 
 
+def test_extract_scorecard_accepts_json_prefixed_fence_form():
+    content = """前置说明文本。
+
+```json:interview_scorecard
+{
+  "基本信息": {"目标岗位": "算法工程师", "面试轮次": "复试"},
+  "评估维度": {"技术能力": 8, "问题解决": 7, "沟通表达": 7, "综合素质": 8},
+  "综合评分": 7.5,
+  "主要亮点": ["工程落地清晰"],
+  "主要风险点": ["生产经验待补"],
+  "推荐方向": ["深入分布式系统"]
+}
+```
+"""
+
+    scorecard = service._extract_scorecard(content)
+
+    assert scorecard is not None
+    assert scorecard["role"] == "算法工程师"
+    assert scorecard["round"] == "复试"
+    assert scorecard["overall"] == 75
+
+
+def test_extract_scorecard_parses_nested_english_scorecard_from_real_llm_output():
+    # 真实线上输出（message id=108）：英文维度 key、嵌套 detailed_scores、
+    # 0-5 制 overall_rating、key_strengths/areas_for_improvement/recommendation 字段名漂移。
+    content = """## 面试总结
+
+完整结果已生成，可在面试结果页查看。
+
+```interview_scorecard
+{
+  "candidate_name": "王硕",
+  "position_applied": "AI 应用开发",
+  "interview_round": "初试",
+  "overall_rating": 4.2,
+  "match_conclusion": "推荐进入下一轮面试",
+  "detailed_scores": {
+    "technical_depths": {
+      "ai_agent_systems": 4.5,
+      "rag_knowledge_retrieval": 4.3,
+      "performance_optimization": 4.4,
+      "system_design": 4.2
+    },
+    "project_experience": {
+      "synapse_multiple_agent_system": 4.5,
+      "bole_ai_interview_platform": 4.3,
+      "opensource_summer_contribution": 3.8
+    },
+    "problem_solving": {
+      "architecture_design": 4.3,
+      "tradeoff_analysis": 4.2,
+      "debugging_optimization": 4.0
+    },
+    "communication_skills": {
+      "technical_explanation": 4.1,
+      "structure_clarity": 4.0,
+      "responsiveness": 4.2
+    }
+  },
+  "key_strengths": [
+    "对多智能体协作系统的高效通信、存储、同步机制有深刻理解与实际优化经验"
+  ],
+  "areas_for_improvement": [
+    "需积累更多大规模生产级系统的全链路运维与调优经验"
+  ],
+  "recommendation": "候选人技术基础扎实，建议安排后续技术深入面试。"
+}
+```"""
+
+    scorecard = service._extract_scorecard(content)
+
+    assert scorecard is not None
+    assert scorecard["role"] == "AI 应用开发"
+    assert scorecard["round"] == "初试"
+    assert scorecard["overall"] == 84
+    dimension_names = [d["name"] for d in scorecard["dimensions"]]
+    assert dimension_names == ["技术能力", "问题解决", "沟通表达"]
+    assert scorecard["dimensions"][0]["score"] == 86
+    assert scorecard["strengths"] == ["对多智能体协作系统的高效通信、存储、同步机制有深刻理解与实际优化经验"]
+    assert scorecard["risks"] == ["需积累更多大规模生产级系统的全链路运维与调优经验"]
+    assert scorecard["summary"] == "候选人技术基础扎实，建议安排后续技术深入面试。"
+
+
 def test_build_report_highlights_prioritizes_low_score_question_review():
     scorecard = {
         "overall": 76,
